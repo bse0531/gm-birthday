@@ -1,0 +1,72 @@
+:root{
+  --bg:#ffffff;
+  --ink:#111111;
+  --sub:#555555;
+  --gold:#D4B996;
+  --soft:#F6F4F1;
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Inter, Pretendard, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.container{padding:20px;max-width:720px;margin:0 auto}
+h1,h2,h3{margin:0 0 10px}
+h1{font-size:28px;line-height:1.2}
+h2{font-size:22px}
+p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
+.small{font-size:13px;color:var(--sub)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:14px 18px;border-radius:999px;
+  background:var(--ink);color:#fff;font-weight:600;gap:8px;
+  border:1px solid #000; box-shadow:0 2px 0 #000;
+  transition:transform .06s ease, box-shadow .06s ease, opacity .2s ease;
+}
+.btn:hover{transform:translateY(1px);box-shadow:0 1px 0 #000}
+.btn.outline{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.header{
+  padding:14px 20px;border-bottom:1px solid #eee;position:sticky;top:0;background:rgba(255,255,255,.85);backdrop-filter:blur(6px);z-index:50;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.brand{font-weight:700;letter-spacing:.2px}
+.hero{
+  position:relative;overflow:hidden;border-radius:var(--radius);
+}
+.slider{position:relative;width:100%;height:56vw;max-height:420px;overflow:hidden;border-radius:var(--radius)}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity .6s ease}
+.slide.active{opacity:1}
+.heroText{
+  position:absolute; left:0; right:0; bottom:12px; display:flex;justify-content:center;
+}
+.badge{
+  background:#000;color:#fff;border:1px solid #000;box-shadow:0 2px 0 #000;
+  padding:10px 14px;border-radius:999px;font-weight:700
+}
+.section{margin:26px 0}
+.sectionHeader{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cardRow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{border:1px solid #eee;border-radius:12px;overflow:hidden;background:#fff}
+.card img{aspect-ratio:1/1;object-fit:cover;width:100%}
+.panel{border:1px solid #eee;border-radius:var(--radius);overflow:hidden;background:var(--soft)}
+.panel .content{padding:16px}
+.footer{padding:36px 20px;text-align:center;color:var(--sub)}
+/* Memories grid page */
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.thumb{border-radius:12px;overflow:hidden;border:1px solid #eee}
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
+.modal.open{display:flex}
+.modalBox{background:#fff;border-radius:16px;max-width:720px;width:100%;overflow:hidden}
+.modalBody{padding:14px 14px 20px}
+.modalCaption{color:var(--sub);margin-top:8px}
+/* Folktale/Letter */
+.article{padding:16px;border:1px solid #eee;border-radius:var(--radius);background:#fff}
+.lead{font-size:18px;color:var(--ink)}
+.hr{height:1px;background:#eee;margin:16px 0}
+.center{display:flex;justify-content:center;align-items:center;text-align:center}
+.meta{color:var(--sub);font-size:13px;margin-top:8px}
+/* Mobile */
+@media (min-width:768px){
+  .container{padding:28px}
+}

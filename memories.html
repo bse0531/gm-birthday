@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>추억 사진 – GM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="index.html">← Back</a>
+    <nav><a class="small" href="letter.html">편지</a></nav>
+  </header>
+
+  <main class="container">
+    <h1>추억 사진</h1>
+    <p class="small">썸네일을 눌러 크게 볼 수 있어요.</p>
+    <div class="section grid">
+      <!-- 9 thumbnails -->
+      <!-- data-full and data-caption are used by modal -->
+
+    <div class="thumb" data-full="assets/mem1.jpg" data-caption="첫 여행지에서 찍은 사진 ✈️">
+      <img src="assets/mem1.jpg" alt="추억 1">
+    </div>
+
+
+    <div class="thumb" data-full="assets/mem2.jpg" data-caption="비 오는 날 함께 마신 커피 ☕️">
+      <img src="assets/mem2.jpg" alt="추억 2">
+    </div>
+
+
+    <div class="thumb" data-full="assets/mem3.jpg" data-caption="웃음이 멈추지 않던 밤 🌙">
+      <img src="assets/mem3.jpg" alt="추억 3">
+    </div>
+
+
+    <div class="thumb" data-full="assets/mem4.jpg" data-caption="벚꽃 아래에서 🌸">
+      <img src="assets/mem4.jpg" alt="추억 4">
+    </div>
+
+
+    <div class="thumb" data-full="assets/mem5.jpg" data-caption="생일 전야의 케이크 🎂">
+      <img src="assets/mem5.jpg" alt="추억 5">
+    </div>
+
+
+    <div class="thumb" data-full="assets/mem6.jpg" data-caption="노을 보던 산책길 🌆">
+      <img src="assets/mem6.jpg" alt="추억 6">
+    </div>
+
+
+    <div class="thumb" data-full="assets/mem7.jpg" data-caption="바다 냄새 가득한 날 🌊">
+      <img src="assets/mem7.jpg" alt="추억 7">
+    </div>
+
+
+    <div class="thumb" data-full="assets/mem8.jpg" data-caption="함께한 첫 영화관 데이트 🎬">
+      <img src="assets/mem8.jpg" alt="추억 8">
+    </div>
+
+
+    <div class="thumb" data-full="assets/mem9.jpg" data-caption="소박하지만 완벽했던 하루 ✨">
+      <img src="assets/mem9.jpg" alt="추억 9">
+    </div>
+
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modalBox">
+      <img src="assets/mem1.jpg" alt="추억 사진">
+      <div class="modalBody">
+        <div class="modalCaption">설명</div>
+        <div style="display:flex;justify-content:flex-end;margin-top:6px">
+          <button class="btn outline" data-close>닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

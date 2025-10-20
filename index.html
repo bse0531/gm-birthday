@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Happy Birthday – GM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="brand">GM•Birthday</div>
+    <nav><a class="small" href="letter.html">편지</a></nav>
+  </header>
+
+  <main class="container">
+    <!-- (1) 메인: 자동 슬라이드 + 메시지 + 버튼 -->
+    <section class="section hero">
+      <div class="slider" aria-label="메인 이미지 슬라이더">
+        <img class="slide active" src="assets/hero1.jpg" alt="Hero 1">
+        <img class="slide" src="assets/hero2.jpg" alt="Hero 2">
+        <img class="slide" src="assets/hero3.jpg" alt="Hero 3">
+      </div>
+      <div class="heroText">
+        <div class="badge">Happy Birthday GM</div>
+      </div>
+      <div style="margin-top:14px">
+        <a class="btn" href="letter.html" aria-label="축하 메시지 보러가기">축하 메시지 보러가기</a>
+      </div>
+    </section>
+
+    <!-- (2) 추억 사진: 3장씩 자동 슬라이드 프리뷰 -->
+    <section class="section">
+      <div class="sectionHeader">
+        <h2>추억 사진</h2>
+        <a class="small" href="memories.html">전체 보기</a>
+      </div>
+      <div class="panel">
+        <div class="content" style="padding:10px">
+          <div class="cardRow autoScroll" style="overflow:auto;scroll-snap-type:x mandatory;grid-auto-flow:column;grid-auto-columns:33%;">
+            <div class="card" style="scroll-snap-align:start"><img src="assets/mem1.jpg" alt=""></div>
+            <div class="card" style="scroll-snap-align:start"><img src="assets/mem2.jpg" alt=""></div>
+            <div class="card" style="scroll-snap-align:start"><img src="assets/mem3.jpg" alt=""></div>
+            <div class="card" style="scroll-snap-align:start"><img src="assets/mem4.jpg" alt=""></div>
+            <div class="card" style="scroll-snap-align:start"><img src="assets/mem5.jpg" alt=""></div>
+            <div class="card" style="scroll-snap-align:start"><img src="assets/mem6.jpg" alt=""></div>
+            <div class="card" style="scroll-snap-align:start"><img src="assets/mem7.jpg" alt=""></div>
+            <div class="card" style="scroll-snap-align:start"><img src="assets/mem8.jpg" alt=""></div>
+            <div class="card" style="scroll-snap-align:start"><img src="assets/mem9.jpg" alt=""></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- (3) 설화: 일부 노출 + 전체 보기 -->
+    <section class="section">
+      <div class="sectionHeader">
+        <h2>설화</h2>
+        <a class="small" href="folktale.html">전체 보기</a>
+      </div>
+      <div class="article">
+        <img src="assets/folktale.jpg" alt="설화 이미지" style="border-radius:12px;margin-bottom:10px">
+        <p class="lead">아득한 밤, 작은 별이 꿈속으로 내려와 한 아이의 탄생을 알렸다. 그 별은 금빛으로 부서지며 말했지. “세상의 조각들을 따뜻하게 잇는 사람이 될 거야.”</p>
+        <div class="hr"></div>
+        <p class="small">더 읽으려면 <a href="folktale.html">여기를 눌러주세요 →</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer small">
+    © Love Project • Designed for GM
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
