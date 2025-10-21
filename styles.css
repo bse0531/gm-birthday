@@ -36,8 +36,30 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
 .slider{position:relative;width:100%;height:56vw;max-height:420px;overflow:hidden;border-radius:var(--radius)}
 .slide{position:absolute;inset:0;opacity:0;transition:opacity .6s ease}
 .slide.active{opacity:1}
-.heroText{
-  position:absolute; left:0; right:0; bottom:12px; display:flex;justify-content:center;
+
+.heroText {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-hero {
+  background: var(--gold);
+  color: #000;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,.2);
+  padding: 14px 24px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-hero:hover {
+  transform: translateY(2px);
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
 }
 .badge{
   background:#000;color:#fff;border:1px solid #000;box-shadow:0 2px 0 #000;
