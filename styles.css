@@ -92,3 +92,18 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
 @media (min-width:768px){
   .container{padding:28px}
 }
+
+.heroVisual { margin-top: 6px; margin-bottom: 14px; }
+.heroFigure { 
+  border-radius: 16px; 
+  overflow: hidden; 
+  border: 1px solid #eee; 
+  background: #fafafa; 
+}
+.heroFigure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 16/9;        /* 이미지 비율 고정이 필요 없으면 이 줄 삭제해도 됨 */
+  object-fit: cover;
+}
