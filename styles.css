@@ -107,3 +107,5 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
   aspect-ratio: 16/9;        /* 이미지 비율 고정이 필요 없으면 이 줄 삭제해도 됨 */
   object-fit: cover;
 }
+
+.heroFigure img { aspect-ratio: 16/9; object-fit: cover; }
