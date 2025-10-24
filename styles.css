@@ -298,3 +298,28 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
 .navBtn:hover { background: var(--soft); color: var(--ink); }
 .navBtn.prev { left: 8px; }
 .navBtn.next { right: 8px; }
+
+/* 📸 추억 사진 자동 스크롤 행 카드 고정폭 수정 */
+.cardRow.autoScroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cardRow.autoScroll .card {
+  flex: 0 0 33%;            /* 한 화면에 3장씩 고정 */
+  scroll-snap-align: start;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.cardRow.autoScroll img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
