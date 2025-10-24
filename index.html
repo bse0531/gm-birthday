@@ -14,7 +14,9 @@
     <div class="brand">GM•Birthday</div>
     <nav><a class="small" href="letter.html">편지</a></nav>
   </header>
-
+  
+  <div id="confetti" aria-hidden="true"></div>
+  
   <main class="container">
     <!-- (1) 메인: 자동 슬라이드 + 메시지 + 버튼 -->
     <section class="section hero">
@@ -29,7 +31,13 @@
       <a class="btn" href="letter.html" aria-label="축하 메시지 보러가기">축하 메시지 보러가기 🎈</a>
     </section>
 
-    <!-- (2) 추억 사진: 3장씩 자동 슬라이드 프리뷰 -->
+    
+  <!-- (2) 함께한 날 수 배지 -->
+  <section class="section center">
+    <div class="ribbon" id="dayBadge">Loading…</div>
+  </section>
+    
+    <!-- (3) 추억 사진: 3장씩 자동 슬라이드 프리뷰 -->
     <section class="section">
       <div class="sectionHeader">
         <h2>추억 사진</h2>
@@ -52,7 +60,14 @@
       </div>
     </section>
 
-    <!-- (3) 설화: 일부 노출 + 전체 보기 -->
+
+     <!-- (4) 한 줄 칭찬/메시지 티커 -->
+    <section class="section">
+      <div class="ticker" id="msgTicker"></div>
+    </section>
+
+    
+    <!-- (5) 설화: 일부 노출 + 전체 보기 -->
     <section class="section">
   <div class="sectionHeader">
     <h2>국민 설화</h2>
