@@ -154,3 +154,35 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
   from{transform:translateY(20px) scale(.9); opacity:.9}
   to{transform:translateY(-60vh) scale(1.2); opacity:0}
 }
+
+
+/* 함께한 날: 카드 레이아웃 */
+.statCard{
+  display:flex; gap:12px; align-items:center;
+  padding:14px; border:1px solid #eee; border-radius:16px;
+  background:linear-gradient(180deg, #fff 0%, #faf7f2 100%);
+  box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+.iconCircle{
+  width:40px; height:40px; border-radius:999px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--soft);
+  border:1px solid #eee;
+  font-size:18px;
+}
+.statBody{display:flex; flex-direction:column}
+.statMain{font-weight:700; color:#111}
+.statSub{font-size:13px; color:var(--sub)}
+
+/* 인용형 티커 */
+.quoteCard{
+  position:relative; overflow:hidden;
+  padding:18px 16px 18px 44px;
+  border:1px solid #eee; border-radius:16px; background:#fff;
+}
+.quoteMark{
+  position:absolute; left:14px; top:10px; line-height:1;
+  font-size:26px; color:var(--gold); opacity:.9;
+}
+.quoteText{ color:#444; min-height:22px }
+.ticker.fade{ transition:opacity .5s ease; opacity:.2 }  /* 기존 fade 재사용 */
