@@ -48,16 +48,27 @@
 })();
 
 
-// ① 함께한 날 수 (첫 만남 날짜로 바꿔주세요)
+// ① 함께한 날 수
 (function(){
-  const el = document.getElementById('dayBadge'); if(!el) return;
-  const firstDate = new Date('2022-09-19'); // ← 이 날짜를 실제로 변경
+  const main = document.getElementById('dayBadge');
+  const sinceEl = document.getElementById('sinceLine');
+  if(!main || !sinceEl) return;
+
+  const firstDate = new Date('2022-09-19'); // ← 실제 날짜로
   const today = new Date();
   const days = Math.floor((today - firstDate)/86400000) + 1;
-  el.textContent = `우리가 함께한 지 ${days}일째`;
+
+  // YYYY.MM.DD 포맷
+  const pad = n => String(n).padStart(2,'0');
+  const y = firstDate.getFullYear();
+  const m = pad(firstDate.getMonth()+1);
+  const d = pad(firstDate.getDate());
+
+  main.textContent = `우리가 함께한 지 ${days}일째`;
+  sinceEl.textContent = `${y}.${m}.${d} ~ 오늘`;
 })();
 
-// ② 한 줄 칭찬/메시지 티커
+// ② 한 줄 칭찬/메시지 티커 (인용 카드)
 (function(){
   const el = document.getElementById('msgTicker'); if(!el) return;
   const lines = [
@@ -66,10 +77,15 @@
     '늘 한결같이 따뜻한 사랑',
     '오빤 내게 감동이야'
   ];
-  let i=0; el.textContent = lines[i];
+  let i = 0; el.textContent = lines[i];
+
   setInterval(()=>{
-    el.classList.add('fade');
-    setTimeout(()=>{ i=(i+1)%lines.length; el.textContent=lines[i]; el.classList.remove('fade'); }, 500);
+    el.classList.add('ticker','fade');               // 페이드 아웃
+    setTimeout(()=>{
+      i = (i+1) % lines.length;
+      el.textContent = lines[i];
+      el.classList.remove('fade');                   // 페이드 인
+    }, 500);
   }, 3000);
 })();
 
