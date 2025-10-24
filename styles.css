@@ -2,8 +2,8 @@
   --bg:#ffffff;
   --ink:#111111;
   --sub:#555555;
-  --gold:#D4B996;
-  --soft:#F6F4F1;
+  --gold:#5cb85c;    /* 기존 #D4B996 → 녹색 포인트 */
+  --soft:#F3F8F3;    /* 배경도 살짝 연둣빛 */
   --radius:16px;
 }
 *{box-sizing:border-box}
