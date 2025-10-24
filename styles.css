@@ -157,3 +157,24 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
 }
 .quoteText{ color:#444; min-height:22px }
 .ticker.fade{ transition:opacity .5s ease; opacity:.2 }  /* 기존 fade 재사용 */
+
+/* ----- */
+
+.quoteText::before,
+.quoteText::after {
+  font-family: serif;
+  font-size: 20px;
+  color: var(--gold);
+  opacity: 0.9;
+  vertical-align: top;
+}
+
+.quoteText::before {
+  content: "“";
+  margin-right: 3px;
+}
+
+.quoteText::after {
+  content: "”";
+  margin-left: 3px;
+}
