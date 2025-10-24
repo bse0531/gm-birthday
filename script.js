@@ -48,7 +48,7 @@
 })();
 
 
-/ ① 함께한 날 수 (첫 만남 날짜로 바꿔주세요)
+// ① 함께한 날 수 (첫 만남 날짜로 바꿔주세요)
 (function(){
   const el = document.getElementById('dayBadge'); if(!el) return;
   const firstDate = new Date('2022-09-19'); // ← 이 날짜를 실제로 변경
