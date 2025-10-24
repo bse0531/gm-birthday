@@ -18,7 +18,26 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
 .small{font-size:13px;color:var(--sub)}
 
 
-.brand{font-weight:700;letter-spacing:.2px}
+.header{
+  padding:14px 20px;
+  border-bottom:1px solid #eee;
+  position:sticky; top:0;
+  background:rgba(255,255,255,.85);
+  backdrop-filter:blur(6px);
+  z-index:50;
+
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; flex-wrap:nowrap;
+}
+.brand{ font-weight:700; letter-spacing:.2px; white-space:nowrap; font-size:18px; }
+.header nav a{ white-space:nowrap; display:inline-block; }
+
+@media (max-width:360px){
+  .brand{ font-size:16px; }
+  .header{ gap:8px; }
+}
+
+
 .hero{
   position:relative;overflow:hidden;border-radius:var(--radius);
 }
@@ -96,8 +115,6 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
   aspect-ratio: 16/9;        /* 이미지 비율 고정이 필요 없으면 이 줄 삭제해도 됨 */
   object-fit: cover;
 }
-
-.heroFigure img { aspect-ratio: 16/9; object-fit: cover; }
 
 .btn {
   display:inline-flex;
