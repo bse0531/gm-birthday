@@ -235,3 +235,19 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
   background: rgba(107, 183, 181, 0.1);          /* 눌릴 때 살짝 하늘빛 */
   border-color: rgba(107, 183, 181, 0.6);        /* 눌릴 때 조금 진하게 */
 }
+
+/* 섹션 간 간격(위쪽) 세밀 조정 유틸 */
+.gap40 { margin-top: 40px !important; }
+.gap50 { margin-top: 50px !important; }
+.gap60 { margin-top: 60px !important; }
+.gap70 { margin-top: 70px !important; }
+.gap80 { margin-top: 80px !important; }
+
+/* 큰 화면에서는 여백 살짝 확대 */
+@media (min-width:768px){
+  .gap40 { margin-top: 48px !important; }
+  .gap50 { margin-top: 60px !important; }
+  .gap60 { margin-top: 72px !important; }
+  .gap70 { margin-top: 84px !important; }
+  .gap80 { margin-top: 96px !important; }
+}
