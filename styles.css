@@ -109,16 +109,29 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 
 /* 양 옆 이동 버튼 */
 .navBtn {
-  position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(255,255,255,0.8);
-  border:none; font-size:28px; font-weight:700;
-  color:var(--sub); padding:8px 12px;
-  border-radius:999px; cursor:pointer;
-  transition:background 0.2s ease, color 0.2s ease;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.35);  /* 🔸 0.8 → 0.35 로 투명도 낮춤 */
+  backdrop-filter: blur(4px);             /* 배경 흐림 추가 */
+  border: none;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--sub);
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
 }
-.navBtn:hover { background:var(--soft); color:var(--ink); }
-.navBtn.prev { left:8px; }
-.navBtn.next { right:8px; }
+
+.navBtn:hover {
+  background: rgba(255, 255, 255, 0.55);  /* hover 시 살짝 진해짐 */
+  color: var(--ink);
+  transform: scale(1.08);
+}
+
+.navBtn.prev { left: 8px; }
+.navBtn.next { right: 8px; }
 
 /* ========== 함께한 날 카드 & 인용카드 ========== */
 .statCard {
@@ -204,4 +217,28 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   text-align: center;
   color: var(--sub);
   line-height: 1.6;
+}
+
+/* 하트 컨페티 */
+#confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 60;
+}
+.heart {
+  position: absolute;
+  animation: floatUp 2.4s ease-out forwards; /* ⏳ 천천히 부드럽게 */
+  opacity: 0.9;
+}
+@keyframes floatUp {
+  from {
+    transform: translateY(20px) scale(0.9) rotate(0deg);
+    opacity: 0.9;
+  }
+  to {
+    transform: translateY(-70vh) scale(1.2) rotate(20deg);
+    opacity: 0;
+  }
 }
