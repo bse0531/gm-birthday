@@ -130,31 +130,38 @@
   }, 3000);
 })();
 
-/* ============================================================
-   💚 06. 하트 컨페티 (부드럽게 천천히 흩날리는 민트·핑크·하늘톤)
-============================================================ */
+/* 💖 하트 컨페티 */
 (() => {
   const box = document.getElementById('confetti');
-  if (!box) return;
+  const btn = document.getElementById('confettiBtn');
+  if (!box || !btn) return;
 
   function launchConfetti() {
-    // 💚 민트 + 💗 핑크 + 💙 하늘빛 조합
     const colors = ['#6bb7b5', '#ffb3c1', '#ffd6e0', '#cde7ff', '#bfeeea'];
-
-    for (let i = 0; i < 36; i++) { // 🌸 하트 개수 24 → 36개로 증가
+    for (let i = 0; i < 24; i++) {
       const h = document.createElement('div');
       h.className = 'heart';
       h.textContent = '♥';
+
+      // 랜덤 위치 + 크기 + 색상
       h.style.left = Math.random() * 100 + 'vw';
-      h.style.bottom = '0';
+      h.style.bottom = '-10px';
       h.style.color = colors[i % colors.length];
-      h.style.fontSize = 16 + Math.random() * 10 + 'px'; // 크기 약간 랜덤
-      h.style.animationDelay = Math.random() * 0.8 + 's';
-      h.style.animationDuration = 2 + Math.random() * 0.8 + 's'; // 🌿 2~2.8초 사이로 부드럽게
+      h.style.fontSize = 16 + Math.random() * 10 + 'px';
+
+      // 랜덤 딜레이와 지속시간
+      h.style.animationDelay = Math.random() * 0.4 + 's';
+      h.style.animationDuration = 1.8 + Math.random() * 1.2 + 's';
+
       box.appendChild(h);
+
+      // 애니메이션 끝나면 제거
       setTimeout(() => h.remove(), 2800);
     }
   }
+
+  btn.addEventListener('click', launchConfetti);
+})();
 
   // 버튼 클릭 시 실행
   const btn = document.getElementById('confettiBtn');
