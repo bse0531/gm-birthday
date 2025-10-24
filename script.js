@@ -112,3 +112,17 @@
 
   btn.addEventListener('click', launchConfetti);
 })();
+
+
+// 🔒 이미지 우클릭·롱프레스 방지
+document.addEventListener('contextmenu', (e) => {
+  if (e.target.closest && e.target.closest('.no-download')) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+// 🔒 드래그로 저장 방지
+document.querySelectorAll('.no-download img').forEach(img => {
+  img.setAttribute('draggable', 'false');
+  img.addEventListener('dragstart', e => e.preventDefault());
+});
