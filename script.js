@@ -73,9 +73,9 @@
   const el = document.getElementById('msgTicker'); if(!el) return;
   const lines = [
     '오늘의 주인공은 국민 ✨',
-    '성실의 아이콘, 자랑스러운 파워 J',
-    '늘 한결같이 따뜻한 사랑',
-    '오빤 내게 감동이야'
+    '성실의 아이콘, 자랑스러운 파워 J 📝',
+    '늘 한결같이 따뜻한 사랑 ♥️',
+    '오빤 내게 감동이야 🌼'
   ];
   let i = 0; el.textContent = lines[i];
 
