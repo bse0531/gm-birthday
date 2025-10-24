@@ -195,3 +195,13 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 .no-download .nd-overlay {
   position:absolute; inset:0; background:transparent; pointer-events:none;
 }
+
+/* Footer 스타일 보완 */
+.footer {
+  background: var(--soft);
+  border-top: 1px solid #e0ece7;
+  padding: 36px 20px;
+  text-align: center;
+  color: var(--sub);
+  line-height: 1.6;
+}
