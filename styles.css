@@ -1,9 +1,9 @@
 :root{
-  --bg:#ffffff;
-  --ink:#111111;
-  --sub:#555555;
-  --gold:#D4B996;   /* 샴페인 골드 포인트 컬러 */
-  --soft:#F6F4F1;   /* 따뜻한 베이지 톤 배경 */
+  --bg:#f8faf9;       /* 아주 밝은 하늘색 섞인 흰색 */
+  --ink:#102820;      /* 짙은 초록-남색 (텍스트) */
+  --sub:#4f6f52;      /* 보조 글자 - 숲의 그늘 느낌 */
+  --gold:#6bb7b5;     /* 메인 포인트 (민트+하늘 중간) */
+  --soft:#eaf4f1;     /* 섹션 배경 - 연녹빛 하늘색 */
   --radius:16px;
 }
 
@@ -201,12 +201,26 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
 /* 카드 폭 제한 */
 .statCard, .quoteCard{ max-width:400px; width:100%; margin:0 auto; }
 
-/* 헤더 컨페티 버튼 */
-.headerBtn{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:36px; height:36px; border-radius:999px;
-  background:var(--gold); color:#111; font-weight:700; font-size:16px;
-  border:none; box-shadow:0 2px 4px rgba(0,0,0,.08);
-  touch-action:manipulation; transition:transform .1s ease, opacity .2s;
+/* 헤더 하트 컨페티 버튼 - 아웃라인 스타일 */
+.headerBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: transparent;               /* 투명 배경 */
+  border: 1.8px solid var(--gold);       /* 골드 라인 */
+  color: var(--gold);                    /* 아이콘 색도 골드 */
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: none;                      /* 그림자 제거 */
+  transition: transform 0.1s ease, opacity 0.2s ease, background 0.2s ease;
+  touch-action: manipulation;
 }
-.headerBtn:active{ transform:scale(.96); opacity:.85; }
+
+.headerBtn:active {
+  transform: scale(0.95);
+  opacity: 0.85;
+  background: var(--soft);               /* 살짝 눌릴 때만 은은한 베이지 배경 */
+}
