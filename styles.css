@@ -145,39 +145,29 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
 .statMain{font-weight:700; color:#111}
 .statSub{font-size:13px; color:var(--sub)}
 
-/* 인용형 티커 */
+/* 인용형 티커 - 중앙 정렬 + 양쪽 따옴표 */
 .quoteCard{
   position:relative; overflow:hidden;
-  padding:18px 16px 18px 44px;
+  padding:16px;                  /* 왼쪽 44px 패딩 제거 */
   border:1px solid #eee; border-radius:16px; background:#fff;
+  text-align:center;
 }
-.quoteMark{
-  position:absolute; left:14px; top:10px; line-height:1;
-  font-size:26px; color:var(--gold); opacity:.9;
+.quoteText{
+  display:inline-block; color:#444; min-height:22px;
+  position:relative;
 }
-.quoteText{ color:#444; min-height:22px }
-.ticker.fade{ transition:opacity .5s ease; opacity:.2 }  /* 기존 fade 재사용 */
-
-/* ----- */
-
 .quoteText::before,
-.quoteText::after {
+.quoteText::after{
   font-family: serif;
-  font-size: 20px;
-  color: var(--gold);
-  opacity: 0.9;
-  vertical-align: top;
+  font-size:20px;
+  color:var(--gold);
+  opacity:.9;
 }
+.quoteText::before{ content:"“"; margin-right:6px; }
+.quoteText::after { content:"”"; margin-left:6px; }
 
-.quoteText::before {
-  content: "“";
-  margin-right: 3px;
-}
-
-.quoteText::after {
-  content: "”";
-  margin-left: 3px;
-}
+/* 페이드 효과(기존 유지) */
+.ticker.fade{ transition:opacity .5s ease; opacity:.2 }
 
 
 /* 함께한 날 카드 & 인용카드 중앙 정렬 */
@@ -192,3 +182,19 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
   max-width: 400px;  /* 필요 시 360~420px 정도로 조절 */
   width: 100%;
 }
+
+/* 가로 스크롤 행 - 스크롤바 숨김 + 터치 스크롤 부드럽게 */
+.cardRow.autoScroll{
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;         /* Firefox */
+}
+.cardRow.autoScroll::-webkit-scrollbar{ display:none; } /* WebKit */
+
+/* 패널 가장자리 여백 약간 줄여 중심감 강화 (선택) */
+.panel .content{ padding:12px; }
+
+/* 중앙 정렬 컨테이너 */
+.section.centerCard{ display:flex; justify-content:center; }
+
+/* 카드 폭 제한 */
+.statCard, .quoteCard{ max-width:400px; width:100%; margin:0 auto; }
