@@ -1,390 +1,197 @@
-:root{
-  --bg:#f8faf9;       /* 아주 밝은 하늘색 섞인 흰색 */
-  --ink:#102820;      /* 짙은 초록-남색 (텍스트) */
-  --sub:#4f6f52;      /* 보조 글자 - 숲의 그늘 느낌 */
-  --gold:#6bb7b5;     /* 메인 포인트 (민트+하늘 중간) */
-  --soft:#eaf4f1;     /* 섹션 배경 - 연녹빛 하늘색 */
+:root {
+  --bg:#f8faf9;       /* 밝은 하늘빛 흰색 */
+  --ink:#102820;      /* 짙은 초록-남색 텍스트 */
+  --sub:#4f6f52;      /* 보조 글자 - 숲 느낌 */
+  --gold:#6bb7b5;     /* 메인 포인트 (민트+하늘) */
+  --soft:#eaf4f1;     /* 연녹빛 하늘색 배경 */
   --radius:16px;
 }
 
+/* ========== 공통 기본 설정 ========== */
+* { box-sizing:border-box }
+html,body {
+  margin:0; padding:0;
+  background:var(--bg); color:var(--ink);
+  font-family:Inter, Pretendard, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+}
+img { max-width:100%; display:block }
+a { color:inherit; text-decoration:none }
+.container { padding:20px; max-width:720px; margin:0 auto }
+h1,h2,h3 { margin:0 0 10px }
+h1 { font-size:28px; line-height:1.2 }
+h2 { font-size:22px }
+p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
+.small { font-size:13px; color:var(--sub) }
 
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Inter, Pretendard, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif}
-img{max-width:100%;display:block}
-a{color:inherit;text-decoration:none}
-.container{padding:20px;max-width:720px;margin:0 auto}
-h1,h2,h3{margin:0 0 10px}
-h1{font-size:28px;line-height:1.2}
-h2{font-size:22px}
-p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
-.small{font-size:13px;color:var(--sub)}
-
-
-.header{
+/* ========== 헤더 ========== */
+.header {
   padding:14px 20px;
   border-bottom:1px solid #eee;
-  position:sticky; top:0;
+  position:sticky; top:0; z-index:50;
   background:rgba(255,255,255,.85);
   backdrop-filter:blur(6px);
-  z-index:50;
-
   display:flex; align-items:center; justify-content:space-between;
-  gap:12px; flex-wrap:nowrap;
+  gap:12px;
 }
-
 .brand {
-  font-weight: 700;
-  letter-spacing: .2px;
-  font-size: 18px;
-  background: linear-gradient(180deg, #4f6f52 0%, #6bb7b5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-fill-color: transparent; /* 일부 브라우저 호환 */
+  font-weight:700; letter-spacing:.2px; font-size:18px;
+  background:linear-gradient(180deg, #4f6f52 0%, #6bb7b5 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
-
-.header nav a{ white-space:nowrap; display:inline-block; }
-
 @media (max-width:360px){
-  .brand{ font-size:16px; }
-  .header{ gap:8px; }
+  .brand{font-size:16px;}
+  .header{gap:8px;}
 }
 
-
-.hero{
-  position:relative;overflow:hidden;border-radius:var(--radius);
+/* ========== 메인 Hero 슬라이드 ========== */
+.hero { position:relative; overflow:hidden; border-radius:var(--radius); }
+.slider {
+  position:relative; width:100%; height:56vw; max-height:420px;
+  overflow:hidden; border-radius:var(--radius);
+  background:#f7f7f7; /* 이미지 없을 때 대비 */
 }
-.slider{position:relative;width:100%;height:56vw;max-height:420px;overflow:hidden;border-radius:var(--radius)}
-.slide{position:absolute;inset:0;opacity:0;transition:opacity .6s ease}
-.slide.active{opacity:1}
-
-.slider .slide { display:flex; }  /* 슬라이드가 부모 높이를 그대로 가짐 */
-.slider .slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.slider img.slide {
+  position:absolute; inset:0;
+  width:100%; height:100%; object-fit:cover;
+  opacity:0; transition:opacity 0.6s ease;
 }
+.slider img.slide.active { opacity:1; z-index:1; }
 
-.section{margin:26px 0}
-.sectionHeader{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.cardRow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.card{border:1px solid #eee;border-radius:12px;overflow:hidden;background:#fff}
-.card img{aspect-ratio:1/1;object-fit:cover;width:100%}
-.panel{border:1px solid #eee;border-radius:var(--radius);overflow:hidden;background:var(--soft)}
-.panel .content{padding:16px}
-.footer{padding:36px 20px;text-align:center;color:var(--sub)}
-/* Memories grid page */
-.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.thumb{border-radius:12px;overflow:hidden;border:1px solid #eee}
-/* Modal */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
-.modal.open{display:flex}
-.modalBox{background:#fff;border-radius:16px;max-width:720px;width:100%;overflow:hidden}
-.modalBody{padding:14px 14px 20px}
-.modalCaption{color:var(--sub);margin-top:8px}
-/* Folktale/Letter */
-.article{padding:16px;border:1px solid #eee;border-radius:var(--radius);background:#fff}
-.lead{font-size:18px;color:var(--ink)}
-.hr{height:1px;background:#eee;margin:16px 0}
-.center{display:flex;justify-content:center;align-items:center;text-align:center}
-.meta{color:var(--sub);font-size:13px;margin-top:8px}
-/* Mobile */
-@media (min-width:768px){
-  .container{padding:28px}
+/* ========== 섹션/카드/공통 레이아웃 ========== */
+.section { margin:26px 0; }
+.sectionHeader {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:12px;
+}
+.panel {
+  border:1px solid #eee; border-radius:var(--radius);
+  overflow:hidden; background:var(--soft);
+}
+.panel .content { padding:12px; }
+.footer {
+  padding:36px 20px; text-align:center; color:var(--sub);
 }
 
-.heroVisual { margin-top: 6px; margin-bottom: 14px; }
-.heroFigure { 
-  border-radius: 16px; 
-  overflow: hidden; 
-  border: 1px solid #eee; 
-  background: #fafafa; 
+/* ========== 추억 사진 (가로 스크롤 프리뷰) ========== */
+.cardRow.autoScroll {
+  display:flex; gap:8px; overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
 }
-.heroFigure img {
-  width: 100%;
-  height: auto;
-  display: block;
-  aspect-ratio: 16/9;        /* 이미지 비율 고정이 필요 없으면 이 줄 삭제해도 됨 */
-  object-fit: cover;
+.cardRow.autoScroll::-webkit-scrollbar { display:none; }
+.cardRow.autoScroll .card {
+  flex:0 0 33%; scroll-snap-align:start;
+  border:1px solid #eee; border-radius:12px;
+  overflow:hidden; background:#fff;
+}
+.cardRow.autoScroll img {
+  width:100%; height:auto; object-fit:cover; display:block;
 }
 
+/* ========== Memories Grid / Modal ========== */
+.grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.thumb { border-radius:12px; overflow:hidden; border:1px solid #eee; }
+.modal {
+  position:fixed; inset:0; z-index:100;
+  background:rgba(0,0,0,.6);
+  display:none; align-items:center; justify-content:center;
+  padding:20px;
+}
+.modal.open { display:flex; }
+.modalBox {
+  background:#fff; border-radius:16px;
+  max-width:720px; width:100%; overflow:hidden;
+}
+.modalBody { padding:14px 14px 20px; }
+.modalCaption { color:var(--sub); margin-top:8px; }
+
+/* 양 옆 이동 버튼 */
+.navBtn {
+  position:absolute; top:50%; transform:translateY(-50%);
+  background:rgba(255,255,255,0.8);
+  border:none; font-size:28px; font-weight:700;
+  color:var(--sub); padding:8px 12px;
+  border-radius:999px; cursor:pointer;
+  transition:background 0.2s ease, color 0.2s ease;
+}
+.navBtn:hover { background:var(--soft); color:var(--ink); }
+.navBtn.prev { left:8px; }
+.navBtn.next { right:8px; }
+
+/* ========== 함께한 날 카드 & 인용카드 ========== */
+.statCard {
+  display:flex; gap:12px; align-items:center;
+  padding:14px; border:1px solid #eee; border-radius:16px;
+  background:linear-gradient(180deg,#fff 0%,#faf7f2 100%);
+  box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+.iconCircle {
+  width:40px; height:40px; border-radius:999px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--soft); border:1px solid #eee; font-size:18px;
+}
+.statBody { display:flex; flex-direction:column; }
+.statMain { font-weight:700; color:#111; }
+.statSub { font-size:13px; color:var(--sub); }
+
+/* 인용형 티커 */
+.quoteCard {
+  position:relative; overflow:hidden;
+  padding:16px; border:1px solid #eee; border-radius:16px;
+  background:#fff; text-align:center;
+}
+.quoteText {
+  display:inline-block; color:#444; min-height:22px; position:relative;
+}
+.quoteText::before,
+.quoteText::after {
+  font-family:serif; font-size:20px; color:var(--gold); opacity:.9;
+}
+.quoteText::before { content:"“"; margin-right:6px; }
+.quoteText::after { content:"”"; margin-left:6px; }
+.ticker.fade { transition:opacity .5s ease; opacity:.2; }
+
+/* 중앙 정렬 */
+.section.centerCard { display:flex; justify-content:center; }
+.statCard, .quoteCard { max-width:400px; width:100%; margin:0 auto; }
+
+/* ========== 버튼 ========== */
 .btn {
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:14px 22px;
-  border-radius:999px;
-  background:var(--gold);
-  color:#fff;
-  font-weight:600;
-  gap:8px;
-  border:none;
-  box-shadow:0 2px 4px rgba(0,0,0,0.1);
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:14px 22px; border-radius:999px;
+  background:var(--gold); color:#fff; font-weight:600;
+  gap:8px; border:none; box-shadow:0 2px 4px rgba(0,0,0,0.1);
   transition:transform 0.1s ease, opacity 0.2s ease;
   touch-action:manipulation;
 }
+.btn:active { transform:scale(0.96); opacity:0.8; }
 
-.btn:active {
-  transform:scale(0.96);
-  opacity:0.8;
-}
+/* ========== 기타 유틸 ========== */
+.gap40 { margin-top:40px !important; }
+.gap50 { margin-top:50px !important; }
+.gap60 { margin-top:60px !important; }
+.gap70 { margin-top:70px !important; }
+.gap80 { margin-top:80px !important; }
 
-/* 함께한 날 배지 */
-.ribbon{
-  display:inline-block; padding:10px 14px; border-radius:999px;
-  background:var(--soft); border:1px solid #eee; color:#111; font-weight:600;
-}
-
-/* 한 줄 메시지 티커 */
-.ticker{ text-align:center; font-size:16px; color:var(--sub); min-height:24px }
-
-/* 하트 컨페티 */
-#confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:60}
-.heart{position:absolute; font-size:18px; animation:floatUp 1.6s ease-out forwards; opacity:.9}
-@keyframes floatUp{
-  from{transform:translateY(20px) scale(.9); opacity:.9}
-  to{transform:translateY(-60vh) scale(1.2); opacity:0}
-}
-
-
-/* 함께한 날: 카드 레이아웃 */
-.statCard{
-  display:flex; gap:12px; align-items:center;
-  padding:14px; border:1px solid #eee; border-radius:16px;
-  background:linear-gradient(180deg, #fff 0%, #faf7f2 100%);
-  box-shadow:0 2px 6px rgba(0,0,0,.04);
-}
-.iconCircle{
-  width:40px; height:40px; border-radius:999px;
-  display:flex; align-items:center; justify-content:center;
-  background:var(--soft);
-  border:1px solid #eee;
-  font-size:18px;
-}
-.statBody{display:flex; flex-direction:column}
-.statMain{font-weight:700; color:#111}
-.statSub{font-size:13px; color:var(--sub)}
-
-/* 인용형 티커 - 중앙 정렬 + 양쪽 따옴표 */
-.quoteCard{
-  position:relative; overflow:hidden;
-  padding:16px;                  /* 왼쪽 44px 패딩 제거 */
-  border:1px solid #eee; border-radius:16px; background:#fff;
-  text-align:center;
-}
-.quoteText{
-  display:inline-block; color:#444; min-height:22px;
-  position:relative;
-}
-.quoteText::before,
-.quoteText::after{
-  font-family: serif;
-  font-size:20px;
-  color:var(--gold);
-  opacity:.9;
-}
-.quoteText::before{ content:"“"; margin-right:6px; }
-.quoteText::after { content:"”"; margin-left:6px; }
-
-/* 페이드 효과(기존 유지) */
-.ticker.fade{ transition:opacity .5s ease; opacity:.2 }
-
-
-/* 함께한 날 카드 & 인용카드 중앙 정렬 */
-.section.centerCard {
-  display: flex;
-  justify-content: center;
-}
-
-/* 카드 내부의 폭 제한 (너무 넓어지지 않게) */
-.statCard,
-.quoteCard {
-  max-width: 400px;  /* 필요 시 360~420px 정도로 조절 */
-  width: 100%;
-}
-
-/* 가로 스크롤 행 - 스크롤바 숨김 + 터치 스크롤 부드럽게 */
-.cardRow.autoScroll{
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;         /* Firefox */
-}
-.cardRow.autoScroll::-webkit-scrollbar{ display:none; } /* WebKit */
-
-/* 패널 가장자리 여백 약간 줄여 중심감 강화 (선택) */
-.panel .content{ padding:12px; }
-
-/* 중앙 정렬 컨테이너 */
-.section.centerCard{ display:flex; justify-content:center; }
-
-/* 카드 폭 제한 */
-.statCard, .quoteCard{ max-width:400px; width:100%; margin:0 auto; }
-
-/* 헤더 하트 컨페티 버튼 - 연한 아웃라인 버전 */
-.headerBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  background: transparent;
-  border: 1.5px solid rgba(107, 183, 181, 0.4);  /* ← 투명도 추가 (40%) */
-  color: rgba(107, 183, 181, 0.7);               /* 아이콘도 살짝 연하게 */
-  font-weight: 700;
-  font-size: 16px;
-  box-shadow: none;
-  transition: transform 0.1s ease, opacity 0.2s ease, border 0.2s ease;
-  touch-action: manipulation;
-}
-
-.headerBtn:active {
-  transform: scale(0.95);
-  opacity: 0.85;
-  background: rgba(107, 183, 181, 0.1);          /* 눌릴 때 살짝 하늘빛 */
-  border-color: rgba(107, 183, 181, 0.6);        /* 눌릴 때 조금 진하게 */
-}
-
-/* 섹션 간 간격(위쪽) 세밀 조정 유틸 */
-.gap40 { margin-top: 40px !important; }
-.gap50 { margin-top: 50px !important; }
-.gap60 { margin-top: 60px !important; }
-.gap70 { margin-top: 70px !important; }
-.gap80 { margin-top: 80px !important; }
-
-/* 큰 화면에서는 여백 살짝 확대 */
 @media (min-width:768px){
-  .gap40 { margin-top: 48px !important; }
-  .gap50 { margin-top: 60px !important; }
-  .gap60 { margin-top: 72px !important; }
-  .gap70 { margin-top: 84px !important; }
-  .gap80 { margin-top: 96px !important; }
+  .container{padding:28px;}
+  .gap40{margin-top:48px !important;}
+  .gap50{margin-top:60px !important;}
+  .gap60{margin-top:72px !important;}
+  .gap70{margin-top:84px !important;}
+  .gap80{margin-top:96px !important;}
 }
 
 /* 🔒 이미지 다운로드 방지 */
 .no-download {
-  position: relative;
-  display: inline-block;
+  position:relative; display:inline-block;
 }
 .no-download img {
-  display: block;
-  width: 100%;
-  height: auto;
-  user-select: none;
-  -webkit-user-drag: none;
-  pointer-events: none;
+  display:block; width:100%; height:auto;
+  user-select:none; -webkit-user-drag:none; pointer-events:none;
 }
-
 .no-download .nd-overlay {
-  position: absolute;
-  inset: 0;
-  background: transparent;
-  pointer-events: none;
+  position:absolute; inset:0; background:transparent; pointer-events:none;
 }
-
-.navBtn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255,255,255,0.8);
-  border: none;
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--sub);
-  padding: 8px 12px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-.navBtn:hover { background: var(--soft); color: var(--ink); }
-.navBtn.prev { left: 8px; }
-.navBtn.next { right: 8px; }
-
-/* 📸 추억 사진 자동 스크롤 행 카드 고정폭 수정 */
-.cardRow.autoScroll {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-.cardRow.autoScroll .card {
-  flex: 0 0 33%;            /* 한 화면에 3장씩 고정 */
-  scroll-snap-align: start;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #fff;
-}
-
-.cardRow.autoScroll img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  display: block;
-}
-
-/* 메인 hero 슬라이드 문제 수정 */
-.slider {
-  position: relative;
-  width: 100%;
-  height: 56vw;
-  max-height: 420px;
-  overflow: hidden;
-  border-radius: var(--radius);
-  background: #f7f7f7; /* 혹시 이미지 안 뜰 때 대비 */
-}
-
-.slider .slide {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.6s ease;
-  z-index: 0;
-}
-
-.slider .slide.active {
-  opacity: 1;
-  z-index: 1;
-}
-
-.slider .slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.no-download .nd-overlay {
-  position: absolute;
-  inset: 0;
-  background: transparent;
-  pointer-events: none;
-}
-
-/* 메인 hero 슬라이드 */
-.slider {
-  position: relative;
-  width: 100%;
-  height: 56vw;
-  max-height: 420px;
-  overflow: hidden;
-  border-radius: var(--radius);
-  background: #f7f7f7;
-}
-
-.slider img.slide {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
-
-.slider img.slide.active {
-  opacity: 1;
-  z-index: 1;
-}
-
