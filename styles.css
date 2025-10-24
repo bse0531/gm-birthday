@@ -136,3 +136,21 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
   transform:scale(0.96);
   opacity:0.8;
 }
+
+/* 함께한 날 배지 */
+.ribbon{
+  display:inline-block; padding:10px 14px; border-radius:999px;
+  background:var(--soft); border:1px solid #eee; color:#111; font-weight:600;
+}
+
+/* 한 줄 메시지 티커 */
+.ticker{ text-align:center; font-size:16px; color:var(--sub); min-height:24px }
+.ticker.fade{ transition:opacity .5s ease; opacity:.2 }
+
+/* 하트 컨페티 */
+#confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:60}
+.heart{position:absolute; font-size:18px; animation:floatUp 1.6s ease-out forwards; opacity:.9}
+@keyframes floatUp{
+  from{transform:translateY(20px) scale(.9); opacity:.9}
+  to{transform:translateY(-60vh) scale(1.2); opacity:0}
+}
