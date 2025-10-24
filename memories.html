@@ -119,21 +119,22 @@
     </div>
   </main>
 
+ 
   <!-- Modal -->
-  <div class="modal" role="dialog" aria-modal="true">
-    <div class="modalBox">
-      <div class="no-download">
-        <img src="assets/mem1.jpg" alt="추억 사진">
-        <div class="nd-overlay" aria-hidden="true"></div>
-      </div>
-      <div class="modalBody">
-        <div class="modalCaption">설명</div>
-        <div style="display:flex;justify-content:flex-end;margin-top:6px">
-          <button class="btn outline" data-close>닫기</button>
-        </div>
+<div class="modal" role="dialog" aria-modal="true">
+  <div class="modalBox">
+    <button class="navBtn prev" aria-label="이전 사진">‹</button>
+    <img src="assets/mem01.jpg" alt="추억 사진">
+    <button class="navBtn next" aria-label="다음 사진">›</button>
+
+    <div class="modalBody">
+      <div class="modalCaption">설명</div>
+      <div style="display:flex;justify-content:flex-end;margin-top:6px">
+        <button class="btn outline" data-close>닫기</button>
       </div>
     </div>
   </div>
+</div>
 
   <script src="script.js"></script>
 </body>
