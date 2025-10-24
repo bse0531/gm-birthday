@@ -31,7 +31,17 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
   display:flex; align-items:center; justify-content:space-between;
   gap:12px; flex-wrap:nowrap;
 }
-.brand{ font-weight:700; letter-spacing:.2px; white-space:nowrap; font-size:18px; }
+
+.brand {
+  font-weight: 700;
+  letter-spacing: .2px;
+  font-size: 18px;
+  background: linear-gradient(180deg, #4f6f52 0%, #6bb7b5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent; /* 일부 브라우저 호환 */
+}
+
 .header nav a{ white-space:nowrap; display:inline-block; }
 
 @media (max-width:360px){
@@ -201,7 +211,7 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
 /* 카드 폭 제한 */
 .statCard, .quoteCard{ max-width:400px; width:100%; margin:0 auto; }
 
-/* 헤더 하트 컨페티 버튼 - 아웃라인 스타일 */
+/* 헤더 하트 컨페티 버튼 - 연한 아웃라인 버전 */
 .headerBtn {
   display: inline-flex;
   align-items: center;
@@ -209,18 +219,19 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
   width: 36px;
   height: 36px;
   border-radius: 999px;
-  background: transparent;               /* 투명 배경 */
-  border: 1.8px solid var(--gold);       /* 골드 라인 */
-  color: var(--gold);                    /* 아이콘 색도 골드 */
+  background: transparent;
+  border: 1.5px solid rgba(107, 183, 181, 0.4);  /* ← 투명도 추가 (40%) */
+  color: rgba(107, 183, 181, 0.7);               /* 아이콘도 살짝 연하게 */
   font-weight: 700;
   font-size: 16px;
-  box-shadow: none;                      /* 그림자 제거 */
-  transition: transform 0.1s ease, opacity 0.2s ease, background 0.2s ease;
+  box-shadow: none;
+  transition: transform 0.1s ease, opacity 0.2s ease, border 0.2s ease;
   touch-action: manipulation;
 }
 
 .headerBtn:active {
   transform: scale(0.95);
   opacity: 0.85;
-  background: var(--soft);               /* 살짝 눌릴 때만 은은한 베이지 배경 */
+  background: rgba(107, 183, 181, 0.1);          /* 눌릴 때 살짝 하늘빛 */
+  border-color: rgba(107, 183, 181, 0.6);        /* 눌릴 때 조금 진하게 */
 }
