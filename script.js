@@ -131,7 +131,38 @@
 })();
 
 /* ============================================================
-   🔒 06. 이미지 저장 방지
+   💚 06. 하트 컨페티 (부드럽게 천천히 흩날리는 민트·핑크·하늘톤)
+============================================================ */
+(() => {
+  const box = document.getElementById('confetti');
+  if (!box) return;
+
+  function launchConfetti() {
+    // 💚 민트 + 💗 핑크 + 💙 하늘빛 조합
+    const colors = ['#6bb7b5', '#ffb3c1', '#ffd6e0', '#cde7ff', '#bfeeea'];
+
+    for (let i = 0; i < 36; i++) { // 🌸 하트 개수 24 → 36개로 증가
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = '♥';
+      h.style.left = Math.random() * 100 + 'vw';
+      h.style.bottom = '0';
+      h.style.color = colors[i % colors.length];
+      h.style.fontSize = 16 + Math.random() * 10 + 'px'; // 크기 약간 랜덤
+      h.style.animationDelay = Math.random() * 0.8 + 's';
+      h.style.animationDuration = 2 + Math.random() * 0.8 + 's'; // 🌿 2~2.8초 사이로 부드럽게
+      box.appendChild(h);
+      setTimeout(() => h.remove(), 2800);
+    }
+  }
+
+  // 버튼 클릭 시 실행
+  const btn = document.getElementById('confettiBtn');
+  btn?.addEventListener('click', launchConfetti);
+})();
+
+/* ============================================================
+   🔒 07. 이미지 저장 방지
 ============================================================ */
 // 우클릭 방지
 document.addEventListener(
