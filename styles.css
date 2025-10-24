@@ -198,3 +198,13 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
 
 /* 카드 폭 제한 */
 .statCard, .quoteCard{ max-width:400px; width:100%; margin:0 auto; }
+
+/* 헤더 컨페티 버튼 */
+.headerBtn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:36px; height:36px; border-radius:999px;
+  background:var(--gold); color:#111; font-weight:700; font-size:16px;
+  border:none; box-shadow:0 2px 4px rgba(0,0,0,.08);
+  touch-action:manipulation; transition:transform .1s ease, opacity .2s;
+}
+.headerBtn:active{ transform:scale(.96); opacity:.85; }
