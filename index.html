@@ -1,4 +1,4 @@
-  <!doctype html>
+<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8">
@@ -12,36 +12,42 @@
 <body>
   
   <header class="header">
-  <div class="brand">국민's Birthday</div>
-  <nav>
-    <button id="confettiBtn" class="headerBtn" aria-label="하트 뿌리기">💖</button>
-  </nav>
-</header>
+    <div class="brand">국민's Birthday</div>
+    <nav>
+      <button id="confettiBtn" class="headerBtn" aria-label="하트 뿌리기">💖</button>
+    </nav>
+  </header>
   
   <div id="confetti" aria-hidden="true"></div>
   
   <main class="container">
-    <!-- (1) 메인: 자동 슬라이드 + 메시지 + 버튼 -->
+
+    <!-- (1) 메인: 자동 슬라이드 + 메시지 -->
     <section class="section hero">
       <div class="slider" aria-label="메인 이미지 슬라이더">
-        <img class="slide active" src="assets/hero1.jpeg" alt="Hero 1">
-        <img class="slide" src="assets/hero2.jpeg" alt="Hero 2">
-        <img class="slide" src="assets/hero3.jpeg" alt="Hero 3">
+        <div class="slide active no-download">
+          <img src="assets/hero1.jpeg" alt="Hero 1">
+          <div class="nd-overlay" aria-hidden="true"></div>
+        </div>
+        <div class="slide no-download">
+          <img src="assets/hero2.jpeg" alt="Hero 2">
+          <div class="nd-overlay" aria-hidden="true"></div>
+        </div>
+        <div class="slide no-download">
+          <img src="assets/hero3.jpeg" alt="Hero 3">
+          <div class="nd-overlay" aria-hidden="true"></div>
+        </div>
       </div>
     </section>
 
+    <!-- (2) 한 줄 칭찬/메시지 티커 -->
+    <section class="section">
+      <div class="quoteCard">
+        <div id="msgTicker" class="quoteText"></div>
+      </div>
+    </section>
 
-
-       <!-- 한 줄 칭찬/메시지 티커 (인용 카드) -->
-      <section class="section">
-        <div class="quoteCard">
-          <div id="msgTicker" class="quoteText"></div>
-        </div>
-      </section>
-
-  
-    
-    <!-- (3) 추억 사진: 3장씩 자동 슬라이드 프리뷰 -->
+    <!-- (3) 추억 사진 -->
     <section class="section gap60">
       <div class="sectionHeader">
         <h2>추억 사진</h2>
@@ -50,35 +56,59 @@
       <div class="panel">
         <div class="content" style="padding:10px">
           <div class="cardRow autoScroll" style="overflow:auto;scroll-snap-type:x mandatory;grid-auto-flow:column;grid-auto-columns:33%;">
-            <div class="card" style="scroll-snap-align:start"><img src="assets/mem1.jpeg" alt=""></div>
-            <div class="card" style="scroll-snap-align:start"><img src="assets/mem2.jpeg" alt=""></div>
-            <div class="card" style="scroll-snap-align:start"><img src="assets/mem3.jpeg" alt=""></div>
-            <div class="card" style="scroll-snap-align:start"><img src="assets/mem4.jpg" alt=""></div>
-            <div class="card" style="scroll-snap-align:start"><img src="assets/mem5.jpg" alt=""></div>
-            <div class="card" style="scroll-snap-align:start"><img src="assets/mem6.jpg" alt=""></div>
-            <div class="card" style="scroll-snap-align:start"><img src="assets/mem7.jpg" alt=""></div>
-            <div class="card" style="scroll-snap-align:start"><img src="assets/mem8.jpg" alt=""></div>
-            <div class="card" style="scroll-snap-align:start"><img src="assets/mem9.jpg" alt=""></div>
+            <div class="card no-download" style="scroll-snap-align:start">
+              <img src="assets/mem1.jpeg" alt="">
+              <div class="nd-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="card no-download" style="scroll-snap-align:start">
+              <img src="assets/mem2.jpeg" alt="">
+              <div class="nd-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="card no-download" style="scroll-snap-align:start">
+              <img src="assets/mem3.jpeg" alt="">
+              <div class="nd-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="card no-download" style="scroll-snap-align:start">
+              <img src="assets/mem4.jpg" alt="">
+              <div class="nd-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="card no-download" style="scroll-snap-align:start">
+              <img src="assets/mem5.jpg" alt="">
+              <div class="nd-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="card no-download" style="scroll-snap-align:start">
+              <img src="assets/mem6.jpg" alt="">
+              <div class="nd-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="card no-download" style="scroll-snap-align:start">
+              <img src="assets/mem7.jpg" alt="">
+              <div class="nd-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="card no-download" style="scroll-snap-align:start">
+              <img src="assets/mem8.jpg" alt="">
+              <div class="nd-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="card no-download" style="scroll-snap-align:start">
+              <img src="assets/mem9.jpg" alt="">
+              <div class="nd-overlay" aria-hidden="true"></div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    
-      <!-- 4. 함께한 날 수 배지 (카드형) -->
-      <section class="section">
-        <div class="statCard">
-          <div class="iconCircle">📅</div>
-          <div class="statBody">
-            <div id="dayBadge" class="statMain">우리가 함께한 지 0일째</div>
-            <div id="sinceLine" class="statSub">—</div>
-          </div>
+    <!-- (4) 함께한 날 수 -->
+    <section class="section">
+      <div class="statCard">
+        <div class="iconCircle">📅</div>
+        <div class="statBody">
+          <div id="dayBadge" class="statMain">우리가 함께한 지 0일째</div>
+          <div id="sinceLine" class="statSub">—</div>
         </div>
-      </section>
+      </div>
+    </section>
 
-
-    
-    <!-- (5) 설화: 일부 노출 + 전체 보기 -->
+    <!-- (5) 설화 -->
     <section class="section gap70">
       <div class="sectionHeader">
         <h2>국민 설화</h2>
@@ -86,14 +116,11 @@
       </div>
     
       <div class="article">
-        <!-- 통일된 히어로 일러스트 -->
-        <figure class="heroFigure" style="margin:0 0 10px 0;">
-          <img src="assets/folktale_hero.jpg"
-               alt="dream"
-               loading="lazy">
+        <figure class="heroFigure no-download" style="margin:0 0 10px 0;">
+          <img src="assets/folktale_hero.jpg" alt="dream" loading="lazy">
+          <div class="nd-overlay" aria-hidden="true"></div>
         </figure>
     
-        <!-- 티저 문구(원하면 유지/수정) -->
         <p class="lead">
           세 마리의 소가 걸어오던 밤, 한 생명이 품에 안겼다.<br>
         </p>
@@ -102,16 +129,15 @@
       </div>
     </section>
 
-    <!-- 축하 메시지 -->
-        <section class="section center gap80" style="margin-top: 18px;">
-            <a class="btn" href="letter.html" aria-label="축하 메시지 보러가기">축하 메시지 보러가기 🎉</a>
-        </section>
-
+    <!-- (6) 축하 메시지 -->
+    <section class="section center gap80" style="margin-top: 18px;">
+      <a class="btn" href="letter.html" aria-label="축하 메시지 보러가기">축하 메시지 보러가기 🎉</a>
+    </section>
     
   </main>
 
   <footer class="footer small">
-    © Love Project • Designed for GM
+    © Seoeun's Love Project • Designed for GM
   </footer>
 
   <script src="script.js"></script>
