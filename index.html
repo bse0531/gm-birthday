@@ -11,37 +11,38 @@
 </head>
 <body>
   
+  <!-- Header -->
   <header class="header">
-    <div class="brand">국민's Birthday</div>
+    <div class="brand">2025-11-05 국민's Birthday</div>
     <nav>
       <button id="confettiBtn" class="headerBtn" aria-label="하트 뿌리기">💖</button>
     </nav>
   </header>
   
   <div id="confetti" aria-hidden="true"></div>
-  
+
   <main class="container">
 
-    <!-- (1) 메인: 자동 슬라이드 + 메시지 -->
+    <!-- (1) 메인 슬라이드 -->
     <section class="section hero">
       <div class="slider" aria-label="메인 이미지 슬라이더">
         <div class="slide active no-download">
           <img src="assets/hero1.jpeg" alt="Hero 1">
-          <div class="nd-overlay" aria-hidden="true"></div>
+          <div class="nd-overlay"></div>
         </div>
         <div class="slide no-download">
           <img src="assets/hero2.jpeg" alt="Hero 2">
-          <div class="nd-overlay" aria-hidden="true"></div>
+          <div class="nd-overlay"></div>
         </div>
         <div class="slide no-download">
           <img src="assets/hero3.jpeg" alt="Hero 3">
-          <div class="nd-overlay" aria-hidden="true"></div>
+          <div class="nd-overlay"></div>
         </div>
       </div>
     </section>
 
-    <!-- (2) 한 줄 칭찬/메시지 티커 -->
-    <section class="section">
+    <!-- (2) 한 줄 칭찬 메시지 -->
+    <section class="section centerCard">
       <div class="quoteCard">
         <div id="msgTicker" class="quoteText"></div>
       </div>
@@ -54,43 +55,28 @@
         <a class="small" href="memories.html">전체 보기</a>
       </div>
       <div class="panel">
-        <div class="content" style="padding:10px">
+        <div class="content">
           <div class="cardRow autoScroll" style="overflow:auto;scroll-snap-type:x mandatory;grid-auto-flow:column;grid-auto-columns:33%;">
+            
             <div class="card no-download" style="scroll-snap-align:start">
-              <img src="assets/mem01.jpg" alt="">
-              <div class="nd-overlay" aria-hidden="true"></div>
+              <img src="assets/mem01.jpg" alt="Memory 1">
+              <div class="nd-overlay"></div>
             </div>
             <div class="card no-download" style="scroll-snap-align:start">
-              <img src="assets/mem02.jpg" alt="">
-              <div class="nd-overlay" aria-hidden="true"></div>
+              <img src="assets/mem02.jpg" alt="Memory 2">
+              <div class="nd-overlay"></div>
             </div>
             <div class="card no-download" style="scroll-snap-align:start">
-              <img src="assets/mem03.jpg" alt="">
-              <div class="nd-overlay" aria-hidden="true"></div>
+              <img src="assets/mem03.jpg" alt="Memory 3">
+              <div class="nd-overlay"></div>
             </div>
             <div class="card no-download" style="scroll-snap-align:start">
-              <img src="assets/mem04.jpg" alt="">
-              <div class="nd-overlay" aria-hidden="true"></div>
+              <img src="assets/mem04.jpg" alt="Memory 4">
+              <div class="nd-overlay"></div>
             </div>
             <div class="card no-download" style="scroll-snap-align:start">
-              <img src="assets/mem05.jpg" alt="">
-              <div class="nd-overlay" aria-hidden="true"></div>
-            </div>
-            <div class="card no-download" style="scroll-snap-align:start">
-              <img src="assets/mem06.jpg" alt="">
-              <div class="nd-overlay" aria-hidden="true"></div>
-            </div>
-            <div class="card no-download" style="scroll-snap-align:start">
-              <img src="assets/mem07.jpg" alt="">
-              <div class="nd-overlay" aria-hidden="true"></div>
-            </div>
-            <div class="card no-download" style="scroll-snap-align:start">
-              <img src="assets/mem08.jpg" alt="">
-              <div class="nd-overlay" aria-hidden="true"></div>
-            </div>
-            <div class="card no-download" style="scroll-snap-align:start">
-              <img src="assets/mem09.jpg" alt="">
-              <div class="nd-overlay" aria-hidden="true"></div>
+              <img src="assets/mem05.jpg" alt="Memory 5">
+              <div class="nd-overlay"></div>
             </div>
 
           </div>
@@ -99,7 +85,7 @@
     </section>
 
     <!-- (4) 함께한 날 수 -->
-    <section class="section">
+    <section class="section centerCard">
       <div class="statCard">
         <div class="iconCircle">📅</div>
         <div class="statBody">
@@ -109,36 +95,32 @@
       </div>
     </section>
 
-    <!-- (5) 설화 -->
+    <!-- (5) 국민 설화 -->
     <section class="section gap70">
       <div class="sectionHeader">
         <h2>국민 설화</h2>
         <a class="small" href="folktale.html">전체 보기</a>
       </div>
-    
       <div class="article">
         <figure class="heroFigure no-download" style="margin:0 0 10px 0;">
-          <img src="assets/folktale_hero.jpg" alt="dream" loading="lazy">
-          <div class="nd-overlay" aria-hidden="true"></div>
+          <img src="assets/folktale_hero.jpg" alt="Folktale preview" loading="lazy">
+          <div class="nd-overlay"></div>
         </figure>
-    
-        <p class="lead">
-          세 마리의 소가 걸어오던 밤, 한 생명이 품에 안겼다.<br>
-        </p>
+        <p class="lead">세 마리의 소가 걸어오던 밤, 한 생명이 품에 안겼다.</p>
         <div class="hr"></div>
         <p class="small">더 읽으려면 <a href="folktale.html">여기를 눌러주세요 →</a></p>
       </div>
     </section>
 
-    <!-- (6) 축하 메시지 -->
+    <!-- (6) 축하 메시지 버튼 -->
     <section class="section center gap80" style="margin-top: 18px;">
-      <a class="btn" href="letter.html" aria-label="축하 메시지 보러가기">축하 메시지 보러가기 🎉</a>
+      <a class="btn" href="letter.html">축하 메시지 보러가기 🎉</a>
     </section>
-    
+
   </main>
 
   <footer class="footer small">
-    © Seoeun's Love Project • Designed for GM
+    © Seoeun’s Love Project • Designed for GM
   </footer>
 
   <script src="script.js"></script>
