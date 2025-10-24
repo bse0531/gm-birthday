@@ -219,26 +219,33 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   line-height: 1.6;
 }
 
-/* 하트 컨페티 */
+/* 💖 하트 컨페티 */
 #confetti {
   position: fixed;
   inset: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 60;
+  z-index: 999; /* 제일 위로 */
 }
+
 .heart {
   position: absolute;
-  animation: floatUp 2.4s ease-out forwards; /* ⏳ 천천히 부드럽게 */
+  font-size: 18px;
+  animation: floatUp 2.4s ease-out forwards;
   opacity: 0.9;
+  user-select: none;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* 하얀 배경에서도 선명하게 */
+  will-change: transform, opacity;
 }
+
 @keyframes floatUp {
   from {
-    transform: translateY(20px) scale(0.9) rotate(0deg);
+    transform: translateY(0) scale(0.9);
     opacity: 0.9;
   }
   to {
-    transform: translateY(-70vh) scale(1.2) rotate(20deg);
+    transform: translateY(-60vh) scale(1.2);
     opacity: 0;
   }
 }
