@@ -178,3 +178,17 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
   content: "”";
   margin-left: 3px;
 }
+
+
+/* 함께한 날 카드 & 인용카드 중앙 정렬 */
+.section.centerCard {
+  display: flex;
+  justify-content: center;
+}
+
+/* 카드 내부의 폭 제한 (너무 넓어지지 않게) */
+.statCard,
+.quoteCard {
+  max-width: 400px;  /* 필요 시 360~420px 정도로 조절 */
+  width: 100%;
+}
