@@ -26,26 +26,62 @@
   }, 3000);
 })();
 
-// Modal for memories grid
+// Modal for memories grid + 좌우 이동 기능
 (function(){
   const grid = document.querySelector('.grid');
   const modal = document.querySelector('.modal');
   if(!grid || !modal) return;
+
   const modalImg = modal.querySelector('img');
   const caption = modal.querySelector('.modalCaption');
-  grid.addEventListener('click', (e)=>{
-    const t = e.target.closest('[data-full]');
-    if(!t) return;
+  const prevBtn = modal.querySelector('.navBtn.prev');
+  const nextBtn = modal.querySelector('.navBtn.next');
+  const thumbs = [...grid.querySelectorAll('.thumb')];
+  let current = 0;
+
+  function openModal(index){
+    const t = thumbs[index];
     modalImg.src = t.dataset.full;
     caption.textContent = t.dataset.caption || '';
     modal.classList.add('open');
+    current = index;
+  }
+
+  function closeModal(){
+    modal.classList.remove('open');
+  }
+
+  function showNext(){
+    current = (current + 1) % thumbs.length;
+    openModal(current);
+  }
+
+  function showPrev(){
+    current = (current - 1 + thumbs.length) % thumbs.length;
+    openModal(current);
+  }
+
+  grid.addEventListener('click', (e)=>{
+    const t = e.target.closest('.thumb');
+    if(!t) return;
+    openModal(thumbs.indexOf(t));
   });
+
   modal.addEventListener('click', (e)=>{
-    if(e.target === modal || e.target.closest('[data-close]')){
-      modal.classList.remove('open');
-    }
+    if(e.target === modal || e.target.closest('[data-close]')) closeModal();
+  });
+
+  nextBtn.addEventListener('click', showNext);
+  prevBtn.addEventListener('click', showPrev);
+
+  document.addEventListener('keydown', (e)=>{
+    if(!modal.classList.contains('open')) return;
+    if(e.key === 'ArrowRight') showNext();
+    if(e.key === 'ArrowLeft') showPrev();
+    if(e.key === 'Escape') closeModal();
   });
 })();
+
 
 
 // ① 함께한 날 수
