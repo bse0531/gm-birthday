@@ -1,11 +1,13 @@
 :root{
-  --bg:#ffffff;
-  --ink:#111111;
-  --sub:#555555;
-  --gold:#5cb85c;    /* 기존 #D4B996 → 녹색 포인트 */
-  --soft:#F3F8F3;    /* 배경도 살짝 연둣빛 */
+  --bg:#f8faf9;       /* 아주 밝은 하늘색 섞인 흰색 */
+  --ink:#102820;      /* 짙은 초록-남색 (텍스트) */
+  --sub:#4f6f52;      /* 보조 글자 - 숲의 그늘 느낌 */
+  --gold:#6bb7b5;     /* 메인 포인트 (민트+하늘 중간) */
+  --soft:#eaf4f1;     /* 섹션 배경 - 연녹빛 하늘색 */
   --radius:16px;
 }
+
+
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:Inter, Pretendard, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif}
 img{max-width:100%;display:block}
