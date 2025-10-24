@@ -17,26 +17,7 @@ h2{font-size:22px}
 p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
 .small{font-size:13px;color:var(--sub)}
 
-.btn {
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:14px 22px;
-  border-radius:999px;
-  background:var(--gold);
-  color:#111;
-  font-weight:600;
-  gap:8px;
-  border:none;
-  box-shadow:0 2px 4px rgba(0,0,0,0.1);
-  transition:transform 0.1s ease, opacity 0.2s ease;
-  touch-action:manipulation; /* 모바일 터치 반응 개선 */
-}
 
-.btn:active {
-  transform:scale(0.96);
-  opacity:0.8;
-}
 .brand{font-weight:700;letter-spacing:.2px}
 .hero{
   position:relative;overflow:hidden;border-radius:var(--radius);
@@ -117,3 +98,24 @@ p{font-size:16px;line-height:1.6;color:var(--sub);margin:6px 0 0}
 }
 
 .heroFigure img { aspect-ratio: 16/9; object-fit: cover; }
+
+.btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:14px 22px;
+  border-radius:999px;
+  background:var(--gold);
+  color:#111;
+  font-weight:600;
+  gap:8px;
+  border:none;
+  box-shadow:0 2px 4px rgba(0,0,0,0.1);
+  transition:transform 0.1s ease, opacity 0.2s ease;
+  touch-action:manipulation;
+}
+
+.btn:active {
+  transform:scale(0.96);
+  opacity:0.8;
+}
