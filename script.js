@@ -89,21 +89,26 @@
   }, 3000);
 })();
 
-// ③ 첫 방문에만 하트 컨페티
+// 하트 컨페티 (상단 버튼 클릭 시 실행)
 (function(){
-  const key='seen_confetti_v1';
-  if(localStorage.getItem(key)) return;
-  localStorage.setItem(key,'1');
-  const box = document.getElementById('confetti'); if(!box) return;
-  const colors = ['#D4B996','#ffb3c1','#ffd6e0','#cde7ff'];
-  for(let i=0;i<24;i++){
-    const h=document.createElement('div');
-    h.className='heart'; h.textContent='♥';
-    h.style.left = Math.random()*100+'vw';
-    h.style.bottom = '0';
-    h.style.color = colors[i%colors.length];
-    h.style.animationDelay = (Math.random()*0.6)+'s';
-    box.appendChild(h);
-    setTimeout(()=>h.remove(), 2000);
+  const box = document.getElementById('confetti');
+  const btn = document.getElementById('confettiBtn');
+  if(!box || !btn) return;
+
+  function launchConfetti(){
+    const colors = ['#D4B996','#ffb3c1','#ffd6e0','#cde7ff'];
+    for(let i=0;i<24;i++){
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = '♥';
+      h.style.left = Math.random()*100+'vw';
+      h.style.bottom = '0';
+      h.style.color = colors[i%colors.length];
+      h.style.animationDelay = (Math.random()*0.6)+'s';
+      box.appendChild(h);
+      setTimeout(()=>h.remove(), 2000);
+    }
   }
+
+  btn.addEventListener('click', launchConfetti);
 })();
