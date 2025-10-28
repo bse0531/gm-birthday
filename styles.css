@@ -219,58 +219,27 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   line-height: 1.6;
 }
 
-/* 💖 하트 컨페티 */
-#confetti {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 999; /* 제일 위로 */
+/* 하트 컨페티 */
+#confetti{
+  position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:999;
+}
+.heart{
+  position:absolute; opacity:.9; user-select:none; pointer-events:none;
+  animation:floatUp 2.4s ease-out forwards;
+  text-shadow:0 1px 2px rgba(0,0,0,.1);
+}
+@keyframes floatUp{
+  from{ transform:translateY(0) scale(.9); opacity:.9; }
+  to  { transform:translateY(-60vh) scale(1.2); opacity:0; }
 }
 
-.heart {
-  position: absolute;
-  font-size: 18px;
-  animation: floatUp 2.4s ease-out forwards;
-  opacity: 0.9;
-  user-select: none;
-  pointer-events: none;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* 하얀 배경에서도 선명하게 */
-  will-change: transform, opacity;
+/* 헤더 버튼(배경 없이 테두리만) */
+.headerBtn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:36px; height:36px; border-radius:50%;
+  border:1.5px solid rgba(107,183,181,.6);
+  background:transparent; color:rgba(107,183,181,.85);
+  font-size:20px; cursor:pointer; transition:all .2s ease;
 }
-
-@keyframes floatUp {
-  from {
-    transform: translateY(0) scale(0.9);
-    opacity: 0.9;
-  }
-  to {
-    transform: translateY(-60vh) scale(1.2);
-    opacity: 0;
-  }
-}
-
-/* 💚 헤더 하트 버튼 - 투명 아웃라인 스타일 */
-.headerBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(107, 183, 181, 0.6);  /* 민트빛 연한 테두리 */
-  background: transparent;                      /* ✅ 배경 완전 투명 */
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.headerBtn:hover {
-  background: rgba(107, 183, 181, 0.08);         /* 살짝 민트빛 배경 */
-  transform: scale(1.05);
-}
-
-.headerBtn:active {
-  transform: scale(0.93);
-  background: rgba(107, 183, 181, 0.15);
-}
+.headerBtn:hover{ background:rgba(107,183,181,.08); transform:scale(1.05); }
+.headerBtn:active{ transform:scale(.93); background:rgba(107,183,181,.15); }
