@@ -1,187 +1,147 @@
-/* ============================================================
-   🎞️ 01. 메인 Hero 자동 페이드 슬라이더
-============================================================ */
-(() => {
-  const slider = document.querySelector('.slider');
-  if (!slider) return;
-
-  const slides = [...slider.querySelectorAll('.slide, img.slide')];
-  let idx = 0;
-
-  const show = (i) => slides.forEach((s, k) => s.classList.toggle('active', k === i));
+/* ===== 01. 메인 Hero 자동 페이드 슬라이더 ===== */
+(function(){
+  var slider = document.querySelector('.slider');
+  if(!slider) return;
+  var slides = Array.prototype.slice.call(slider.querySelectorAll('.slide, img.slide'));
+  var idx = 0;
+  function show(i){ slides.forEach(function(s,k){ s.classList.toggle('active', k===i); }); }
   show(0);
-
-  setInterval(() => {
-    idx = (idx + 1) % slides.length;
+  setInterval(function(){
+    idx = (idx+1) % slides.length;
     show(idx);
   }, 3000);
 })();
 
-/* ============================================================
-   🖼️ 02. 추억 사진 자동 스크롤 (index 프리뷰)
-============================================================ */
-(() => {
-  const row = document.querySelector('.cardRow.autoScroll');
-  if (!row) return;
-
-  let scrollPos = 0;
-  const scrollStep = () => {
+/* ===== 02. 추억 사진 자동 스크롤(프리뷰) ===== */
+(function(){
+  var row = document.querySelector('.cardRow.autoScroll');
+  if(!row) return;
+  var scrollPos = 0;
+  setInterval(function(){
     scrollPos += row.clientWidth;
-    if (scrollPos >= row.scrollWidth) scrollPos = 0;
-    row.scrollTo({ left: scrollPos, behavior: 'smooth' });
-  };
-
-  setInterval(scrollStep, 3000);
+    if(scrollPos >= row.scrollWidth) scrollPos = 0;
+    row.scrollTo({left: scrollPos, behavior: 'smooth'});
+  }, 3000);
 })();
 
-/* ============================================================
-   💬 03. 추억사진 전체보기 모달 (좌우 이동 기능 포함)
-============================================================ */
-(() => {
-  const grid = document.querySelector('.grid');
-  const modal = document.querySelector('.modal');
-  if (!grid || !modal) return;
+/* ===== 03. (memories 전용) 모달: 좌우 이동 ===== */
+(function(){
+  var grid = document.querySelector('.grid');
+  var modal = document.querySelector('.modal');
+  if(!grid || !modal) return;
 
-  const modalImg = modal.querySelector('img');
-  const caption = modal.querySelector('.modalCaption');
-  const prevBtn = modal.querySelector('.navBtn.prev');
-  const nextBtn = modal.querySelector('.navBtn.next');
-  const thumbs = [...grid.querySelectorAll('.thumb')];
-  let current = 0;
+  var modalImg = modal.querySelector('img');
+  var caption = modal.querySelector('.modalCaption');
+  var prevBtn = modal.querySelector('.navBtn.prev');
+  var nextBtn = modal.querySelector('.navBtn.next');
+  var thumbs = Array.prototype.slice.call(grid.querySelectorAll('.thumb'));
+  var current = 0;
 
-  const openModal = (index) => {
-    const t = thumbs[index];
-    if (!t) return;
+  function openModal(i){
+    var t = thumbs[i]; if(!t) return;
     modalImg.src = t.dataset.full;
     caption.textContent = t.dataset.caption || '';
     modal.classList.add('open');
-    current = index;
-  };
+    current = i;
+  }
+  function closeModal(){ modal.classList.remove('open'); }
+  function showNext(){ openModal((current+1) % thumbs.length); }
+  function showPrev(){ openModal((current-1+thumbs.length) % thumbs.length); }
 
-  const closeModal = () => modal.classList.remove('open');
-  const showNext = () => openModal((current + 1) % thumbs.length);
-  const showPrev = () => openModal((current - 1 + thumbs.length) % thumbs.length);
-
-  grid.addEventListener('click', (e) => {
-    const t = e.target.closest('.thumb');
-    if (t) openModal(thumbs.indexOf(t));
+  grid.addEventListener('click', function(e){
+    var t = e.target.closest('.thumb');
+    if(t) openModal(thumbs.indexOf(t));
   });
-
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal || e.target.closest('[data-close]')) closeModal();
+  modal.addEventListener('click', function(e){
+    if(e.target === modal || e.target.closest('[data-close]')) closeModal();
   });
-
-  prevBtn?.addEventListener('click', showPrev);
-  nextBtn?.addEventListener('click', showNext);
-
-  document.addEventListener('keydown', (e) => {
-    if (!modal.classList.contains('open')) return;
-    if (e.key === 'ArrowRight') showNext();
-    if (e.key === 'ArrowLeft') showPrev();
-    if (e.key === 'Escape') closeModal();
+  if(prevBtn) prevBtn.addEventListener('click', showPrev);
+  if(nextBtn) nextBtn.addEventListener('click', showNext);
+  document.addEventListener('keydown', function(e){
+    if(!modal.classList.contains('open')) return;
+    if(e.key==='ArrowRight') showNext();
+    if(e.key==='ArrowLeft') showPrev();
+    if(e.key==='Escape') closeModal();
   });
 })();
 
-/* ============================================================
-   📅 04. 함께한 날 수 계산
-============================================================ */
-(() => {
-  const main = document.getElementById('dayBadge');
-  const sinceEl = document.getElementById('sinceLine');
-  if (!main || !sinceEl) return;
+/* ===== 04. 함께한 날 수 ===== */
+(function(){
+  var main = document.getElementById('dayBadge');
+  var sinceEl = document.getElementById('sinceLine');
+  if(!main || !sinceEl) return;
 
-  const firstDate = new Date('2022-09-19');
-  const today = new Date();
-  const days = Math.floor((today - firstDate) / 86400000) + 1;
+  var firstDate = new Date('2022-09-19');
+  var today = new Date();
+  var days = Math.floor((today - firstDate) / 86400000) + 1;
 
-  const pad = (n) => String(n).padStart(2, '0');
-  const y = firstDate.getFullYear();
-  const m = pad(firstDate.getMonth() + 1);
-  const d = pad(firstDate.getDate());
+  var pad = function(n){ return String(n).padStart(2,'0'); };
+  var y = firstDate.getFullYear();
+  var m = pad(firstDate.getMonth()+1);
+  var d = pad(firstDate.getDate());
 
-  main.textContent = `우리가 함께한 지 ${days}일째`;
-  sinceEl.textContent = `${y}.${m}.${d} ~ 오늘`;
+  main.textContent = '우리가 함께한 지 ' + days + '일째';
+  sinceEl.textContent = y + '.' + m + '.' + d + ' ~ 오늘';
 })();
 
-/* ============================================================
-   💖 05. 한 줄 칭찬 / 메시지 티커
-============================================================ */
-(() => {
-  const el = document.getElementById('msgTicker');
-  if (!el) return;
-
-  const lines = [
+/* ===== 05. 한 줄 칭찬/메시지 티커 ===== */
+(function(){
+  var el = document.getElementById('msgTicker');
+  if(!el) return;
+  var lines = [
     '오늘의 주인공은 국민 ✨',
     '성실의 아이콘, 자랑스러운 파워 J 📝',
     '늘 한결같이 따뜻한 사랑 ♥️',
-    '오빤 내게 감동이야 🌼',
+    '오빤 내게 감동이야 🌼'
   ];
-
-  let i = 0;
+  var i = 0;
   el.textContent = lines[i];
-
-  setInterval(() => {
-    el.classList.add('ticker', 'fade');
-    setTimeout(() => {
-      i = (i + 1) % lines.length;
+  setInterval(function(){
+    el.classList.add('ticker','fade');
+    setTimeout(function(){
+      i = (i+1) % lines.length;
       el.textContent = lines[i];
       el.classList.remove('fade');
     }, 500);
   }, 3000);
 })();
 
-/* 💖 하트 컨페티 */
-(() => {
-  const box = document.getElementById('confetti');
-  const btn = document.getElementById('confettiBtn');
-  if (!box || !btn) return;
+/* ===== 06. 하트 컨페티(버튼 클릭) ===== */
+(function(){
+  var box = document.getElementById('confetti');
+  var btn = document.getElementById('confettiBtn');
+  if(!box || !btn) return;             // 두 요소 모두 있어야 작동
 
-  function launchConfetti() {
-    const colors = ['#6bb7b5', '#ffb3c1', '#ffd6e0', '#cde7ff', '#bfeeea'];
-    for (let i = 0; i < 24; i++) {
-      const h = document.createElement('div');
+  function launchConfetti(){
+    var colors = ['#6bb7b5','#ffb3c1','#ffd6e0','#cde7ff','#bfeeea'];
+    for(var i=0;i<30;i++){
+      var h = document.createElement('div');
       h.className = 'heart';
-      h.textContent = '♥';
-
-      // 랜덤 위치 + 크기 + 색상
-      h.style.left = Math.random() * 100 + 'vw';
+      h.textContent = '♥';             // 이모지 말고 텍스트 하트(색 적용됨)
+      h.style.left = (Math.random()*100)+'vw';
       h.style.bottom = '-10px';
       h.style.color = colors[i % colors.length];
-      h.style.fontSize = 16 + Math.random() * 10 + 'px';
-
-      // 랜덤 딜레이와 지속시간
-      h.style.animationDelay = Math.random() * 0.4 + 's';
-      h.style.animationDuration = 1.8 + Math.random() * 1.2 + 's';
-
+      h.style.fontSize = (16 + Math.random()*12) + 'px';
+      h.style.animationDelay = (Math.random()*0.8) + 's';
+      h.style.animationDuration = (2 + Math.random()*0.8) + 's';
       box.appendChild(h);
-
-      // 애니메이션 끝나면 제거
-      setTimeout(() => h.remove(), 2800);
+      setTimeout(function(node){ node.remove(); }, 3200, h);
     }
   }
-
   btn.addEventListener('click', launchConfetti);
 })();
 
-  // 버튼 클릭 시 실행
-  const btn = document.getElementById('confettiBtn');
-  btn?.addEventListener('click', launchConfetti);
-})();
+/* ===== 07. 이미지 저장 방지 ===== */
+document.addEventListener('contextmenu', function(e){
+  if(e.target.closest && e.target.closest('.no-download')){
+    e.preventDefault();
+  }
+}, {passive:false});
 
-/* ============================================================
-   🔒 07. 이미지 저장 방지
-============================================================ */
-// 우클릭 방지
-document.addEventListener(
-  'contextmenu',
-  (e) => {
-    if (e.target.closest && e.target.closest('.no-download')) e.preventDefault();
-  },
-  { passive: false }
+Array.prototype.forEach.call(
+  document.querySelectorAll('.no-download img'),
+  function(img){
+    img.setAttribute('draggable','false');
+    img.addEventListener('dragstart', function(e){ e.preventDefault(); });
+  }
 );
-
-// 드래그 방지
-document.querySelectorAll('.no-download img').forEach((img) => {
-  img.setAttribute('draggable', 'false');
-  img.addEventListener('dragstart', (e) => e.preventDefault());
-});
