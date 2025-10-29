@@ -33,11 +33,26 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   display:flex; align-items:center; justify-content:space-between;
   gap:12px;
 }
+
 .brand {
-  font-weight:700; letter-spacing:.2px; font-size:18px;
-  background:linear-gradient(180deg, #4f6f52 0%, #6bb7b5 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+  background: linear-gradient(180deg, #4f6f52 0%, #6bb7b5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+}
+
+/* 🎂 이모지 색상 유지 + 반짝이 효과 */
+.brand .emoji {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  color: initial !important;
+  filter: drop-shadow(0 0 2px rgba(173,216,230,0.7))
+          drop-shadow(0 0 5px rgba(173,216,230,0.4)); /* 하늘색 글로우 */
+  opacity: 1 !important;
 }
 @media (max-width:360px){
   .brand{font-size:16px;}
