@@ -258,3 +258,21 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 }
 .headerBtn:hover{ background:rgba(107,183,181,.08); transform:scale(1.05); }
 .headerBtn:active{ transform:scale(.93); background:rgba(107,183,181,.15); }
+
+/* ===== 설화(시 형태) 줄바꿈 & 타이포 ===== */
+.article p { margin:12px 0; }
+
+/* 소스의 줄바꿈(\n)을 실제 줄바꿈으로 표시 */
+.poem{
+  white-space: pre-line;
+  line-height: 1.9;
+  letter-spacing: 0.1px;
+  word-break: keep-all;   /* 한글 줄바꿈 어색함 최소화 */
+}
+
+/* 첫 단락 강조(선택) */
+.article .lead{
+  font-size: 18px;
+  color: var(--ink);
+  line-height: 1.9;
+}
