@@ -196,6 +196,14 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 }
 .btn:active { transform:scale(0.96); opacity:0.8; }
 
+.btn-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+
 /* ========== 기타 유틸 ========== */
 .gap40 { margin-top:40px !important; }
 .gap50 { margin-top:50px !important; }
