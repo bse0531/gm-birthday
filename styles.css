@@ -45,7 +45,7 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 }
 
 /* 🎂 이모지 색상 유지 + 반짝이 효과 */
-.brand .emoji {
+.emoji {
   background: none !important;
   -webkit-background-clip: initial !important;
   -webkit-text-fill-color: initial !important;
