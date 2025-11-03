@@ -89,10 +89,10 @@
   var el = document.getElementById('msgTicker');
   if(!el) return;
   var lines = [
-    '오늘의 주인공은 국민 ✨',
-    '성실의 아이콘, 자랑스러운 파워 J 📝',
+    '오늘의 주인공은 국민 ✨', 
     '늘 한결같이 따뜻한 사랑 ♥️',
-    '오빤 내게 감동이야 🌼'
+    '성실의 아이콘, 든든한 파워 J 📝',
+    '오빤 나의 자랑이야 🌼'
   ];
   var i = 0;
   el.textContent = lines[i];
