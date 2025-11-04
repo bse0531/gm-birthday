@@ -8,6 +8,11 @@
   --gold:#2f5d4b;     /* 숲 버전의 진녹색 포인트 */
   --soft:#eaf4f1;     /* 연녹빛 하늘색 배경 */
   --radius:16px;
+
+  /* Hero 전환/효과 변수(중복 선언 금지) */
+  --hero-fade: 1200ms;
+  --hero-ease: cubic-bezier(.22,.61,.36,1);
+  --hero-zoom: 1.08;  /* 비활성 기본 확대 비율 */
 }
 
 /* ============================================================
@@ -18,6 +23,7 @@ html,body {
   margin:0; padding:0;
   background:var(--bg); color:var(--ink);
   font-family:Inter, Pretendard, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  overflow-x:hidden; /* 100vw 사용 시 가로 스크롤 방지 */
 }
 img { max-width:100%; display:block }
 a { color:inherit; text-decoration:none }
@@ -56,24 +62,16 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   .header{gap:8px;}
 }
 
-/* =======================
-   Hero: 좌우 풀블리드 + 상단 여백 0
-   + 크로스페이드 & 확대(줌) 효과 강화
-======================= */
-
-/* 전환/효과 변수 */
-:root{
-  --hero-fade: 1200ms;                          /* 페이드 시간 */
-  --hero-ease: cubic-bezier(.22,.61,.36,1);     /* 가감속 */
-  --hero-zoom: 1.08;                            /* 비활성 기본 확대 비율 */
-}
-
+/* ============================================================
+   🎞 Hero: 좌우 풀블리드 + 상단 여백 0
+   + 크로스페이드 & 확대(줌) 효과
+============================================================ */
 .section.hero{
   position: relative;
-  width: 100vw;              
-  margin: 0 0 26px;          /* 위쪽 0, 아래쪽만 유지 */
+  width: 100vw;
+  margin: 0 0 26px;                 /* 상단 0, 하단만 기본 여백 */
   left: 50%;
-  transform: translateX(-50%); /* 컨테이너 패딩 무시하고 가운데 정렬 */
+  transform: translateX(-50%);      /* 컨테이너 패딩 무시하고 중앙 정렬 */
   border-radius: 0;
   overflow: hidden;
   padding-left: env(safe-area-inset-left, 0);
@@ -85,7 +83,7 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  max-height: 420px;         /* 필요 시 420~560px 사이로 조절 */
+  max-height: 420px;                /* 필요 시 420~560px 사이로 조절 */
   background: #000;
   border-radius: 0;
   overflow: hidden;
@@ -105,18 +103,17 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   backface-visibility: hidden;
 }
 
-/* 활성 슬라이드: 보이면서 원래 크기 */
+/* 활성 슬라이드: 보이면서 원래 크기 + Ken Burns */
 .section.hero .slider img.slide.active{
   opacity: 1;
   transform: scale(1);
   z-index: 1;
-  animation: heroZoomIn 10s var(--hero-ease) forwards; /* 활성 상태에서 천천히 더 확대 */
+  animation: heroZoomIn 10s var(--hero-ease) forwards;
 }
 
-/* 활성 중 Ken Burns 느낌의 느린 줌인 */
 @keyframes heroZoomIn{
   from { transform: scale(1); }
-  to   { transform: scale(1.12); }  /* 확대감 더 크게 */
+  to   { transform: scale(1.12); }  /* 활성 상태에서 천천히 더 확대 */
 }
 
 /* 사용자 모션 감소 설정 존중 */
@@ -127,9 +124,6 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
     animation: none !important;
   }
 }
-
-
-
 
 /* ============================================================
    📦 섹션/카드 공통
@@ -298,131 +292,78 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 /* ————— memories.html 썸네일 캡션/테두리 보정 ————— */
 
 /* 기본(라이트모드): 썸네일 위 캡션 비표시 강제 */
-.grid .thumb[data-caption]::after {
-  content: none !important;
-}
+.grid .thumb[data-caption]::after { content: none !important; }
 
 /* 다크모드에서만 썸네일 캡션 표시 */
 :root.dark .grid .thumb[data-caption]::after {
   content: attr(data-caption);
   position: absolute;
-  left: 6px;
-  right: 6px;
-  bottom: 6px;
-  font-size: 12.5px;
-  color: #e8f3ec;
+  left: 6px; right: 6px; bottom: 6px;
+  font-size: 12.5px; color: #e8f3ec;
   text-shadow: 0 0 6px rgba(0,0,0,.6);
   background: rgba(16,40,32,.35);
-  padding: 2px 4px;
-  border-radius: 4px;
-  box-sizing: border-box;
+  padding: 2px 4px; border-radius: 4px; box-sizing: border-box;
 }
 
-/* 다크모드: 썸네일 흰 테두리 제거 & 베이스 톤만 */
-:root.dark .grid .thumb {
+/* 다크모드: 메인 추억사진 카드 테두리 제거 & 베이스 톤만 */
+:root.dark .cardRow.autoScroll .card {
   border: none !important;
   background: #102820;
 }
-/* 사진이 너무 튀면 살짝 눌러줌(선택) */
-:root.dark .grid .thumb img {
-  filter: brightness(0.94);
-}
+:root.dark .cardRow.autoScroll .card img { filter: brightness(0.94); }
 
-
-/* ————— memories.html 모달 좌/우 버튼 스타일/위치 강제 ————— */
-/* 우선순위를 올리기 위해 .modal .navBtn로 지정 */
+/* ————— memories.html 모달 좌/우 버튼 스타일/위치 ————— */
 .modal .navBtn {
-  position: fixed !important;       /* 부모 영향 제거 */
+  position: fixed !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
-  z-index: 1100 !important;         /* 모달보다 위로 */
-  width: 44px;
-  height: 44px;
-  border: none;
-  border-radius: 999px;
+  z-index: 1100 !important;
+  width: 44px; height: 44px; border: none; border-radius: 999px;
   background: rgba(255,255,255,0.35);
   backdrop-filter: blur(4px);
-  color: var(--sub);
-  font-size: 24px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: var(--sub); font-size: 24px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
 }
-
-/* 좌/우 위치 고정 */
 .modal .navBtn.prev { left: 10px !important; }
 .modal .navBtn.next { right: 10px !important; }
-
-/* 모바일만 보실 거라 hover는 생략, active만 살짝 */
-.modal .navBtn:active {
-  transform: translateY(-50%) scale(0.96);
-  opacity: 0.9;
-}
-
-/* 모달 박스는 그대로 중앙, 이미지 박스는 오버플로우 허용 */
+.modal .navBtn:active { transform: translateY(-50%) scale(0.96); opacity: 0.9; }
 .modal.open { display: flex; }
 .modalBox { position: relative; overflow: hidden; }
+:root.dark .modalBox { background: #0f2019; border-color: rgba(255,255,255,0.1); }
+:root.dark .modalCaption { color: #e8f3ec; }
 
-/* 모달 배경/자막 다크모드 가독성 유지 */
-:root.dark .modalBox {
-  background: #0f2019;
-  border-color: rgba(255,255,255,0.1);
-}
-:root.dark .modalCaption {
-  color: #e8f3ec;
-}
-
-
-/* 🌙 다크모드: 메인 추억사진 카드 테두리 제거 */
-:root.dark .cardRow.autoScroll .card {
-  border: none !important;          /* 흰색 테두리 제거 */
-  background: #102820;              /* 다크모드 배경색 유지 */
-}
-
-/* 이미지 밝기 살짝 눌러서 자연스럽게 */
-:root.dark .cardRow.autoScroll .card img {
-  filter: brightness(0.94);
-}
-
-
-
-/* =========================
-   letter.html 본문 스타일 조정
-   (본문 더 큼 + 좌우 여백 줄임 + 서명 작게)
-========================= */
+/* ============================================================
+   📩 letter.html 본문 스타일(전역 .section.article 사용)
+   - 본문 크게, 좌우 여백 축소, 서명 더 작게
+   - p가 부모 폰트크기 상속(전역 p:16px 덮어쓰기 방지)
+============================================================ */
 .section.article {
   font-family: 'Nanum Pen Script', cursive;
-  font-size: 2.1rem;          /* ✅ 기존보다 크게 */
-  line-height: 2.4;           /* ✅ 여유로운 줄 간격 */
+  font-size: 2.1rem;          /* 본문 크게 */
+  line-height: 2.4;           /* 여유로운 줄 간격 */
   color: #3a3a3a;
   max-width: 720px;
   margin: 0 auto;
-  padding: 2.2em 1em;         /* ✅ 좌우 여백 줄이기 (1.4~1.6 → 1em) */
+  padding: 2.2em 1em;         /* 좌우 여백 축소 */
   background: #fffdf9;
   border-radius: 12px;
 }
-
-/* 문단 간격 */
 .section.article p {
-  margin: 0.7em 0;            /* ✅ 문단 간 살짝 띄우기 */
+  font-size: 1em;             /* ✅ 부모(2.1rem) 상속 (전역 p:16px 무력화) */
+  margin: 0.7em 0;
   line-height: 2.1;
-  white-space: normal;        /* ✅ <br>은 엔터 느낌 */
+  white-space: normal;        /* <br>은 엔터 느낌 */
 }
-
-/* 서명 (마지막 p.small) */
 .section.article p.small {
   text-align: center;
-  font-size: 1.6rem;          /* ✅ 본문보다 작고 단정하게 */
+  font-size: 1.6rem;          /* 서명은 더 작게 */
   color: #666;
   margin-top: 2.4em;
   opacity: 0.8;
   letter-spacing: 0.2px;
 }
 
-
-
-/* 제목 */
+/* 제목/구분선 */
 .section.article h2 {
   font-size: 2.2rem;
   text-align: center;
@@ -430,100 +371,22 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   margin-bottom: 1em;
   letter-spacing: 0.8px;
 }
-
-/* 구분선 */
 .section.article .hr {
-  width: 60px;
-  height: 2px;
-  background: #d8cfc4;
-  margin: 1.5em auto;
-  border-radius: 2px;
-  opacity: 0.8;
+  width: 60px; height: 2px; background: #d8cfc4;
+  margin: 1.5em auto; border-radius: 2px; opacity: 0.8;
 }
 
-
-
-/* 🌙 letter 등 긴 글 가독성 보정 */
-:root.dark .article p {
-  color: var(--ink);            /* 거의 흰색 본문 */
-}
-
-:root.dark .article .lead {
-  color: var(--ink);            /* 리드 문단도 또렷하게 */
-}
-
-:root.dark .small {
-  color: #e8f3ec;               /* 작은 글씨도 더 밝게 */
-}
-
-/* 구분선(hr 대용)도 다크에서 선명하게 */
-.hr {
-  height: 1px;
-  background: #e0ece7;          /* 라이트 기본 */
-  margin: 12px 0;
-}
-:root.dark .hr {
-  background: rgba(255,255,255,0.14);
-}
-
-/* 링크는 살짝 포인트 주기 (필요 없으면 삭제) */
-:root.dark .article a {
-  color: #bfe9d6;
-  text-decoration: underline;   /* 모바일 가독성용 */
-}
-
-
-/* =========================================
-   1) 추억 사진 보러가기 버튼 가운데 정렬
-   - HTML은 <section class="section center"> ... <a class="btn">... 으로 되어 있음
-   - 컨테이너를 flex 중앙정렬로 처리
-========================================= */
-.section.center{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center; /* 인라인 컨텐츠 대비 안전빵 */
-  gap:0.5rem;
-}
-
-/* 혹시 다른 페이지에서도 단독 버튼을 중앙으로 쓰고 싶다면 보조 옵션 */
-.section.center .btn{
-  /* 필요시 block + auto 여백 방식
-  display:block;
-  margin: 0 auto;
-  */
-}
-
-/* =========================================
-   2) 다크모드 레터 가독성 보정
-   - 배경이 밝으면 다크에서 대비가 낮아 보임 → 어두운 톤으로 교체
-   - 본문/제목/구분선/서명 컬러 조정
-========================================= */
+/* 다크 모드에서 letter 가독성 보정 */
 :root.dark .section.article{
-  background:#0f2019;           /* 다크 베이스 */
-  color: var(--ink);             /* 본문 텍스트 */
+  background:#0f2019; color: var(--ink);
   box-shadow: 0 2px 10px rgba(0,0,0,.25);
 }
-:root.dark .section.article h2{
-  color: var(--gold);
-}
-:root.dark .section.article p{
-  color: var(--ink);
-}
-:root.dark .section.article p.small{
-  color: var(--sub);
-  opacity: 0.95;
-}
-:root.dark .section.article .hr{
-  background: rgba(255,255,255,0.18);
-}
+:root.dark .section.article h2{ color: var(--gold); }
+:root.dark .section.article p{ color: var(--ink); }
+:root.dark .section.article p.small{ color: var(--sub); opacity: .95; }
+:root.dark .section.article .hr{ background: rgba(255,255,255,0.18); }
 
-/* =========================================
-   3) .hr 규칙 충돌 정리
-   - 위쪽에서 `.section.article .hr`를 60px/2px로 잡았는데
-     아래쪽의 전역 `.hr`(height:1px...)이 덮어씀
-   - 전역 규칙은 유지하되, 레터 안의 구분선이 항상 이기도록 재정의
-========================================= */
+/* 전역 .hr 규칙이 덮어쓰지 않도록 보강 */
 .section.article .hr{
   width: 60px !important;
   height: 2px !important;
@@ -532,120 +395,63 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   background: #d8cfc4;
   opacity: 0.8;
 }
+:root.dark .section.article .hr{ background: rgba(255,255,255,0.18) !important; }
 
-/* 다크에서도 동일 규격 유지 */
-:root.dark .section.article .hr{
-  background: rgba(255,255,255,0.18) !important;
-}
-
-
-/* =========================
-   folktale 전용 스타일 보정
-========================= */
+/* ============================================================
+   📖 folktale.html 전용 스코프
+   - letter 전역과 독립
+============================================================ */
 .section.article.folktale {
   font-family: 'Inter', 'Pretendard', 'Noto Sans KR', sans-serif;
-  font-size: 1rem;           /* ✅ letter 영향 제거 (기본 크기 복원) */
+  font-size: 1rem;           /* 기본 크기 복원 */
   line-height: 1.8;
   color: var(--sub);
-  background: none;          /* 배경색 제거 */
-  padding: 0;                /* 내부 여백 제거 */
+  background: transparent;
+  padding: 0;
   border-radius: 0;
   box-shadow: none;
 }
-
-.section.article.folktale p {
+.section.article.folktale p{
+  font-size: 1em;            /* 부모(1rem) 상속 */
   margin: 0.8em 0;
   line-height: 1.9;
-  white-space: normal;       /* <br> 줄바꿈 자연스럽게 */
+  white-space: normal;
+}
+.section.article.folktale .poem,
+.section.article.folktale .lead{
+  font-size: 1.05rem;        /* 시문체 본문 살짝 키움 */
+  line-height: 1.9;
+  color: var(--ink);
+  margin: 0.8em 0;
 }
 
-
-
-
-/* =========================
-   folktale 전용 구분선(hr) 보정
-========================= */
-.section.article.folktale .hr {
-  width: 120px;              /* ✅ 선 길이 늘림 (기존 40px → 120px) */
-  height: 1.5px;
-  background: #cfcfcf;       /* 살짝 부드러운 회색 */
-  margin: 2em auto;          /* 위아래 여백도 조금 더 줌 */
-  opacity: 0.7;
-  border-radius: 2px;
-  transition: width 0.6s ease; /* 살짝 부드럽게 나타나도록 */
-}
-
-/* 다크모드에서도 자연스럽게 */
-:root.dark .section.article.folktale .hr {
-  background: rgba(255,255,255,0.20);
-}
-
-/* =========================
-   folktale 전용 글자 크기 보정
-========================= */
+/* folktale 제목/구분선 */
 .section.article.folktale h2 {
-  font-size: 1.6rem;         /* ✅ 제목 줄임 (2.2 → 1.6) */
+  font-size: 1.6rem;         /* 제목 줄임 */
   line-height: 1.4;
   text-align: center;
   color: var(--gold);
   margin-bottom: 0.8em;
 }
-
-/* folktale 본문(시문체) 글자 크기/간격 */
-.section.article.folktale p.poem,
-.section.article.folktale p.lead {
-  font-size: 1.05rem;        /* ✅ 본문 기본 크기 복원 */
-  line-height: 1.9;
-  color: var(--ink);
-  margin: 0.8em 0;
-  white-space: normal;
+.section.article.folktale .hr {
+  width: 120px; height: 1.5px; background: #cfcfcf;
+  margin: 2em auto; opacity: 0.7; border-radius: 2px;
+  transition: width 0.6s ease;
+}
+:root.dark .section.article.folktale .hr {
+  background: rgba(255,255,255,0.20);
 }
 
+/* ============================================================
+   📎 기타 유틸
+============================================================ */
+/* 전역 hr 대용 라인 (letter/folktale 내부 지정이 우선) */
+.hr { height:1px; background:#e0ece7; margin:12px 0; }
+:root.dark .hr { background: rgba(255,255,255,0.14); }
 
-/* =========================
-   Hero 슬라이드 부드러운 전환(크로스페이드 + 살짝 줌)
-========================= */
-
-/* 전환 시간/강도 변수 (원하면 숫자만 바꿔도 됨) */
-:root{
-  --hero-fade: 900ms;              /* 페이드 시간 */
-  --hero-ease: cubic-bezier(.22,.61,.36,1); /* 부드러운 가감속 */
-  --hero-zoom: 1.02;               /* 비활성 이미지 약간 확대 */
+/* 축하 메시지 버튼 섹션 중앙 정렬 */
+.section.center{
+  display:flex; justify-content:center; align-items:center;
+  text-align:center; gap:0.5rem;
 }
-
-/* 기본 상태: 살짝 확대 + 투명 */
-.section.hero .slider img.slide{
-  opacity: 0;
-  transform: scale(var(--hero-zoom));
-  transition:
-    opacity var(--hero-fade) var(--hero-ease),
-    transform var(--hero-fade) var(--hero-ease);
-  will-change: opacity, transform; /* GPU 힌트 */
-  backface-visibility: hidden;
-}
-
-/* 활성 상태: 완전 불투명 + 원래 비율 */
-.section.hero .slider img.slide.active{
-  opacity: 1;
-  transform: scale(1);
-  z-index: 1;
-}
-
-/* 모션 줄이기 환경에선 효과 최소화 */
-@media (prefers-reduced-motion: reduce){
-  .section.hero .slider img.slide{
-    transition: opacity 200ms linear !important;
-    transform: none !important;
-  }
-}
-
-/* 슬라이드가 활성일 때만 아주 미세한 줌 인 */
-@keyframes heroKenBurns {
-  from { transform: scale(1) translate3d(0,0,0); }
-  to   { transform: scale(1.03) translate3d(0,0,0); }
-}
-.section.hero .slider img.slide.active{
-  animation: heroKenBurns 12s var(--hero-ease) forwards;
-}
-
-
+.section.center .btn{ /* 필요 시 block 방식으로 바꿔 사용 가능 */ }
