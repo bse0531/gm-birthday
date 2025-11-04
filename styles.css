@@ -260,3 +260,30 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 
 /* (이미 있음) 플로팅 버튼은 동일 팔레트 사용 */
 :root.dark .themeFab { background: var(--gold); color:#fff; }
+
+
+/* 🌙 다크모드: 응원 문구/함께한 날 카드 가독성 보정 */
+:root.dark .quoteCard{
+  background:#112a1f;
+  border-color:rgba(255,255,255,.1);
+}
+:root.dark .quoteText{ color: var(--ink); }               /* 거의 흰색 */
+:root.dark .quoteText::before,
+:root.dark .quoteText::after{ color:#96e0c0; }            /* 따옴표 포인트 */
+
+:root.dark .statCard{
+  background:#112a1f;
+  border-color:rgba(255,255,255,.1);
+}
+:root.dark .statMain{ color:#ffffff; }                    /* ‘우리가 함께한 지 ~일째’ */
+:root.dark .statSub{ color:#cfdad2; }                     /* 날짜 라인 */
+:root.dark .iconCircle{
+  background:#183428;
+  border-color:rgba(255,255,255,.12);
+  color:#ffffff;
+}
+
+/* 섹션 타이틀/링크도 톤 맞추기(원하면 유지 가능) */
+:root.dark h2{ color: var(--gold); }
+:root.dark .small{ color: var(--sub); }
+
