@@ -1,3 +1,6 @@
+/* ============================================================
+   🌿 기본 변수
+============================================================ */
 :root {
   --bg:#f8faf9;       /* 밝은 하늘빛 흰색 */
   --ink:#102820;      /* 짙은 초록-남색 텍스트 */
@@ -7,7 +10,9 @@
   --radius:16px;
 }
 
-/* ========== 공통 기본 설정 ========== */
+/* ============================================================
+   🧱 공통 레이아웃 / 기본
+============================================================ */
 * { box-sizing:border-box }
 html,body {
   margin:0; padding:0;
@@ -24,7 +29,9 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 .small { font-size:13px; color:var(--sub) }
 .pageTitle { color:var(--ink); }
 
-/* ========== 헤더 ========== */
+/* ============================================================
+   🏔 헤더
+============================================================ */
 .header {
   padding:14px 20px;
   border-bottom:1px solid #eee;
@@ -42,19 +49,16 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   text-fill-color:transparent;
 }
 .emoji{
-  background:none !important;
-  -webkit-background-clip:initial !important;
-  -webkit-text-fill-color:initial !important;
-  color:initial !important;
   filter:drop-shadow(0 0 2px rgba(173,216,230,0.7)) drop-shadow(0 0 5px rgba(173,216,230,0.4));
-  opacity:1 !important;
 }
 @media (max-width:360px){
   .brand{font-size:16px;}
   .header{gap:8px;}
 }
 
-/* ========== 메인 Hero 슬라이드 ========== */
+/* ============================================================
+   🎞 메인 Hero 슬라이더
+============================================================ */
 .hero { position:relative; overflow:hidden; border-radius:var(--radius); }
 .slider {
   position:relative; width:100%;
@@ -69,39 +73,43 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 }
 .slider img.slide.active { opacity:1; z-index:1; }
 
-/* ========== 섹션/카드/공통 레이아웃 ========== */
+/* ============================================================
+   📦 섹션/카드 공통
+============================================================ */
 .section { margin:26px 0; }
 .sectionHeader { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
 .panel { border:1px solid #eee; border-radius:var(--radius); overflow:hidden; background:var(--soft); }
 .panel .content { padding:12px; min-width:0; }
 .footer { padding:36px 20px; text-align:center; color:var(--sub); }
 
-/* ========== 추억 사진 (가로 프리뷰: 무한 마키) ========== */
+/* ============================================================
+   📸 추억 사진 (무한 마키)
+============================================================ */
 .cardRow.autoScroll{
   display:flex; flex-wrap:nowrap; align-items:stretch;
-  overflow:hidden;                 /* 넘침 감추기 (빈칸 안 보이게) */
-  -webkit-overflow-scrolling:touch;
+  overflow:hidden; -webkit-overflow-scrolling:touch;
 }
 .cardRow.autoScroll .card{
   flex:0 0 auto;
-  width:68vw; max-width:240px;     /* 모바일 기준 카드 폭 */
+  width:68vw; max-width:240px;
   border:1px solid #eee; border-radius:12px;
   overflow:hidden; background:#fff;
   aspect-ratio:1/1;
 }
 .cardRow.autoScroll .card img{
-  width:100%; height:100%; display:block; object-fit:cover;
+  width:100%; height:100%; object-fit:cover;
 }
-/* 트랙: 간격은 gap으로만 관리 (margin 혼용 금지) */
 .marqueeTrack{
   display:flex; gap:8px;
   flex:0 0 auto;
   will-change:transform;
   contain:content; backface-visibility:hidden;
-  transform:translateZ(0);         /* 드문 1px 틈 방지용 */
+  transform:translateZ(0);
 }
 
-/* ========== Memories Grid / Modal ========== */
+/* ============================================================
+   🖼 Memories Grid / Modal
+============================================================ */
 .grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
 .thumb { position:relative; border-radius:12px; overflow:hidden; border:1px solid #eee; aspect-ratio:1/1; }
 .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
@@ -110,34 +118,31 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 .modal { position:fixed; inset:0; z-index:100; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:20px; }
 .modal.open { display:flex; }
 .modalBox { position:relative; background:#fff; border-radius:16px; max-width:720px; width:100%; overflow:hidden; }
-.modalBox > img { display:block; width:100%; height:auto; max-height:70vh; object-fit:contain; }
+.modalBox > img { display:block; width:100%; max-height:70vh; object-fit:contain; }
 .modalBody { padding:14px 14px 20px; }
 .modalCaption { color:var(--sub); margin-top:8px; }
-.navBtn { position:fixed; top:50%; transform:translateY(-50%); z-index:110; background:rgba(255,255,255,.35); backdrop-filter:blur(4px); border:none; font-size:28px; font-weight:700; color:var(--sub); padding:8px 12px; border-radius:999px; cursor:pointer; }
-.navBtn.prev { left:10px; } .navBtn.next { right:10px; }
 
-/* ========== 함께한 날 카드 & 인용카드 ========== */
+/* ============================================================
+   🗓 함께한 날 / 인용문 카드
+============================================================ */
 .statCard { display:flex; gap:12px; align-items:center; padding:14px; border:1px solid #eee; border-radius:16px; background:linear-gradient(180deg,#fff 0%,#faf7f2 100%); box-shadow:0 2px 6px rgba(0,0,0,.04); }
 .iconCircle { width:40px; height:40px; border-radius:999px; display:flex; align-items:center; justify-content:center; background:var(--soft); border:1px solid #eee; font-size:18px; }
-.statBody { display:flex; flex-direction:column; }
 .statMain { font-weight:700; color:#111; }
 .statSub { font-size:13px; color:var(--sub); }
 
 .quoteCard { position:relative; overflow:hidden; padding:16px; border:1px solid #eee; border-radius:16px; background:#fff; text-align:center; }
-.quoteText { display:inline-block; color:#444; min-height:22px; position:relative; }
+.quoteText { display:inline-block; color:#444; position:relative; }
 .quoteText::before, .quoteText::after { font-family:serif; font-size:20px; color:var(--gold); opacity:.9; }
-.quoteText::before { content:"“"; margin-right:6px; } .quoteText::after { content:"”"; margin-left:6px; }
-.ticker.fade { transition:opacity .5s ease; opacity:.2; }
+.quoteText::before { content:"“"; margin-right:6px; } 
+.quoteText::after { content:"”"; margin-left:6px; }
 
-.section.centerCard { display:flex; justify-content:center; }
-.statCard, .quoteCard { max-width:400px; width:100%; margin:0 auto; }
-
-/* ========== 버튼 ========== */
-.btn { display:inline-flex; align-items:center; justify-content:center; padding:14px 22px; border-radius:999px; background:var(--gold); color:#fff; font-weight:600; gap:8px; border:none; box-shadow:0 2px 4px rgba(0,0,0,0.1); transition:transform .1s ease, opacity .2s ease; touch-action:manipulation; }
+/* ============================================================
+   🎈 버튼 / 유틸
+============================================================ */
+.btn { display:inline-flex; align-items:center; justify-content:center; padding:14px 22px; border-radius:999px; background:var(--gold); color:#fff; font-weight:600; border:none; box-shadow:0 2px 4px rgba(0,0,0,0.1); transition:transform .1s ease, opacity .2s ease; }
 .btn:active { transform:scale(0.96); opacity:0.8; }
 .btn-wrap { display:flex; justify-content:center; align-items:center; margin-top:40px; }
 
-/* ========== 기타 유틸 ========== */
 .gap40 { margin-top:40px !important; } .gap50 { margin-top:50px !important; } .gap60 { margin-top:60px !important; } .gap70 { margin-top:70px !important; } .gap80 { margin-top:80px !important; }
 @media (min-width:768px){
   .container{padding:28px;}
@@ -146,196 +151,88 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   .gap80{margin-top:96px !important;}
 }
 
-/* 🔒 이미지 다운로드 방지 */
+/* ============================================================
+   🔒 이미지 다운로드 방지
+============================================================ */
 .no-download { position:relative; display:inline-block; }
-.no-download img {
-  display:block; width:100%;
-  user-select:none; -webkit-user-drag:none; pointer-events:none;
-}
-.no-download .nd-overlay { position:absolute; inset:0; background:transparent; pointer-events:none; }
+.no-download img { user-select:none; -webkit-user-drag:none; pointer-events:none; }
 
-/* Footer */
+/* ============================================================
+   💫 푸터 / 하트 컨페티 / 헤더 버튼
+============================================================ */
 .footer { background:var(--soft); border-top:1px solid #e0ece7; padding:36px 20px; text-align:center; color:var(--sub); line-height:1.6; }
-
-/* 하트 컨페티 */
 #confetti{ position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:999; }
-.heart{ position:absolute; opacity:.9; user-select:none; pointer-events:none; animation:floatUp 2.4s ease-out forwards; text-shadow:0 1px 2px rgba(0,0,0,.1); }
+.heart{ position:absolute; opacity:.9; animation:floatUp 2.4s ease-out forwards; text-shadow:0 1px 2px rgba(0,0,0,.1); }
 @keyframes floatUp{ from{ transform:translateY(0) scale(.9); opacity:.9; } to{ transform:translateY(-60vh) scale(1.2); opacity:0; } }
 
-/* 헤더 버튼 (모바일 기준, hover 설명 생략) */
 .headerBtn{ display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; border:1.5px solid rgba(47,93,75,.6); background:transparent; color:rgba(47,93,75,.85); font-size:20px; cursor:pointer; transition:all .2s ease; }
 
-/* 설화 줄바꿈 */
-.article p { margin:12px 0; }
-.poem{ white-space:pre-line; line-height:1.9; letter-spacing:0.1px; word-break:keep-all; }
-.article .lead{ font-size:18px; color:var(--ink); line-height:1.9; }
-
-/* --- 모션 민감 사용자 배려 --- */
-@media (prefers-reduced-motion: reduce) {
-  .slider img.slide { transition: none; }
-  .ticker.fade { transition: none; }
-}
-
-/* 🌙/🌞 테마 플로팅 버튼 */
-.themeFab{
-  position: fixed;
-  right: 16px;
-  bottom: calc(16px + env(safe-area-inset-bottom, 0));
-  width: 52px;
-  height: 52px;
-  border-radius: 999px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  line-height: 1;
-  background: var(--gold);
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.12);
-  z-index: 1200; /* 컨페티(999)보다 위 */
-  touch-action: manipulation;
-}
-
-.themeFab:active { transform: scale(0.96); opacity: 0.9; }
-
-/* 다크모드에서도 동일 팔레트 사용(필요 시 조정 가능) */
-:root.dark .themeFab{
-  background: var(--gold);
-  color: #fff;
-}
-
-
-/* 🌙 다크모드: 녹색 배경 + 흰색 글자 (플로팅 토글용) */
+/* ============================================================
+   🌙 다크모드
+============================================================ */
 :root.dark {
-  --bg: #0d1c16;   /* 짙은 숲색 배경 */
-  --ink: #f7f8f7;  /* 거의 흰색 본문 */
-  --sub: #cfdad2;  /* 보조 텍스트 */
-  --gold: #4f9d80; /* 버튼/포인트 */
-  --soft: #183428; /* 패널/카드 배경 */
+  --bg:#0d1c16;
+  --ink:#f7f8f7;
+  --sub:#cfdad2;
+  --gold:#4f9d80;
+  --soft:#183428;
 }
-
-/* 변수만 바꿔도 대부분 적용되지만, 컴포넌트 몇 가지 톤 보정 */
-:root.dark body { background: var(--bg); color: var(--ink); }
-
-:root.dark .header {
-  background: rgba(13,28,22,0.9);
-  border-bottom-color: rgba(255,255,255,0.1);
-}
-
-:root.dark .panel {
-  background: var(--soft);
-  border-color: rgba(255,255,255,0.08);
-}
-
-:root.dark .footer {
-  background: #12261d;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  color: var(--sub);
-}
-
-/* 메인 타이틀/버튼 등 */
-:root.dark h1 { color: var(--ink); }
-:root.dark h2 { color: var(--gold); }
-:root.dark .btn { background: var(--gold); color: #fff; }
-
-/* 카드/그리드 */
-:root.dark .cardRow.autoScroll .card {
-  background: #102820;
-  border-color: rgba(255,255,255,0.08);
-}
-:root.dark .quoteCard,
-:root.dark .statCard {
-  background: #112a1f;
-  border-color: rgba(255,255,255,0.1);
-  color: var(--ink);
-}
-
-/* 브랜드 그라디언트는 살짝 더 밝게 */
+:root.dark body { background:var(--bg); color:var(--ink); }
+:root.dark .header { background:rgba(13,28,22,0.9); border-bottom-color:rgba(255,255,255,0.1); }
+:root.dark .panel { background:var(--soft); border-color:rgba(255,255,255,0.08); }
+:root.dark .footer { background:#12261d; border-top:1px solid rgba(255,255,255,0.1); color:var(--sub); }
 :root.dark .brand {
-  background: linear-gradient(180deg, #96e0c0 0%, #4f9d80 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background:linear-gradient(180deg,#96e0c0 0%,#4f9d80 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
+:root.dark h1,h2 { color:var(--gold); }
+:root.dark .btn, :root.dark .themeFab { background:var(--gold); color:#fff; }
 
-/* (이미 있음) 플로팅 버튼은 동일 팔레트 사용 */
-:root.dark .themeFab { background: var(--gold); color:#fff; }
+/* 카드 및 문구 */
+:root.dark .quoteCard,
+:root.dark .statCard { background:#112a1f; border-color:rgba(255,255,255,.1); color:var(--ink); }
+:root.dark .quoteText { color:var(--ink); }
+:root.dark .quoteText::before, :root.dark .quoteText::after { color:#96e0c0; }
+:root.dark .statMain { color:#fff; }
+:root.dark .statSub { color:#cfdad2; }
+:root.dark .iconCircle { background:#183428; border-color:rgba(255,255,255,.12); color:#fff; }
 
-
-/* 🌙 다크모드: 응원 문구/함께한 날 카드 가독성 보정 */
-:root.dark .quoteCard{
-  background:#112a1f;
-  border-color:rgba(255,255,255,.1);
-}
-:root.dark .quoteText{ color: var(--ink); }               /* 거의 흰색 */
-:root.dark .quoteText::before,
-:root.dark .quoteText::after{ color:#96e0c0; }            /* 따옴표 포인트 */
-
-:root.dark .statCard{
-  background:#112a1f;
-  border-color:rgba(255,255,255,.1);
-}
-:root.dark .statMain{ color:#ffffff; }                    /* ‘우리가 함께한 지 ~일째’ */
-:root.dark .statSub{ color:#cfdad2; }                     /* 날짜 라인 */
-:root.dark .iconCircle{
-  background:#183428;
-  border-color:rgba(255,255,255,.12);
-  color:#ffffff;
-}
-
-/* 섹션 타이틀/링크도 톤 맞추기(원하면 유지 가능) */
-:root.dark h2{ color: var(--gold); }
-:root.dark .small{ color: var(--sub); }
-
-/* 🌙 다크모드: Memories 페이지 캡션/날짜 가독성 보정 */
-:root.dark .modalBox {
-  background:#0f2019;
-  border-color:rgba(255,255,255,0.1);
-}
-
-:root.dark .modalCaption {
-  color:#e8f3ec;            /* 거의 흰색 계열 */
-}
-
+/* Memories 페이지 */
+:root.dark .modalBox { background:#0f2019; border-color:rgba(255,255,255,0.1); }
+:root.dark .modalCaption { color:#e8f3ec; }
 :root.dark .grid .thumb {
-  border-color:rgba(255,255,255,0.08);
-  background:#102820;        /* 어두운 녹색 베이스 */
+  border:none !important;
+  background:#0f1e18;
+  box-shadow:0 2px 8px rgba(0,0,0,0.4);
 }
-
-:root.dark .grid .thumb img {
-  filter:brightness(0.92);   /* 사진이 너무 밝을 때 살짝 눌러줌 */
-}
-
+:root.dark .grid .thumb img { filter:brightness(0.92) contrast(1.05); border-radius:12px; }
 :root.dark .grid .thumb[data-caption]::after {
-  content: attr(data-caption);
-  position:absolute;
-  bottom:6px;
-  left:6px;
-  right:6px;
-  font-size:12.5px;
-  color:#e8f3ec;
+  content:attr(data-caption);
+  position:absolute; bottom:6px; left:6px; right:6px;
+  font-size:12.5px; color:#e8f3ec;
   text-shadow:0 0 6px rgba(0,0,0,.6);
   background:rgba(16,40,32,.35);
-  padding:2px 4px;
-  border-radius:4px;
-  box-sizing:border-box;
+  padding:2px 4px; border-radius:4px; box-sizing:border-box;
 }
 
-/* 🌙 다크모드: Memories 썸네일 테두리 제거 및 톤 정리 */
-:root.dark .grid .thumb {
-  border: none !important;               /* 흰색 테두리 제거 */
-  background: #0f1e18;                   /* 아주 어두운 녹색 톤 배경 */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4); /* 약한 그림자로 깊이감 부여 */
+/* ============================================================
+   🌗 테마 플로팅 버튼
+============================================================ */
+.themeFab{
+  position:fixed; right:16px; bottom:calc(16px + env(safe-area-inset-bottom,0));
+  width:52px; height:52px; border-radius:999px; border:none;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; background:var(--gold); color:#fff;
+  box-shadow:0 6px 18px rgba(0,0,0,.18),0 2px 6px rgba(0,0,0,.12);
+  z-index:1200;
 }
+.themeFab:active { transform:scale(0.96); opacity:0.9; }
 
-:root.dark .grid .thumb img {
-  border-radius: 12px;
-  filter: brightness(0.92) contrast(1.05); /* 어두운 배경에서도 선명하게 */
+/* ============================================================
+   💨 모션 줄이기
+============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .slider img.slide { transition:none; }
+  .ticker.fade { transition:none; }
 }
-
-:root.dark .grid .thumb[data-caption]::after {
-  background: rgba(16, 40, 32, 0.4);     /* 텍스트 배경 반투명 녹색 */
-  color: #e9f5ed;                        /* 캡션 텍스트는 밝게 */
-  text-shadow: 0 0 5px rgba(0,0,0,0.7);
-}
-
