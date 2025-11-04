@@ -327,3 +327,52 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   filter: brightness(0.94);
 }
 
+
+
+/* 편지 섹션 스타일 */
+.section.article {
+  font-family: 'Nanum Pen Script', cursive;
+  font-size: 1.3rem;
+  line-height: 1.9;
+  color: #3b3b3b;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2em 1.2em;
+  background: #fffdf9;
+}
+
+/* 제목 스타일 */
+.section.article h2 {
+  font-size: 2rem;
+  text-align: center;
+  color: #2a2a2a;
+  margin-bottom: 0.8em;
+  letter-spacing: 1px;
+}
+
+/* 구분선 스타일 */
+.section.article .hr {
+  width: 60px;
+  height: 2px;
+  background: #d8cfc4;
+  margin: 1.5em auto;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+/* 본문 단락 */
+.section.article p {
+  margin-bottom: 1.2em;
+  white-space: pre-line;
+}
+
+/* 마지막 서명 */
+.section.article p.small {
+  text-align: center;
+  font-size: 1.4rem;
+  color: #666;
+  margin-top: 2.5em;
+  opacity: 0.85;
+  letter-spacing: 0.3px;
+}
+
