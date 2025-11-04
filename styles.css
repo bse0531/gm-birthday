@@ -362,7 +362,7 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 
 /* 본문 단락 */
 .section.article p {
-  margin-bottom: 1.2em;
+  margin-bottom: 1.8em;
   white-space: pre-line;
 }
 
