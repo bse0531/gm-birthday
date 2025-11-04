@@ -7,7 +7,6 @@
   --radius:16px;
 }
 
-
 /* ========== 공통 기본 설정 ========== */
 * { box-sizing:border-box }
 html,body {
@@ -19,11 +18,11 @@ img { max-width:100%; display:block }
 a { color:inherit; text-decoration:none }
 .container { padding:20px; max-width:720px; margin:0 auto }
 h1,h2,h3 { margin:0 0 10px }
-h1 { font-size:28px; line-height:1.2; color:var(--ink);}
-h2 { font-size:22px; color:var(--gold); }     /* 기본 진한 초록색 */
+h1 { font-size:28px; line-height:1.2; color:var(--ink); }
+h2 { font-size:22px; color:var(--gold); }
 p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 .small { font-size:13px; color:var(--sub) }
-
+.pageTitle { color:var(--ink); }
 
 /* ========== 헤더 ========== */
 .header {
@@ -35,26 +34,20 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   display:flex; align-items:center; justify-content:space-between;
   gap:12px;
 }
-
 .brand {
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: 0.2px;
-  background: linear-gradient(180deg, #4f6f52 0%, #2f5d4b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-fill-color: transparent;
+  font-weight:700; font-size:18px; letter-spacing:0.2px;
+  background:linear-gradient(180deg,#4f6f52 0%, #2f5d4b 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-fill-color:transparent;
 }
-
-/* 🎂 이모지 반짝이 효과 */
-.emoji {
-  background: none !important;
-  -webkit-background-clip: initial !important;
-  -webkit-text-fill-color: initial !important;
-  color: initial !important;
-  filter: drop-shadow(0 0 2px rgba(173,216,230,0.7))
-          drop-shadow(0 0 5px rgba(173,216,230,0.4));
-  opacity: 1 !important;
+.emoji{
+  background:none !important;
+  -webkit-background-clip:initial !important;
+  -webkit-text-fill-color:initial !important;
+  color:initial !important;
+  filter:drop-shadow(0 0 2px rgba(173,216,230,0.7)) drop-shadow(0 0 5px rgba(173,216,230,0.4));
+  opacity:1 !important;
 }
 @media (max-width:360px){
   .brand{font-size:16px;}
@@ -64,288 +57,120 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 /* ========== 메인 Hero 슬라이드 ========== */
 .hero { position:relative; overflow:hidden; border-radius:var(--radius); }
 .slider {
-  position:relative;
-  width:100%;
-  aspect-ratio:16/9;
-  max-height:420px;
-  overflow:hidden;
-  border-radius:var(--radius);
+  position:relative; width:100%;
+  aspect-ratio:16/9; max-height:420px;
+  overflow:hidden; border-radius:var(--radius);
   background:#f7f7f7;
 }
 .slider img.slide {
   position:absolute; inset:0;
   width:100%; height:100%; object-fit:cover;
-  opacity:0; transition:opacity 0.6s ease;
+  opacity:0; transition:opacity .6s ease;
 }
 .slider img.slide.active { opacity:1; z-index:1; }
 
 /* ========== 섹션/카드/공통 레이아웃 ========== */
 .section { margin:26px 0; }
-.sectionHeader {
-  display:flex; align-items:center; justify-content:space-between;
-  margin-bottom:12px;
-}
-.panel {
-  border:1px solid #eee; border-radius:var(--radius);
-  overflow:hidden; background:var(--soft);
-}
+.sectionHeader { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.panel { border:1px solid #eee; border-radius:var(--radius); overflow:hidden; background:var(--soft); }
 .panel .content { padding:12px; min-width:0; }
-.footer {
-  padding:36px 20px; text-align:center; color:var(--sub);
+.footer { padding:36px 20px; text-align:center; color:var(--sub); }
+
+/* ========== 추억 사진 (가로 프리뷰: 무한 마키) ========== */
+.cardRow.autoScroll{
+  display:flex; flex-wrap:nowrap; align-items:stretch;
+  overflow:hidden;                 /* 넘침 감추기 (빈칸 안 보이게) */
+  -webkit-overflow-scrolling:touch;
 }
-
-/* ========== 추억 사진 (가로 스크롤 프리뷰) ========== */
-
-.cardRow.autoScroll {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: stretch;
-  overflow: hidden; /* 중요: 여백 잘림 */
-  gap: 0;           /* gap 대신 margin으로 제어 */
-  -webkit-overflow-scrolling: touch;
-}
-
-.cardRow.autoScroll .card {
-  flex: 0 0 auto;
-  width: 68vw;            /* 카드 한 장당 폭 (모바일 기준 약 2/3 화면) */
-  max-width: 240px;
-  margin-right: 8px;      /* gap 대신 margin-right 사용 */
-  border: 1px solid #eee;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #fff;
-  aspect-ratio: 1/1;
-}
-
-.cardRow.autoScroll .card:last-child {
-  margin-right: 0; /* 마지막 카드 뒤 margin 제거 */
-}
-
-
-/* 이미지 꽉 채우기 (유지 필수) */
-.cardRow.autoScroll .card img{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:cover;
-}
-
-/* 성능/경계 보정 */
-.marqueeTrack{
-  display:flex;
-  gap:8px;
+.cardRow.autoScroll .card{
   flex:0 0 auto;
-  will-change:transform;
-  contain:content;
-  backface-visibility:hidden;
-}
-
-
-/* ========== Memories Grid / Modal ========== */
-.grid {
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:10px;
-}
-.thumb {
-  position:relative;
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid #eee;
+  width:68vw; max-width:240px;     /* 모바일 기준 카드 폭 */
+  border:1px solid #eee; border-radius:12px;
+  overflow:hidden; background:#fff;
   aspect-ratio:1/1;
 }
-.thumb img {
-  width:100%; height:100%;
-  object-fit:cover; display:block;
+.cardRow.autoScroll .card img{
+  width:100%; height:100%; display:block; object-fit:cover;
 }
-.thumb .nd-overlay {
-  position:absolute; inset:0;
-  background:transparent; pointer-events:none;
+/* 트랙: 간격은 gap으로만 관리 (margin 혼용 금지) */
+.marqueeTrack{
+  display:flex; gap:8px;
+  flex:0 0 auto;
+  will-change:transform;
+  contain:content; backface-visibility:hidden;
+  transform:translateZ(0);         /* 드문 1px 틈 방지용 */
 }
 
-.modal {
-  position:fixed; inset:0; z-index:100;
-  background:rgba(0,0,0,.6);
-  display:none;
-  align-items:center; justify-content:center;
-  padding:20px;
-}
+/* ========== Memories Grid / Modal ========== */
+.grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.thumb { position:relative; border-radius:12px; overflow:hidden; border:1px solid #eee; aspect-ratio:1/1; }
+.thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.thumb .nd-overlay { position:absolute; inset:0; background:transparent; pointer-events:none; }
+
+.modal { position:fixed; inset:0; z-index:100; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:20px; }
 .modal.open { display:flex; }
-
-.modalBox {
-  position:relative;
-  background:#fff;
-  border-radius:16px;
-  max-width:720px;
-  width:100%;
-  overflow:hidden;
-}
-.modalBox > img {
-  display:block;
-  width:100%;
-  height:auto;
-  max-height:70vh;
-  object-fit:contain;
-}
-
+.modalBox { position:relative; background:#fff; border-radius:16px; max-width:720px; width:100%; overflow:hidden; }
+.modalBox > img { display:block; width:100%; height:auto; max-height:70vh; object-fit:contain; }
 .modalBody { padding:14px 14px 20px; }
 .modalCaption { color:var(--sub); margin-top:8px; }
-
-.navBtn {
-  position:fixed;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:110;
-  background:rgba(255,255,255,0.35);
-  backdrop-filter:blur(4px);
-  border:none;
-  font-size:28px;
-  font-weight:700;
-  color:var(--sub);
-  padding:8px 12px;
-  border-radius:999px;
-  cursor:pointer;
-}
-.navBtn.prev { left:10px; }
-.navBtn.next { right:10px; }
-.navBtn:hover {
-  background:rgba(255,255,255,0.35);
-  color:var(--sub);
-}
+.navBtn { position:fixed; top:50%; transform:translateY(-50%); z-index:110; background:rgba(255,255,255,.35); backdrop-filter:blur(4px); border:none; font-size:28px; font-weight:700; color:var(--sub); padding:8px 12px; border-radius:999px; cursor:pointer; }
+.navBtn.prev { left:10px; } .navBtn.next { right:10px; }
 
 /* ========== 함께한 날 카드 & 인용카드 ========== */
-.statCard {
-  display:flex; gap:12px; align-items:center;
-  padding:14px; border:1px solid #eee; border-radius:16px;
-  background:linear-gradient(180deg,#fff 0%,#faf7f2 100%);
-  box-shadow:0 2px 6px rgba(0,0,0,.04);
-}
-.iconCircle {
-  width:40px; height:40px; border-radius:999px;
-  display:flex; align-items:center; justify-content:center;
-  background:var(--soft); border:1px solid #eee; font-size:18px;
-}
+.statCard { display:flex; gap:12px; align-items:center; padding:14px; border:1px solid #eee; border-radius:16px; background:linear-gradient(180deg,#fff 0%,#faf7f2 100%); box-shadow:0 2px 6px rgba(0,0,0,.04); }
+.iconCircle { width:40px; height:40px; border-radius:999px; display:flex; align-items:center; justify-content:center; background:var(--soft); border:1px solid #eee; font-size:18px; }
 .statBody { display:flex; flex-direction:column; }
 .statMain { font-weight:700; color:#111; }
 .statSub { font-size:13px; color:var(--sub); }
 
-.quoteCard {
-  position:relative; overflow:hidden;
-  padding:16px; border:1px solid #eee; border-radius:16px;
-  background:#fff; text-align:center;
-}
-.quoteText {
-  display:inline-block; color:#444; min-height:22px; position:relative;
-}
-.quoteText::before,
-.quoteText::after {
-  font-family:serif; font-size:20px; color:var(--gold); opacity:.9;
-}
-.quoteText::before { content:"“"; margin-right:6px; }
-.quoteText::after { content:"”"; margin-left:6px; }
+.quoteCard { position:relative; overflow:hidden; padding:16px; border:1px solid #eee; border-radius:16px; background:#fff; text-align:center; }
+.quoteText { display:inline-block; color:#444; min-height:22px; position:relative; }
+.quoteText::before, .quoteText::after { font-family:serif; font-size:20px; color:var(--gold); opacity:.9; }
+.quoteText::before { content:"“"; margin-right:6px; } .quoteText::after { content:"”"; margin-left:6px; }
 .ticker.fade { transition:opacity .5s ease; opacity:.2; }
 
 .section.centerCard { display:flex; justify-content:center; }
 .statCard, .quoteCard { max-width:400px; width:100%; margin:0 auto; }
 
 /* ========== 버튼 ========== */
-.btn {
-  display:inline-flex; align-items:center; justify-content:center;
-  padding:14px 22px; border-radius:999px;
-  background:var(--gold); color:#fff; font-weight:600;
-  gap:8px; border:none; box-shadow:0 2px 4px rgba(0,0,0,0.1);
-  transition:transform 0.1s ease, opacity 0.2s ease;
-  touch-action:manipulation;
-}
+.btn { display:inline-flex; align-items:center; justify-content:center; padding:14px 22px; border-radius:999px; background:var(--gold); color:#fff; font-weight:600; gap:8px; border:none; box-shadow:0 2px 4px rgba(0,0,0,0.1); transition:transform .1s ease, opacity .2s ease; touch-action:manipulation; }
 .btn:active { transform:scale(0.96); opacity:0.8; }
-
-.btn-wrap {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  margin-top:40px;
-}
+.btn-wrap { display:flex; justify-content:center; align-items:center; margin-top:40px; }
 
 /* ========== 기타 유틸 ========== */
-.gap40 { margin-top:40px !important; }
-.gap50 { margin-top:50px !important; }
-.gap60 { margin-top:60px !important; }
-.gap70 { margin-top:70px !important; }
-.gap80 { margin-top:80px !important; }
-
+.gap40 { margin-top:40px !important; } .gap50 { margin-top:50px !important; } .gap60 { margin-top:60px !important; } .gap70 { margin-top:70px !important; } .gap80 { margin-top:80px !important; }
 @media (min-width:768px){
   .container{padding:28px;}
-  .gap40{margin-top:48px !important;}
-  .gap50{margin-top:60px !important;}
-  .gap60{margin-top:72px !important;}
-  .gap70{margin-top:84px !important;}
+  .gap40{margin-top:48px !important;} .gap50{margin-top:60px !important;}
+  .gap60{margin-top:72px !important;} .gap70{margin-top:84px !important;}
   .gap80{margin-top:96px !important;}
 }
 
 /* 🔒 이미지 다운로드 방지 */
-.no-download {
-  position:relative; display:inline-block;
-}
+.no-download { position:relative; display:inline-block; }
 .no-download img {
   display:block; width:100%;
   user-select:none; -webkit-user-drag:none; pointer-events:none;
 }
-.no-download .nd-overlay {
-  position:absolute; inset:0; background:transparent; pointer-events:none;
-}
+.no-download .nd-overlay { position:absolute; inset:0; background:transparent; pointer-events:none; }
 
-/* Footer 스타일 보완 */
-.footer {
-  background:var(--soft);
-  border-top:1px solid #e0ece7;
-  padding:36px 20px;
-  text-align:center;
-  color:var(--sub);
-  line-height:1.6;
-}
+/* Footer */
+.footer { background:var(--soft); border-top:1px solid #e0ece7; padding:36px 20px; text-align:center; color:var(--sub); line-height:1.6; }
 
 /* 하트 컨페티 */
-#confetti{
-  position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:999;
-}
-.heart{
-  position:absolute; opacity:.9; user-select:none; pointer-events:none;
-  animation:floatUp 2.4s ease-out forwards;
-  text-shadow:0 1px 2px rgba(0,0,0,.1);
-}
-@keyframes floatUp{
-  from{ transform:translateY(0) scale(.9); opacity:.9; }
-  to  { transform:translateY(-60vh) scale(1.2); opacity:0; }
-}
+#confetti{ position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:999; }
+.heart{ position:absolute; opacity:.9; user-select:none; pointer-events:none; animation:floatUp 2.4s ease-out forwards; text-shadow:0 1px 2px rgba(0,0,0,.1); }
+@keyframes floatUp{ from{ transform:translateY(0) scale(.9); opacity:.9; } to{ transform:translateY(-60vh) scale(1.2); opacity:0; } }
 
-/* 헤더 버튼 */
-.headerBtn{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:36px; height:36px; border-radius:50%;
-  border:1.5px solid rgba(107,183,181,.6);
-  background:transparent; color:rgba(107,183,181,.85);
-  font-size:20px; cursor:pointer; transition:all .2s ease;
-}
-.headerBtn:hover{ background:rgba(107,183,181,.08); transform:scale(1.05); }
-.headerBtn:active{ transform:scale(.93); background:rgba(107,183,181,.15); }
+/* 헤더 버튼 (모바일 기준, hover 설명 생략) */
+.headerBtn{ display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; border:1.5px solid rgba(47,93,75,.6); background:transparent; color:rgba(47,93,75,.85); font-size:20px; cursor:pointer; transition:all .2s ease; }
 
 /* 설화 줄바꿈 */
 .article p { margin:12px 0; }
-.poem{
-  white-space:pre-line;
-  line-height:1.9;
-  letter-spacing:0.1px;
-  word-break:keep-all;
-}
-.article .lead{
-  font-size:18px;
-  color:var(--ink);
-  line-height:1.9;
-}
+.poem{ white-space:pre-line; line-height:1.9; letter-spacing:0.1px; word-break:keep-all; }
+.article .lead{ font-size:18px; color:var(--ink); line-height:1.9; }
 
-
-
-/* --- 모션 민감 사용자 배려(히어로/티커) --- */
+/* --- 모션 민감 사용자 배려 --- */
 @media (prefers-reduced-motion: reduce) {
   .slider img.slide { transition: none; }
   .ticker.fade { transition: none; }
