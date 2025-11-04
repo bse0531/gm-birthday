@@ -352,32 +352,37 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 
 
 
+/* =========================
+   letter.html 본문 스타일 조정
+   (본문 더 큼 + 좌우 여백 줄임 + 서명 작게)
+========================= */
 .section.article {
   font-family: 'Nanum Pen Script', cursive;
-  font-size: 1.9rem;
-  line-height: 2.2;
+  font-size: 2.1rem;          /* ✅ 기존보다 크게 */
+  line-height: 2.4;           /* ✅ 여유로운 줄 간격 */
   color: #3a3a3a;
   max-width: 720px;
   margin: 0 auto;
-  padding: 2.2em 1.6em;
+  padding: 2.2em 1em;         /* ✅ 좌우 여백 줄이기 (1.4~1.6 → 1em) */
   background: #fffdf9;
   border-radius: 12px;
 }
 
-/* 문단 간에는 살짝 여백 */
+/* 문단 간격 */
 .section.article p {
-  margin-top: 0.8em;      /* 위쪽 약간의 여백 */
-  margin-bottom: 0.8em;   /* 아래쪽 약간의 여백 */
-  line-height: 1.9;       /* 줄 간격 */
-  white-space: normal;    /* ✅ pre-line 제거해서 <br>은 기본 줄바꿈처럼 처리 */
+  margin: 0.7em 0;            /* ✅ 문단 간 살짝 띄우기 */
+  line-height: 2.1;
+  white-space: normal;        /* ✅ <br>은 엔터 느낌 */
 }
 
-/* <br>은 실제 엔터처럼 딱 붙도록 */
-.section.article br {
-  display: block;
-  content: "";
-  margin: 0;
-  line-height: 1.2;       /* ✅ <br> 시 한 줄 띄우는 정도 */
+/* 서명 (마지막 p.small) */
+.section.article p.small {
+  text-align: center;
+  font-size: 1.6rem;          /* ✅ 본문보다 작고 단정하게 */
+  color: #666;
+  margin-top: 2.4em;
+  opacity: 0.8;
+  letter-spacing: 0.2px;
 }
 
 
@@ -402,15 +407,6 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 }
 
 
-/* 서명 */
-.section.article p.small {
-  text-align: center;
-  font-size: 1.7rem;           /* ✅ 서명도 조금 키움 */
-  color: #666;
-  margin-top: 2.8em;
-  opacity: 0.85;
-  letter-spacing: 0.3px;
-}
 
 /* 🌙 letter 등 긴 글 가독성 보정 */
 :root.dark .article p {
