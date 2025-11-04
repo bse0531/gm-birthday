@@ -61,18 +61,18 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
    - 컨테이너 안에 있어도 화면 양끝까지 확장
    - transform 방식이라 가로 스크롤 안 생김
 ======================= */
-.section.hero{
+.section.hero {
   position: relative;
-  width: 100vw;              /* 화면 전체 너비 */
-  margin: 26px 0;            /* 기존 .section 기본 세로 여백 유지 */
+  width: 100vw;              
+  margin: 0 0 26px;          /* ✅ 위쪽 여백 제거, 아래쪽만 유지 */
   left: 50%;
-  transform: translateX(-50%); /* 컨테이너 좌우 패딩 무시하고 중앙 정렬 */
-  border-radius: 0;          /* 둥근 모서리 제거 */
-  overflow: hidden;          /* 이미지가 밖으로 튀지 않도록 */
-  /* iOS 노치 영역 안전 여백(선택) */
+  transform: translateX(-50%);
+  border-radius: 0;
+  overflow: hidden;
   padding-left: env(safe-area-inset-left, 0);
   padding-right: env(safe-area-inset-right, 0);
 }
+
 
 /* 슬라이더 자체는 꽉 차게 + 둥근모서리 제거 */
 .section.hero .slider{
