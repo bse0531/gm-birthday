@@ -94,21 +94,20 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 
 /* ========== 추억 사진 (가로 스크롤 프리뷰) ========== */
 /* 트랙은 rAF로 움직이므로 스냅 불필요 — 깔끔히 제거 */
+/* 가로 프리뷰: 사용자가 스와이프하지 않는 자동 마키 용 */
 .cardRow.autoScroll{
   display:flex;
   flex-wrap:nowrap;
   align-items:stretch;
   gap:8px;
-  overflow:hidden;                 /* 사용자가 끌지 않게 숨김(모바일 전용) */
-  -webkit-overflow-scrolling:touch;
+  overflow:hidden;                /* 빈칸 보이는 것 방지 */
 }
 
-.cardRow.autoScroll::-webkit-scrollbar{ display:none; }
-
+/* % → 고정폭(VW+상한)으로: 복제해도 총폭이 안정 */
 .cardRow.autoScroll .card{
-  flex:0 0 auto;                   /* % 대신 고정 폭 전략 */
-  width:68vw;                      /* 한 장이 화면의 ~2/3 */
-  max-width:240px;                 /* 너무 커지지 않게 상한 */
+  flex:0 0 auto;
+  width:68vw;                     /* 화면 2/3 정도 */
+  max-width:240px;
   border:1px solid #eee;
   border-radius:12px;
   overflow:hidden;
@@ -116,20 +115,13 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   aspect-ratio:1/1;
 }
 
-@media (min-width:480px){
-  .cardRow.autoScroll .card{ width:52vw; max-width:230px; }
-}
-@media (min-width:640px){
-  .cardRow.autoScroll .card{ width:44vw; max-width:220px; }
-}
+@media (min-width:480px){ .cardRow.autoScroll .card{ width:52vw; max-width:230px; } }
+@media (min-width:640px){ .cardRow.autoScroll .card{ width:44vw; max-width:220px; } }
 
-/* 성능 보강 */
+/* 성능/경계 보정 */
 .marqueeTrack{
-  display:flex;
-  gap:8px;
-  flex:0 0 auto;
-  will-change:transform;
-  contain:content;
+  display:flex; gap:8px; flex:0 0 auto;
+  will-change:transform; contain:content; backface-visibility:hidden;
 }
 
 
