@@ -120,27 +120,64 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 }
 
 /* ========== Memories Grid / Modal ========== */
-.grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
-.thumb { border-radius:12px; overflow:hidden; border:1px solid #eee; }
-.modal {
-  position:fixed; inset:0; z-index:100;
-  background:rgba(0,0,0,.6);
-  display:none; align-items:center; justify-content:center;
-  padding:20px;
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
 }
-.modal.open { display:flex; }
-.modalBox {
-  background:#fff; border-radius:16px;
-  max-width:720px; width:100%; overflow:hidden;
+.thumb {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #eee;
+  aspect-ratio: 1 / 1;              /* 썸네일 정사각형 고정 */
 }
-.modalBody { padding:14px 14px 20px; }
-.modalCaption { color:var(--sub); margin-top:8px; }
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                 /* 가로/세로 사진 모두 단정히 */
+  display: block;
+}
+.thumb .nd-overlay {
+  position: absolute; inset: 0;
+  background: transparent;
+  pointer-events: none;
+}
 
-/* 양 옆 이동 버튼 */
+.modal {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,.6);
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal.open { display: flex; }
+
+.modalBox {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  max-width: 720px;
+  width: 100%;
+  overflow: hidden;
+}
+.modalBox > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 70vh;                 /* 화면 기준 과도 확대 방지 */
+  object-fit: contain;              /* 세로/가로 모두 안정 */
+}
+
+.modalBody { padding: 14px 14px 20px; }
+.modalCaption { color: var(--sub); margin-top: 8px; }
+
+/* 양 옆 이동 버튼: 화면 기준 '고정' + 호버 변화 없음 */
 .navBtn {
-  position: absolute;
+  position: fixed;                   /* absolute → fixed */
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%);       /* 수직 중앙 고정 */
+  z-index: 110;
   background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(4px);
   border: none;
@@ -150,18 +187,17 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   padding: 8px 12px;
   border-radius: 999px;
   cursor: pointer;
-  transition: none; /* 🔸 전환 효과 제거 */
+  transition: none;                  /* 전환/움직임 효과 제거 */
 }
+.navBtn.prev { left: 10px; }
+.navBtn.next { right: 10px; }
 
 .navBtn:hover {
-  background: rgba(255, 255, 255, 0.35); /* hover 시 색상 변화 X */
-  color: var(--sub);                      /* hover 시 색상 변화 X */
-  transform: translateY(-50%);            /* scale 효과 제거 */
+  background: rgba(255, 255, 255, 0.35);  /* hover 변화 없음 */
+  color: var(--sub);
+  transform: translateY(-50%);            /* scale 등 변화 금지 */
 }
 
-
-.navBtn.prev { left: 8px; }
-.navBtn.next { right: 8px; }
 
 /* ========== 함께한 날 카드 & 인용카드 ========== */
 .statCard {
