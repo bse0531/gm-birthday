@@ -355,8 +355,8 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 ============================================================ */
 .section.article {
   font-family: 'Nanum Pen Script', cursive;
-  font-size: 2.1rem;          /* 본문 크게 */
-  line-height: 2.4;           /* 여유로운 줄 간격 */
+  font-size: 1.8rem;          /* 본문 크게 */
+  line-height: 2.2;           /* 여유로운 줄 간격 */
   color: #3a3a3a;
   max-width: 720px;
   margin: 0 auto;
