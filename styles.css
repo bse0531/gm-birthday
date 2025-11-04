@@ -354,15 +354,24 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 
 .section.article {
   font-family: 'Nanum Pen Script', cursive;
-  font-size: 1.6rem;           /* ✅ 글자 크기 업 (기존 1.3 → 1.6) */
-  line-height: 2.2;            /* ✅ 줄 간격 넓혀서 여백감 있게 */
+  font-size: 1.9rem;     /* ✅ 기존 1.6rem → 1.9rem (조금 더 큼) */
+  line-height: 2.4;      /* ✅ 줄 간격 살짝 더 넓힘 */
   color: #3a3a3a;
   max-width: 720px;
   margin: 0 auto;
-  padding: 2.2em 1.4em;
+  padding: 2.2em 1.6em;
   background: #fffdf9;
   border-radius: 12px;
 }
+
+/* 모바일에서 한 단계 더 키워주고 싶다면 추가 👇 */
+@media (max-width: 480px) {
+  .section.article {
+    font-size: 2rem;     /* 모바일은 더 크게 */
+    line-height: 2.5;
+  }
+}
+
 
 /* 제목 */
 .section.article h2 {
