@@ -105,12 +105,13 @@
     }, { threshold: 0.15 });
     io.observe(row);
 
-    ['pointerdown','mouseenter','focusin','touchstart'].forEach(ev => {
-      row.addEventListener(ev, () => { paused = true; }, { passive: true });
-    });
-    ['pointerup','mouseleave','focusout','touchend','touchcancel'].forEach(ev => {
-      row.addEventListener(ev, () => { paused = false; last = performance.now(); }, { passive: true });
-    });
+['pointerdown','touchstart'].forEach(ev => {
+  row.addEventListener(ev, () => { paused = true; }, { passive: true });
+});
+['pointerup','touchend','touchcancel'].forEach(ev => {
+  row.addEventListener(ev, () => { paused = false; last = performance.now(); }, { passive: true });
+});
+
 
     document.addEventListener('visibilitychange', () => {
       paused = document.hidden;
