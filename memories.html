@@ -9,219 +9,222 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 
-   <style>
+  <style>
     /* 📸 Memories of Us 타이틀 */
-    .pageTitle {
-      text-align: center;
-      font-size: 28px;
-      font-weight: 700;
-      margin: 26px 0 14px;
-      background: linear-gradient(180deg, #4f6f52 0%, #6bb7b5 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .pageTitle{
+      text-align:center; font-size:28px; font-weight:700;
+      margin:26px 0 14px;
+      background:linear-gradient(180deg,#4f6f52 0%, #6bb7b5 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     }
-    .pageSubtitle {
-      text-align: center;
-      font-size: 14px;
-      color: var(--sub);
-      margin-top: -4px;
-      margin-bottom: 26px;
+    .pageSubtitle{ text-align:center; font-size:14px; color:var(--sub); margin:-4px 0 26px; }
+    .pageTitle .emoji{ background:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
+
+    /* ✅ 썸네일을 항상 같은 크기/비율로 (정사각형) */
+    .grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+    @media (min-width:768px){ .grid{ gap:12px; } }
+    .thumb{ position:relative; border:1px solid #eee; border-radius:12px; overflow:hidden; aspect-ratio:1/1; }
+    .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+    /* 오버레이가 클릭을 막지 않도록 */
+    .thumb .nd-overlay{ position:absolute; inset:0; background:transparent; pointer-events:none; }
+
+    /* 모달 좌우 버튼 투명/블러 */
+    .navBtn{
+      position:absolute; top:50%; transform:translateY(-50%);
+      background:rgba(255,255,255,.35); backdrop-filter:blur(4px);
+      border:none; font-size:28px; font-weight:700; color:var(--sub);
+      padding:8px 12px; border-radius:999px; cursor:pointer;
+      transition:background .25s ease, color .25s ease, transform .15s ease;
     }
+    .navBtn:hover{ background:rgba(255,255,255,.55); color:var(--ink); transform:scale(1.08); }
+    .navBtn.prev{ left:8px; } .navBtn.next{ right:8px; }
   </style>
-  
 </head>
+
 <body>
   <header class="header">
     <a class="brand" href="index.html">← Back</a>
   </header>
 
   <main class="container">
-        <!-- 📸 타이틀 영역 -->
+    <!-- 📸 타이틀 영역 -->
     <h1 class="pageTitle"><span class="emoji">📸</span> Memories of Us</h1>
     <p class="pageSubtitle">함께한 순간들을 추억하며</p>
 
     <div class="section grid">
       <!-- 🔒 다운로드 방지된 썸네일들 -->
       <div class="thumb no-download" data-full="assets/mem01.jpg" data-caption="2025-01-02 말씀 카드 🔖">
-        <img src="assets/mem01.jpg" alt="추억 1">
+        <img src="assets/mem01.jpg" alt="추억 1" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem02.jpg" data-caption="2025-01-11 카페 초평가배 ☕️">
-        <img src="assets/mem02.jpg" alt="추억 2">
+        <img src="assets/mem02.jpg" alt="추억 2" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
-
 
       <div class="thumb no-download" data-full="assets/mem03.jpg" data-caption="2025-01-28 강원도 보드 🏂">
-        <img src="assets/mem03.jpg" alt="추억 3">
+        <img src="assets/mem03.jpg" alt="추억 3" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
-    
       <div class="thumb no-download" data-full="assets/mem05.jpg" data-caption="2025-02-15 반 고흐 전시 🌙">
-        <img src="assets/mem05.jpg" alt="추억 5">
+        <img src="assets/mem05.jpg" alt="추억 5" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem06.jpg" data-caption="2025-02-22 영주 🍎">
-        <img src="assets/mem06.jpg" alt="추억 6">
+        <img src="assets/mem06.jpg" alt="추억 6" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
-
       <div class="thumb no-download" data-full="assets/mem08.jpg" data-caption="2025-03-02 이미지 사진 🎞️">
-        <img src="assets/mem08.jpg" alt="추억 8">
+        <img src="assets/mem08.jpg" alt="추억 8" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem09.jpg" data-caption="2025-03-15 카페 이로 🦁">
-        <img src="assets/mem09.jpg" alt="추억 9">
+        <img src="assets/mem09.jpg" alt="추억 9" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem10.jpg" data-caption="2025-04-12 공주 🌸">
-        <img src="assets/mem10.jpg" alt="추억 10">
+        <img src="assets/mem10.jpg" alt="추억 10" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem11.jpg" data-caption="2025-04-20 카페 오렝 🍊">
-        <img src="assets/mem11.jpg" alt="추억 11">
+        <img src="assets/mem11.jpg" alt="추억 11" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem13.jpg" data-caption="2025-05-04 보성 🌿">
-        <img src="assets/mem13.jpg" alt="추억 13">
+        <img src="assets/mem13.jpg" alt="추억 13" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem14.jpg" data-caption="2025-06-14 카페 초평가배 🦋">
-        <img src="assets/mem14.jpg" alt="추억 14">
+        <img src="assets/mem14.jpg" alt="추억 14" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem15.jpg" data-caption="2025-07-30 🇸🇬 티옹바루 베이커리 (1) 🥤">
-        <img src="assets/mem15.jpg" alt="추억 15">
+        <img src="assets/mem15.jpg" alt="추억 15" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem16.jpg" data-caption="2025-07-30 🇸🇬 티옹바루 베이커리 (2) 🍃">
-        <img src="assets/mem16.jpg" alt="추억 16">
+        <img src="assets/mem16.jpg" alt="추억 16" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem17.jpg" data-caption="2025-07-30 🇸🇬 슈퍼트리 🎆">
-        <img src="assets/mem17.jpg" alt="추억 17">
+        <img src="assets/mem17.jpg" alt="추억 17" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
-
 
       <div class="thumb no-download" data-full="assets/mem18.jpg" data-caption="2025-07-31 🇸🇬 USS (1) 🎁">
-        <img src="assets/mem18.jpg" alt="추억 18">
+        <img src="assets/mem18.jpg" alt="추억 18" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
-      
 
       <div class="thumb no-download" data-full="assets/mem19.jpg" data-caption="2025-07-31 🇸🇬 USS (2) 🌎">
-        <img src="assets/mem19.jpg" alt="추억 19">
+        <img src="assets/mem19.jpg" alt="추억 19" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
-
       <div class="thumb no-download" data-full="assets/mem21.jpg" data-caption="2025-07-31 🇸🇬 호텔 수영장 🏊‍♂️">
-        <img src="assets/mem21.jpg" alt="추억 21">
+        <img src="assets/mem21.jpg" alt="추억 21" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
-      </div>      
+      </div>
 
       <div class="thumb no-download" data-full="assets/mem22.jpg" data-caption="2025-08-01 🇸🇬 버드 파라다이스 (1) 🌳">
-        <img src="assets/mem22.jpg" alt="추억 22">
+        <img src="assets/mem22.jpg" alt="추억 22" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem23.jpg" data-caption="2025-08-01 🇸🇬 버드 파라다이스 (2) 🐧">
-        <img src="assets/mem23.jpg" alt="추억 23">
+        <img src="assets/mem23.jpg" alt="추억 23" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem24.jpg" data-caption="2025-08-01 🇸🇬 버드 파라다이스 (3) 🦜">
-        <img src="assets/mem24.jpg" alt="추억 24">
+        <img src="assets/mem24.jpg" alt="추억 24" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem25.jpg" data-caption="2025-09-19 금요 철야 예배 🆗">
-        <img src="assets/mem25.jpg" alt="추억 25">
+        <img src="assets/mem25.jpg" alt="추억 25" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem26.jpg" data-caption="2025-10-03 🇨🇭 슈피츠 성 🏰">
-        <img src="assets/mem26.jpg" alt="추억 26">
+        <img src="assets/mem26.jpg" alt="추억 26" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem27.jpg" data-caption="2025-10-03 🇨🇭 이젤발트 호수 🦢">
-        <img src="assets/mem27.jpg" alt="추억 27">
+        <img src="assets/mem27.jpg" alt="추억 27" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem28.jpg" data-caption="2025-10-04 🇨🇭 아이거 북벽 🪵">
-        <img src="assets/mem28.jpg" alt="추억 28">
+        <img src="assets/mem28.jpg" alt="추억 28" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
-
       <div class="thumb no-download" data-full="assets/mem30.jpg" data-caption="2025-10-04 🇨🇭 블라우헤드 곤돌라 🚠">
-        <img src="assets/mem30.jpg" alt="추억 30">
+        <img src="assets/mem30.jpg" alt="추억 30" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem31.jpg" data-caption="2025-10-04 🇨🇭 수네가 호수 🏔️">
-        <img src="assets/mem31.jpg" alt="추억 31">
+        <img src="assets/mem31.jpg" alt="추억 31" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem32.jpg" data-caption="2025-10-05 🇨🇭 우릴 보내줘.. 🥲">
-        <img src="assets/mem32.jpg" alt="추억 32">
+        <img src="assets/mem32.jpg" alt="추억 32" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem33.jpg" data-caption="2025-10-06 🇮🇹 베네치아 🚤">
-        <img src="assets/mem33.jpg" alt="추억 33">
+        <img src="assets/mem33.jpg" alt="추억 33" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="thumb no-download" data-full="assets/mem34.jpg" data-caption="2025-10-06 🇮🇹 산 마르코 광장 🎻">
-        <img src="assets/mem34.jpg" alt="추억 34">
+        <img src="assets/mem34.jpg" alt="추억 34" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
 
-
       <div class="thumb no-download" data-full="assets/mem36.jpg" data-caption="2025-10-07 🇮🇹 카포 광장 🍝">
-        <img src="assets/mem36.jpg" alt="추억 36">
+        <img src="assets/mem36.jpg" alt="추억 36" loading="lazy" decoding="async">
         <div class="nd-overlay" aria-hidden="true"></div>
       </div>
     </div>
   </main>
-  
-<footer class="footer small">
-  Made with love and memories for Gukmin ✨<br>
-  © 2025 Seoeun’s Love Project
-</footer>
- 
-  <!-- Modal -->
-<div class="modal" role="dialog" aria-modal="true">
-  <div class="modalBox">
-    <button class="navBtn prev" aria-label="이전 사진">‹</button>
-    <img src="assets/mem01.jpg" alt="추억 사진">
-    <button class="navBtn next" aria-label="다음 사진">›</button>
 
-    <div class="modalBody">
-      <div class="modalCaption">설명</div>
-      <div style="display:flex;justify-content:flex-end;margin-top:6px">
-        <button class="btn outline" data-close>닫기</button>
+  <footer class="footer small">
+    Made with love and memories for Gukmin ✨<br>
+    © 2025 Seoeun’s Love Project
+  </footer>
+
+  <!-- Modal -->
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modalBox">
+      <button class="navBtn prev" aria-label="이전 사진">‹</button>
+      <img src="assets/mem01.jpg" alt="추억 사진">
+      <button class="navBtn next" aria-label="다음 사진">›</button>
+
+      <div class="modalBody">
+        <div class="modalCaption">설명</div>
+        <div style="display:flex;justify-content:flex-end;margin-top:6px">
+          <button class="btn outline" data-close>닫기</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
   <script src="script.js"></script>
 </body>
