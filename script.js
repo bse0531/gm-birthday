@@ -1,5 +1,5 @@
 /* ============================================================
-   01) 메인 Hero 슬라이더 (자동 전환 + 모바일 스와이프)
+   01) 메인 Hero 슬라이더 (자동 전환 + 중복 방지)
 ============================================================ */
 (() => {
   const slider = document.querySelector('.slider');
@@ -7,7 +7,6 @@
   slider.dataset.bound = '1';
 
   const slides = [...slider.querySelectorAll('.slide')];
-  if (slides.length === 0) return;           // 0장 방어
   let i = 0, timer = null, DELAY = 3000;
 
   slides.forEach((s, idx) => {
@@ -17,39 +16,33 @@
 
   function show(n) {
     slides[i]?.classList.remove('active');
-    i = slides.length ? ((n + slides.length) % slides.length) : 0;
+    i = (n + slides.length) % slides.length;
     slides[i]?.classList.add('active');
   }
   function next() { show(i + 1); }
-  function start() {
-    if (slides.length <= 1) return;          // 1장이면 타이머 불필요
-    if (!timer) timer = setInterval(next, DELAY);
-  }
+  function start() { if (!timer) timer = setInterval(next, DELAY); }
   function stop()  { if (timer) { clearInterval(timer); timer = null; } }
 
-  document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
-  window.addEventListener('pageshow', () => start()); // bfcache 복귀 대비
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
 
   const io = new IntersectionObserver(ents => {
-    ents.forEach(e => (e.isIntersecting ? start() : stop()));
+    ents.forEach(e => e.isIntersecting ? start() : stop());
   }, { threshold: 0.2 });
   io.observe(slider);
 
-  // 모바일 스와이프 (pointer 이벤트)
   let x0 = null;
-  slider.addEventListener('pointerdown', e => { x0 = e.clientX; }, { passive: true });
+  slider.addEventListener('pointerdown', e => x0 = e.clientX);
   slider.addEventListener('pointerup', e => {
     if (x0 == null) return;
     const dx = e.clientX - x0; x0 = null;
     if (Math.abs(dx) > 40) { stop(); show(i + (dx < 0 ? 1 : -1)); start(); }
-  }, { passive: true });
-  slider.addEventListener('pointercancel', () => { x0 = null; }, { passive: true });
+  });
 
   show(0); start();
 })();
 
 /* ============================================================
-   02) 추억 사진 프리뷰: 무한 마키 (모바일 전용, 빈칸 없이)
+   02) 추억 사진 프리뷰: 무한 마키 (빈칸 없이 반복)
 ============================================================ */
 (() => {
   const row = document.querySelector('.cardRow.autoScroll');
@@ -59,33 +52,29 @@
   const cards = [...row.children];
   if (cards.length === 0) return;
 
-  // 1) 트랙 구성 (기존 카드들을 첫 트랙으로 이동)
   const track = document.createElement('div');
   track.className = 'marqueeTrack';
   cards.forEach(c => track.appendChild(c));
   row.appendChild(track);
 
-  // 2) 이미지 로드 대기 후 시작 (Safari 초기 프레임 깜빡임 방지)
   const imgs = [...track.querySelectorAll('img')];
   const decodes = imgs.map(img => (img.decode ? img.decode().catch(()=>{}) : Promise.resolve()));
 
   Promise.all(decodes).then(() => {
-    row.offsetWidth; // 강제 리플로우
+    row.offsetWidth; // Safari 깜빡임 방지
     startMarquee();
   });
 
   function startMarquee() {
-    const SPEED = 40;                // px/s
+    const SPEED = 40;
     let x = 0;
     let last = performance.now();
     let paused = false;
 
-    // --- 클론 빌드: 첫 트랙 폭 + 화면폭 + 여유 2배 확보 ---
+    // 트랙 복제 빌드 함수
     function buildClones() {
-      // 기존 복제본 제거 → 첫 트랙만 남김
       const all = [...row.querySelectorAll('.marqueeTrack')];
       all.forEach((t, idx) => { if (idx) t.remove(); });
-
       const base = all[0] || track;
       const firstW = base.scrollWidth;
       let total = firstW;
@@ -105,13 +94,11 @@
         x -= SPEED * dt;
 
         const w = tracks[0].scrollWidth || 1;
-        // x를 항상 [-w, 0) 범위로 정규화 → 6 다음 바로 1 이어짐
         if (x <= -w) x += w;
-        if (x > 0)   x -= w;
+        if (x > 0) x -= w;
 
         let offset = x;
         tracks.forEach(t => {
-          // 서브픽셀로 생기는 얇은 틈 방지
           t.style.transform = `translate3d(${Math.round(offset)}px,0,0)`;
           offset += t.scrollWidth;
         });
@@ -120,13 +107,11 @@
       requestAnimationFrame(tick);
     }
 
-    // 가시성 제어
     const io = new IntersectionObserver(ents => {
       ents.forEach(e => { paused = !e.isIntersecting; last = performance.now(); });
     }, { threshold: 0.15 });
     io.observe(row);
 
-    // 📱 터치 시 일시정지/재개
     ['touchstart','pointerdown'].forEach(ev => {
       row.addEventListener(ev, () => { paused = true; }, { passive: true });
     });
@@ -134,33 +119,48 @@
       row.addEventListener(ev, () => { paused = false; last = performance.now(); }, { passive: true });
     });
 
-    // 탭 숨김/복귀, bfcache 복귀
     document.addEventListener('visibilitychange', () => {
       paused = document.hidden;
       last = performance.now();
     });
     window.addEventListener('pageshow', () => { paused = false; last = performance.now(); });
 
-    // 화면 회전/리사이즈 시 트랙 재빌드 (디바운스)
-    let rebuildTimer = null;
-    window.addEventListener('resize', () => {
-      clearTimeout(rebuildTimer);
-      rebuildTimer = setTimeout(() => {
-        paused = true;
-        tracks = buildClones();
-        x = 0;
-        last = performance.now();
-        paused = false;
-      }, 120);
+    // === 스크롤 시 리셋 방지 + 진행도 보존 리사이즈 ===
+    let containerW = row.clientWidth;
+    const ro = new ResizeObserver(entries => {
+      const w = Math.round(entries[0].contentRect.width || row.clientWidth);
+      if (Math.abs(w - containerW) < 2) return; // 세로 변화 무시
+      containerW = w;
+
+      const wOld = tracks[0].scrollWidth || 1;
+      const progress = (-x) / wOld;
+
+      paused = true;
+      const all = [...row.querySelectorAll('.marqueeTrack')];
+      all.forEach((t, idx) => { if (idx) t.remove(); });
+      const base = all[0] || track;
+      const firstW = base.scrollWidth;
+      let total = firstW;
+      while (total < row.clientWidth + firstW * 2) {
+        const clone = base.cloneNode(true);
+        row.appendChild(clone);
+        total += clone.scrollWidth;
+      }
+      tracks = [...row.querySelectorAll('.marqueeTrack')];
+
+      const wNew = tracks[0].scrollWidth || 1;
+      x = -progress * wNew;
+      last = performance.now();
+      paused = false;
     });
+    ro.observe(row);
 
     requestAnimationFrame(tick);
   }
 })();
 
-
 /* ============================================================
-   03) Memories 모달 (버튼/탭 닫기)
+   03) Memories 모달
 ============================================================ */
 (() => {
   const grid = document.querySelector('.grid');
@@ -196,7 +196,6 @@
   prevBtn?.addEventListener('click', showPrev);
   nextBtn?.addEventListener('click', showNext);
 
-  // (모바일은 키보드 드뭄이지만 안전망)
   document.addEventListener('keydown', e => {
     if (!modal.classList.contains('open')) return;
     if (e.key === 'ArrowRight') showNext();
@@ -213,7 +212,7 @@
   const sinceEl = document.getElementById('sinceLine');
   if (!main || !sinceEl) return;
 
-  const firstDate = new Date('2019-09-19'); // 필요한 날짜로 유지/수정
+  const firstDate = new Date('2019-09-19');
   const today = new Date();
   const days = Math.floor((today - firstDate) / 86400000) + 1;
 
