@@ -175,3 +175,32 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   .slider img.slide { transition: none; }
   .ticker.fade { transition: none; }
 }
+
+/* 🌙/🌞 테마 플로팅 버튼 */
+.themeFab{
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0));
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  line-height: 1;
+  background: var(--gold);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.12);
+  z-index: 1200; /* 컨페티(999)보다 위 */
+  touch-action: manipulation;
+}
+
+.themeFab:active { transform: scale(0.96); opacity: 0.9; }
+
+/* 다크모드에서도 동일 팔레트 사용(필요 시 조정 가능) */
+:root.dark .themeFab{
+  background: var(--gold);
+  color: #fff;
+}
