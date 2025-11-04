@@ -286,7 +286,7 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   position:relative; display:inline-block;
 }
 .no-download img {
-  display:block; width:100%; height:auto;
+  display:block; width:100%;
   user-select:none; -webkit-user-drag:none; pointer-events:none;
 }
 .no-download .nd-overlay {
