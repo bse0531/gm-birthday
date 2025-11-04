@@ -143,8 +143,8 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.35);  /* 🔸 0.8 → 0.35 로 투명도 낮춤 */
-  backdrop-filter: blur(4px);             /* 배경 흐림 추가 */
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(4px);
   border: none;
   font-size: 28px;
   font-weight: 700;
@@ -152,14 +152,15 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   padding: 8px 12px;
   border-radius: 999px;
   cursor: pointer;
-  transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
+  transition: none; /* 🔸 전환 효과 제거 */
 }
 
 .navBtn:hover {
-  background: rgba(255, 255, 255, 0.55);  /* hover 시 살짝 진해짐 */
-  color: var(--ink);
-  transform: scale(1.08);
+  background: rgba(255, 255, 255, 0.35); /* hover 시 색상 변화 X */
+  color: var(--sub);                      /* hover 시 색상 변화 X */
+  transform: translateY(-50%);            /* scale 효과 제거 */
 }
+
 
 .navBtn.prev { left: 8px; }
 .navBtn.next { right: 8px; }
