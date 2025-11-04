@@ -44,14 +44,14 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   text-fill-color: transparent;
 }
 
-/* 🎂 이모지 색상 유지 + 반짝이 효과 */
+/* 🎂 이모지 반짝이 효과 */
 .emoji {
   background: none !important;
   -webkit-background-clip: initial !important;
   -webkit-text-fill-color: initial !important;
   color: initial !important;
   filter: drop-shadow(0 0 2px rgba(173,216,230,0.7))
-          drop-shadow(0 0 5px rgba(173,216,230,0.4)); /* 하늘색 글로우 */
+          drop-shadow(0 0 5px rgba(173,216,230,0.4));
   opacity: 1 !important;
 }
 @media (max-width:360px){
@@ -62,9 +62,13 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 /* ========== 메인 Hero 슬라이드 ========== */
 .hero { position:relative; overflow:hidden; border-radius:var(--radius); }
 .slider {
-  position:relative; width:100%; height:56vw; max-height:420px;
-  overflow:hidden; border-radius:var(--radius);
-  background:#f7f7f7; /* 이미지 없을 때 대비 */
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  max-height:420px;
+  overflow:hidden;
+  border-radius:var(--radius);
+  background:#f7f7f7;
 }
 .slider img.slide {
   position:absolute; inset:0;
@@ -83,128 +87,115 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   border:1px solid #eee; border-radius:var(--radius);
   overflow:hidden; background:var(--soft);
 }
-.panel .content { padding:12px; }
+.panel .content { padding:12px; min-width:0; }
 .footer {
   padding:36px 20px; text-align:center; color:var(--sub);
 }
 
 /* ========== 추억 사진 (가로 스크롤 프리뷰) ========== */
-/* ==== 추억 사진 프리뷰: 가로 1줄 고정 & 동일 크기 ==== */
 .cardRow.autoScroll{
-  display: flex !important;
-  flex-wrap: nowrap !important;   /* 줄바꿈 금지 */
-  align-items: stretch;
-  gap: 8px;
-  overflow-x: auto;
-  overflow-y: hidden;             /* 세로 스크롤 방지 */
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
+  display:flex;
+  flex-wrap:nowrap;
+  align-items:stretch;
+  gap:8px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  scroll-snap-type:x mandatory;
 }
 .cardRow.autoScroll::-webkit-scrollbar{ display:none; }
 
-/* 카드: 화면에 항상 3장 보이도록 고정 폭 */
 .cardRow.autoScroll .card{
-  flex: 0 0 33.333% !important;
-  min-width: 33.333% !important;
-  max-width: 33.333% !important;
-  scroll-snap-align: start;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #fff;
+  flex:0 0 33.333%;
+  scroll-snap-align:start;
+  border:1px solid #eee;
+  border-radius:12px;
+  overflow:hidden;
+  background:#fff;
+  aspect-ratio:1/1;
 }
-
-/* 이미지: 정사각형 유지 */
 .cardRow.autoScroll .card img{
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  aspect-ratio: 1/1;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
 }
-
-
-
+.marqueeTrack {
+  display:flex;
+  gap:8px;
+}
 
 /* ========== Memories Grid / Modal ========== */
 .grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
 }
 .thumb {
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid #eee;
-  aspect-ratio: 1 / 1;              /* 썸네일 정사각형 고정 */
+  position:relative;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid #eee;
+  aspect-ratio:1/1;
 }
 .thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;                 /* 가로/세로 사진 모두 단정히 */
-  display: block;
+  width:100%; height:100%;
+  object-fit:cover; display:block;
 }
 .thumb .nd-overlay {
-  position: absolute; inset: 0;
-  background: transparent;
-  pointer-events: none;
+  position:absolute; inset:0;
+  background:transparent; pointer-events:none;
 }
 
 .modal {
-  position: fixed; inset: 0; z-index: 100;
-  background: rgba(0,0,0,.6);
-  display: none;
-  align-items: center; justify-content: center;
-  padding: 20px;
+  position:fixed; inset:0; z-index:100;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center; justify-content:center;
+  padding:20px;
 }
-.modal.open { display: flex; }
+.modal.open { display:flex; }
 
 .modalBox {
-  position: relative;
-  background: #fff;
-  border-radius: 16px;
-  max-width: 720px;
-  width: 100%;
-  overflow: hidden;
+  position:relative;
+  background:#fff;
+  border-radius:16px;
+  max-width:720px;
+  width:100%;
+  overflow:hidden;
 }
 .modalBox > img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 70vh;                 /* 화면 기준 과도 확대 방지 */
-  object-fit: contain;              /* 세로/가로 모두 안정 */
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:70vh;
+  object-fit:contain;
 }
 
-.modalBody { padding: 14px 14px 20px; }
-.modalCaption { color: var(--sub); margin-top: 8px; }
+.modalBody { padding:14px 14px 20px; }
+.modalCaption { color:var(--sub); margin-top:8px; }
 
-/* 양 옆 이동 버튼: 화면 기준 '고정' + 호버 변화 없음 */
 .navBtn {
-  position: fixed;                   /* absolute → fixed */
-  top: 50%;
-  transform: translateY(-50%);       /* 수직 중앙 고정 */
-  z-index: 110;
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(4px);
-  border: none;
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--sub);
-  padding: 8px 12px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: none;                  /* 전환/움직임 효과 제거 */
+  position:fixed;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:110;
+  background:rgba(255,255,255,0.35);
+  backdrop-filter:blur(4px);
+  border:none;
+  font-size:28px;
+  font-weight:700;
+  color:var(--sub);
+  padding:8px 12px;
+  border-radius:999px;
+  cursor:pointer;
 }
-.navBtn.prev { left: 10px; }
-.navBtn.next { right: 10px; }
-
+.navBtn.prev { left:10px; }
+.navBtn.next { right:10px; }
 .navBtn:hover {
-  background: rgba(255, 255, 255, 0.35);  /* hover 변화 없음 */
-  color: var(--sub);
-  transform: translateY(-50%);            /* scale 등 변화 금지 */
+  background:rgba(255,255,255,0.35);
+  color:var(--sub);
 }
-
 
 /* ========== 함께한 날 카드 & 인용카드 ========== */
 .statCard {
@@ -222,7 +213,6 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 .statMain { font-weight:700; color:#111; }
 .statSub { font-size:13px; color:var(--sub); }
 
-/* 인용형 티커 */
 .quoteCard {
   position:relative; overflow:hidden;
   padding:16px; border:1px solid #eee; border-radius:16px;
@@ -239,7 +229,6 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 .quoteText::after { content:"”"; margin-left:6px; }
 .ticker.fade { transition:opacity .5s ease; opacity:.2; }
 
-/* 중앙 정렬 */
 .section.centerCard { display:flex; justify-content:center; }
 .statCard, .quoteCard { max-width:400px; width:100%; margin:0 auto; }
 
@@ -255,12 +244,11 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 .btn:active { transform:scale(0.96); opacity:0.8; }
 
 .btn-wrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 40px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:40px;
 }
-
 
 /* ========== 기타 유틸 ========== */
 .gap40 { margin-top:40px !important; }
@@ -292,12 +280,12 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 
 /* Footer 스타일 보완 */
 .footer {
-  background: var(--soft);
-  border-top: 1px solid #e0ece7;
-  padding: 36px 20px;
-  text-align: center;
-  color: var(--sub);
-  line-height: 1.6;
+  background:var(--soft);
+  border-top:1px solid #e0ece7;
+  padding:36px 20px;
+  text-align:center;
+  color:var(--sub);
+  line-height:1.6;
 }
 
 /* 하트 컨페티 */
@@ -314,7 +302,7 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   to  { transform:translateY(-60vh) scale(1.2); opacity:0; }
 }
 
-/* 헤더 버튼(배경 없이 테두리만) */
+/* 헤더 버튼 */
 .headerBtn{
   display:inline-flex; align-items:center; justify-content:center;
   width:36px; height:36px; border-radius:50%;
@@ -325,20 +313,16 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 .headerBtn:hover{ background:rgba(107,183,181,.08); transform:scale(1.05); }
 .headerBtn:active{ transform:scale(.93); background:rgba(107,183,181,.15); }
 
-/* ===== 설화(시 형태) 줄바꿈 & 타이포 ===== */
+/* 설화 줄바꿈 */
 .article p { margin:12px 0; }
-
-/* 소스의 줄바꿈(\n)을 실제 줄바꿈으로 표시 */
 .poem{
-  white-space: pre-line;
-  line-height: 1.9;
-  letter-spacing: 0.1px;
-  word-break: keep-all;   /* 한글 줄바꿈 어색함 최소화 */
+  white-space:pre-line;
+  line-height:1.9;
+  letter-spacing:0.1px;
+  word-break:keep-all;
 }
-
-/* 첫 단락 강조(선택) */
 .article .lead{
-  font-size: 18px;
-  color: var(--ink);
-  line-height: 1.9;
+  font-size:18px;
+  color:var(--ink);
+  line-height:1.9;
 }
