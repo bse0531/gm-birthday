@@ -86,10 +86,11 @@
       const all = [...row.querySelectorAll('.marqueeTrack')];
       all.forEach((t, idx) => { if (idx) t.remove(); });
 
-      const firstW = all[0] ? all[0].scrollWidth : track.scrollWidth;
+      const base = all[0] || track;
+      const firstW = base.scrollWidth;
       let total = firstW;
       while (total < row.clientWidth + firstW * 2) {
-        const clone = (all[0] || track).cloneNode(true);
+        const clone = base.cloneNode(true);
         row.appendChild(clone);
         total += clone.scrollWidth;
       }
@@ -104,13 +105,13 @@
         x -= SPEED * dt;
 
         const w = tracks[0].scrollWidth || 1;
-        // x를 항상 [-w, 0) 범위로 정규화
+        // x를 항상 [-w, 0) 범위로 정규화 → 6 다음 바로 1 이어짐
         if (x <= -w) x += w;
         if (x > 0)   x -= w;
 
         let offset = x;
         tracks.forEach(t => {
-          // 서브픽셀로 생기는 1px 틈 방지 → 반올림
+          // 서브픽셀로 생기는 얇은 틈 방지
           t.style.transform = `translate3d(${Math.round(offset)}px,0,0)`;
           offset += t.scrollWidth;
         });
@@ -119,13 +120,13 @@
       requestAnimationFrame(tick);
     }
 
-    // 보이질 않으면 정지, 보이면 재개
+    // 가시성 제어
     const io = new IntersectionObserver(ents => {
       ents.forEach(e => { paused = !e.isIntersecting; last = performance.now(); });
     }, { threshold: 0.15 });
     io.observe(row);
 
-    // 📱 모바일 터치 시에만 일시정지
+    // 📱 터치 시 일시정지/재개
     ['touchstart','pointerdown'].forEach(ev => {
       row.addEventListener(ev, () => { paused = true; }, { passive: true });
     });
@@ -156,6 +157,7 @@
     requestAnimationFrame(tick);
   }
 })();
+
 
 /* ============================================================
    03) Memories 모달 (버튼/탭 닫기)
