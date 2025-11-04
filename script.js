@@ -78,7 +78,7 @@
       const base = all[0] || track;
       const firstW = base.scrollWidth;
       let total = firstW;
-      while (total < row.clientWidth + firstW * 2) {
+      while (total < row.clientWidth + firstW * 3) {
         const clone = base.cloneNode(true);
         row.appendChild(clone);
         total += clone.scrollWidth;
