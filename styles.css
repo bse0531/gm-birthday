@@ -354,8 +354,8 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 
 .section.article {
   font-family: 'Nanum Pen Script', cursive;
-  font-size: 1.9rem;     /* ✅ 기존 1.6rem → 1.9rem (조금 더 큼) */
-  line-height: 2.4;      /* ✅ 줄 간격 살짝 더 넓힘 */
+  font-size: 1.9rem;
+  line-height: 2.2;
   color: #3a3a3a;
   max-width: 720px;
   margin: 0 auto;
@@ -364,13 +364,22 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   border-radius: 12px;
 }
 
-/* 모바일에서 한 단계 더 키워주고 싶다면 추가 👇 */
-@media (max-width: 480px) {
-  .section.article {
-    font-size: 2rem;     /* 모바일은 더 크게 */
-    line-height: 2.5;
-  }
+/* 문단 간에는 살짝 여백 */
+.section.article p {
+  margin-top: 0.8em;      /* 위쪽 약간의 여백 */
+  margin-bottom: 0.8em;   /* 아래쪽 약간의 여백 */
+  line-height: 1.9;       /* 줄 간격 */
+  white-space: normal;    /* ✅ pre-line 제거해서 <br>은 기본 줄바꿈처럼 처리 */
 }
+
+/* <br>은 실제 엔터처럼 딱 붙도록 */
+.section.article br {
+  display: block;
+  content: "";
+  margin: 0;
+  line-height: 1.2;       /* ✅ <br> 시 한 줄 띄우는 정도 */
+}
+
 
 
 /* 제목 */
@@ -392,11 +401,6 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   opacity: 0.8;
 }
 
-/* 본문 */
-.section.article p {
-  margin-bottom: 1.8em;        /* 문단 간 간격 */
-  white-space: pre-line;
-}
 
 /* 서명 */
 .section.article p.small {
