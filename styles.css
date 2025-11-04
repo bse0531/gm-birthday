@@ -406,3 +406,67 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 }
 
 
+/* =========================================
+   1) 추억 사진 보러가기 버튼 가운데 정렬
+   - HTML은 <section class="section center"> ... <a class="btn">... 으로 되어 있음
+   - 컨테이너를 flex 중앙정렬로 처리
+========================================= */
+.section.center{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center; /* 인라인 컨텐츠 대비 안전빵 */
+  gap:0.5rem;
+}
+
+/* 혹시 다른 페이지에서도 단독 버튼을 중앙으로 쓰고 싶다면 보조 옵션 */
+.section.center .btn{
+  /* 필요시 block + auto 여백 방식
+  display:block;
+  margin: 0 auto;
+  */
+}
+
+/* =========================================
+   2) 다크모드 레터 가독성 보정
+   - 배경이 밝으면 다크에서 대비가 낮아 보임 → 어두운 톤으로 교체
+   - 본문/제목/구분선/서명 컬러 조정
+========================================= */
+:root.dark .section.article{
+  background:#0f2019;           /* 다크 베이스 */
+  color: var(--ink);             /* 본문 텍스트 */
+  box-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+:root.dark .section.article h2{
+  color: var(--gold);
+}
+:root.dark .section.article p{
+  color: var(--ink);
+}
+:root.dark .section.article p.small{
+  color: var(--sub);
+  opacity: 0.95;
+}
+:root.dark .section.article .hr{
+  background: rgba(255,255,255,0.18);
+}
+
+/* =========================================
+   3) .hr 규칙 충돌 정리
+   - 위쪽에서 `.section.article .hr`를 60px/2px로 잡았는데
+     아래쪽의 전역 `.hr`(height:1px...)이 덮어씀
+   - 전역 규칙은 유지하되, 레터 안의 구분선이 항상 이기도록 재정의
+========================================= */
+.section.article .hr{
+  width: 60px !important;
+  height: 2px !important;
+  margin: 1.5em auto !important;
+  border-radius: 2px;
+  background: #d8cfc4;
+  opacity: 0.8;
+}
+
+/* 다크에서도 동일 규격 유지 */
+:root.dark .section.article .hr{
+  background: rgba(255,255,255,0.18) !important;
+}
