@@ -320,3 +320,22 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   border-radius:4px;
   box-sizing:border-box;
 }
+
+/* 🌙 다크모드: Memories 썸네일 테두리 제거 및 톤 정리 */
+:root.dark .grid .thumb {
+  border: none !important;               /* 흰색 테두리 제거 */
+  background: #0f1e18;                   /* 아주 어두운 녹색 톤 배경 */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4); /* 약한 그림자로 깊이감 부여 */
+}
+
+:root.dark .grid .thumb img {
+  border-radius: 12px;
+  filter: brightness(0.92) contrast(1.05); /* 어두운 배경에서도 선명하게 */
+}
+
+:root.dark .grid .thumb[data-caption]::after {
+  background: rgba(16, 40, 32, 0.4);     /* 텍스트 배경 반투명 녹색 */
+  color: #e9f5ed;                        /* 캡션 텍스트는 밝게 */
+  text-shadow: 0 0 5px rgba(0,0,0,0.7);
+}
+
