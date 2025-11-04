@@ -76,14 +76,16 @@
   });
 
   function startMarquee() {
-    // 충분한 폭이 되도록 복제 (여유 3배)
-    const need = row.clientWidth * 3;
-    let trackWidth = track.scrollWidth;
-    while (trackWidth < need) {
-      const clone = track.cloneNode(true);
-      row.appendChild(clone);
-      trackWidth += clone.scrollWidth;
-    }
+
+// 첫 트랙의 실제 픽셀 폭을 기준으로, 화면폭 + 여유 2배 확보
+const firstW = track.scrollWidth;
+let total = firstW;
+while (total < row.clientWidth + firstW * 2) {
+  const clone = track.cloneNode(true);
+  row.appendChild(clone);
+  total += clone.scrollWidth;
+}
+
 
     const tracks = [...row.querySelectorAll('.marqueeTrack')];
     let x = 0;
