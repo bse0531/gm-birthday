@@ -42,7 +42,7 @@
 })();
 
 /* ============================================================
-   02) 추억 사진 프리뷰: 무한 마키 (데스크탑 리사이즈 안정화)
+   02) 추억 사진 프리뷰: 무한 마키 (트랙 회전 방식, 빈칸 방지)
 ============================================================ */
 (() => {
   const row = document.querySelector('.cardRow.autoScroll');
@@ -50,128 +50,98 @@
   row.dataset.bound = '1';
 
   const cards = [...row.children];
-  if (cards.length === 0) return;
+  if (!cards.length) return;
 
-  // 1) 트랙 구성 (기존 카드들을 첫 트랙으로 이동)
-  const track = document.createElement('div');
-  track.className = 'marqueeTrack';
-  cards.forEach(c => track.appendChild(c));
-  row.appendChild(track);
+  // 1) 첫 트랙 구성
+  const base = document.createElement('div');
+  base.className = 'marqueeTrack';
+  cards.forEach(c => base.appendChild(c));
+  row.appendChild(base);
 
-  // 2) 이미지 디코드 대기
-  const imgs = [...track.querySelectorAll('img')];
-  const decodes = imgs.map(img => (img.decode ? img.decode().catch(()=>{}) : Promise.resolve()));
+  // 2) 이미지 로드 대기 (폭 확정)
+  const imgs = [...base.querySelectorAll('img')];
+  const decodes = imgs.map(i => (i.decode ? i.decode().catch(()=>{}) : Promise.resolve()));
   Promise.all(decodes).then(() => {
-    row.offsetWidth; // Safari 깜빡임 방지
-    startMarquee();
+    row.offsetWidth; // Safari flicker guard
+    start();
   });
 
-  function startMarquee() {
-    const SPEED = 40;
-    const EPS   = 0.001;           // 정규화 경계치 여유
-    let x = 0;
-    let last = performance.now();
-    let paused = false;
+  function start() {
+    const SPEED = 40;      // px/s
+    const EPS   = 0.5;     // 한 픽셀 미만 오차 흡수
+    let paused  = false;
+    let last    = performance.now();
 
-    function buildClones() {
-      const all = [...row.querySelectorAll('.marqueeTrack')];
-      all.forEach((t, idx) => { if (idx) t.remove(); });
-      const base = all[0] || track;
-      const firstW = base.scrollWidth;
-      let total = firstW;
-      while (total < row.clientWidth + firstW * 3) { // 여유 넉넉히
-        const clone = base.cloneNode(true);
+    // 최초로 뷰포트를 충분히 덮을 만큼 복제
+    function ensureFill() {
+      let tracks = [...row.querySelectorAll('.marqueeTrack')];
+      let total  = tracks.reduce((a,t)=>a + t.scrollWidth, 0);
+      const need = row.clientWidth * 2; // 최소 2배는 덮게
+      while (total < need) {
+        const clone = tracks[tracks.length - 1].cloneNode(true);
         row.appendChild(clone);
-        total += clone.scrollWidth;
+        tracks = [...row.querySelectorAll('.marqueeTrack')];
+        total  = tracks.reduce((a,t)=>a + t.scrollWidth, 0);
       }
-      return [...row.querySelectorAll('.marqueeTrack')];
+      return tracks;
     }
-
-    let tracks = buildClones();
-
-    function normalizeX(w) {
-      // x를 (-w, 0] 범위로 강제 정규화
-      while (x <= -w - EPS) x += w;
-      while (x > 0 + EPS)   x -= w;
-      // 경계값에 걸리면 살짝 안쪽으로
-      if (Math.abs(x + w) <= EPS) x = -w + EPS;
-      if (Math.abs(x) <= EPS)     x = -EPS;
-    }
+    let tracks = ensureFill();
+    let x = 0; // 전체 트랙 벨트를 왼쪽으로 이동
 
     function tick(now) {
       if (!paused) {
         const dt = (now - last) / 1000;
         x -= SPEED * dt;
 
-        const w = tracks[0].scrollWidth || 1;
-        normalizeX(w);
-
+        // 각 트랙의 좌표를 계산하면서, 완전히 왼쪽으로 빠진 트랙은 뒤로 회전
         let offset = x;
-        tracks.forEach(t => {
-          t.style.transform = `translate3d(${Math.floor(offset)}px,0,0)`; // 앞당김으로 겹침/깜빡임 제거
-          offset += t.scrollWidth;
-        });
+        for (let idx = 0; idx < tracks.length; idx++) {
+          const t = tracks[idx];
+          const w = t.scrollWidth;
+
+          // 현재 트랙이 화면 왼쪽을 완전히 벗어났으면(여유 포함) 뒤로 보냄
+          if (offset + w < -EPS) {
+            // 회전: DOM에서 맨 뒤로 이동
+            const moved = tracks.shift();
+            row.appendChild(moved);
+            // offset 재계산: 뒤로 간 만큼 오른쪽 끝 뒤에 이어붙이기
+            const tailWidth = tracks.reduce((a,n)=>a + n.scrollWidth, 0);
+            offset = x + tailWidth; // moved는 마지막이므로 offset은 꼬리 뒤
+            tracks.push(moved);
+          }
+
+          t.style.transform = `translate3d(${Math.floor(offset)}px,0,0)`;
+          offset += w;
+        }
       }
       last = now;
       requestAnimationFrame(tick);
     }
 
-    // 가시성 제어
+    // 가시성/상호작용 제어
     const io = new IntersectionObserver(ents => {
       ents.forEach(e => { paused = !e.isIntersecting; last = performance.now(); });
     }, { threshold: 0.15 });
     io.observe(row);
 
-    // 모바일/데스크탑 상호작용 시 일시정지/재개
-    ['touchstart','pointerdown'].forEach(ev => {
-      row.addEventListener(ev, () => { paused = true; }, { passive: true });
-    });
-    ['touchend','touchcancel','pointerup'].forEach(ev => {
-      row.addEventListener(ev, () => { paused = false; last = performance.now(); }, { passive: true });
-    });
+    ['touchstart','pointerdown'].forEach(ev =>
+      row.addEventListener(ev, ()=>{ paused = true; }, { passive: true })
+    );
+    ['touchend','touchcancel','pointerup'].forEach(ev =>
+      row.addEventListener(ev, ()=>{ paused = false; last = performance.now(); }, { passive: true })
+    );
 
     document.addEventListener('visibilitychange', () => {
-      paused = document.hidden;
-      last = performance.now();
+      paused = document.hidden; last = performance.now();
     });
-    window.addEventListener('pageshow', () => { paused = false; last = performance.now(); });
 
-    // === 가로 폭 변할 때만 재빌드 (진행도 보존 + rAF 코얼레스) ===
-    let containerW = row.clientWidth;
-    let roRAF = null;
-    const ro = new ResizeObserver(entries => {
-      const wNow = Math.round(entries[0].contentRect.width || row.clientWidth);
-      if (Math.abs(wNow - containerW) < 2) return; // 세로/주소창 변화 무시
-      containerW = wNow;
-
-      if (roRAF) cancelAnimationFrame(roRAF);
-      roRAF = requestAnimationFrame(() => {
-        const wOld = tracks[0].scrollWidth || 1;
-        let progress = (-x) / wOld;              // 0~1
-        // 경계값에서 점프 방지
-        if (!isFinite(progress)) progress = 0;
-        progress = Math.min(Math.max(progress, 0), 0.9999);
-
-        paused = true;
-
-        const all = [...row.querySelectorAll('.marqueeTrack')];
-        all.forEach((t, idx) => { if (idx) t.remove(); });
-        const base = all[0] || track;
-        const firstW = base.scrollWidth;
-        let total = firstW;
-        while (total < row.clientWidth + firstW * 3) {
-          const clone = base.cloneNode(true);
-          row.appendChild(clone);
-          total += clone.scrollWidth;
-        }
-        tracks = [...row.querySelectorAll('.marqueeTrack')];
-
-        const wNew = tracks[0].scrollWidth || 1;
-        x = -progress * wNew;
-        normalizeX(wNew);
-
+    // 리사이즈 시에도 항상 충분히 덮도록 보정
+    let rAF = null;
+    const ro = new ResizeObserver(() => {
+      if (rAF) cancelAnimationFrame(rAF);
+      rAF = requestAnimationFrame(() => {
+        tracks = ensureFill();
         last = performance.now();
-        paused = false;
       });
     });
     ro.observe(row);
@@ -179,6 +149,7 @@
     requestAnimationFrame(tick);
   }
 })();
+
 
 
 /* ============================================================
