@@ -314,3 +314,16 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 :root.dark .modalCaption {
   color: #e8f3ec;
 }
+
+
+/* 🌙 다크모드: 메인 추억사진 카드 테두리 제거 */
+:root.dark .cardRow.autoScroll .card {
+  border: none !important;          /* 흰색 테두리 제거 */
+  background: #102820;              /* 다크모드 배경색 유지 */
+}
+
+/* 이미지 밝기 살짝 눌러서 자연스럽게 */
+:root.dark .cardRow.autoScroll .card img {
+  filter: brightness(0.94);
+}
+
