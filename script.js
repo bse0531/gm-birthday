@@ -67,7 +67,7 @@
   });
 
   function startMarquee() {
-    const need = row.clientWidth * 2;
+    const need = row.clientWidth * 3;
     let trackWidth = track.scrollWidth;
     while (trackWidth < need) {
       const clone = track.cloneNode(true);
