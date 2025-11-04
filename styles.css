@@ -89,20 +89,36 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 }
 
 /* ========== 추억 사진 (가로 스크롤 프리뷰) ========== */
-.cardRow.autoScroll {
-  display:flex; gap:8px; overflow-x:auto;
+/* 가로 스크롤 프리뷰 행 */
+.cardRow.autoScroll{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
   scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:none;
 }
-.cardRow.autoScroll::-webkit-scrollbar { display:none; }
-.cardRow.autoScroll .card {
-  flex:0 0 33%; scroll-snap-align:start;
-  border:1px solid #eee; border-radius:12px;
-  overflow:hidden; background:#fff;
+.cardRow.autoScroll::-webkit-scrollbar{ display:none; }
+
+/* 카드: 한 화면에 3장 보이도록 고정폭 + 정사각형 프레임 */
+.cardRow.autoScroll .card{
+  flex:0 0 33.333%;
+  scroll-snap-align:start;
+  border:1px solid #eee;
+  border-radius:12px;
+  overflow:hidden;
+  background:#fff;
+  aspect-ratio: 1 / 1;          /* ✅ 카드 자체를 1:1로 고정 */
+  display:flex;
 }
-.cardRow.autoScroll img {
-  width:100%; height:auto; object-fit:cover; display:block;
+
+/* 이미지: 프레임을 꽉 채우되 중앙 크롭 */
+.cardRow.autoScroll .card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;             /* ✅ 비율 유지하며 채우기 */
+  object-position:center;
+  display:block;
 }
 
 /* ========== Memories Grid / Modal ========== */
