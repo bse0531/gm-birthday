@@ -377,4 +377,33 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   letter-spacing: 0.3px;
 }
 
+/* 🌙 letter 등 긴 글 가독성 보정 */
+:root.dark .article p {
+  color: var(--ink);            /* 거의 흰색 본문 */
+}
+
+:root.dark .article .lead {
+  color: var(--ink);            /* 리드 문단도 또렷하게 */
+}
+
+:root.dark .small {
+  color: #e8f3ec;               /* 작은 글씨도 더 밝게 */
+}
+
+/* 구분선(hr 대용)도 다크에서 선명하게 */
+.hr {
+  height: 1px;
+  background: #e0ece7;          /* 라이트 기본 */
+  margin: 12px 0;
+}
+:root.dark .hr {
+  background: rgba(255,255,255,0.14);
+}
+
+/* 링크는 살짝 포인트 주기 (필요 없으면 삭제) */
+:root.dark .article a {
+  color: #bfe9d6;
+  text-decoration: underline;   /* 모바일 가독성용 */
+}
+
 
