@@ -89,21 +89,22 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 }
 
 /* ========== 추억 사진 (가로 스크롤 프리뷰) ========== */
-/* ==== 추억 사진 프리뷰: 가로 1줄 고정 ==== */
+/* ==== 추억 사진 프리뷰: 가로 1줄 고정 & 동일 크기 ==== */
 .cardRow.autoScroll{
   display: flex !important;
   flex-wrap: nowrap !important;   /* 줄바꿈 금지 */
+  align-items: stretch;
+  gap: 8px;
   overflow-x: auto;
   overflow-y: hidden;             /* 세로 스크롤 방지 */
-  gap: 8px;
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x mandatory;
 }
 .cardRow.autoScroll::-webkit-scrollbar{ display:none; }
 
-/* 각 카드: 화면에 항상 3장 비율 */
+/* 카드: 화면에 항상 3장 보이도록 고정 폭 */
 .cardRow.autoScroll .card{
-  flex: 0 0 33.333% !important;   /* 고정 폭 */
+  flex: 0 0 33.333% !important;
   min-width: 33.333% !important;
   max-width: 33.333% !important;
   scroll-snap-align: start;
@@ -113,14 +114,15 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   background: #fff;
 }
 
-/* 이미지는 정사각형으로 */
+/* 이미지: 정사각형 유지 */
 .cardRow.autoScroll .card img{
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1/1;
 }
+
 
 
 
