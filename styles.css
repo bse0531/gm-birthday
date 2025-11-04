@@ -546,3 +546,51 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   background: rgba(255,255,255,0.18);
 }
 
+
+/* =========================
+   Hero 슬라이드 부드러운 전환(크로스페이드 + 살짝 줌)
+========================= */
+
+/* 전환 시간/강도 변수 (원하면 숫자만 바꿔도 됨) */
+:root{
+  --hero-fade: 900ms;              /* 페이드 시간 */
+  --hero-ease: cubic-bezier(.22,.61,.36,1); /* 부드러운 가감속 */
+  --hero-zoom: 1.02;               /* 비활성 이미지 약간 확대 */
+}
+
+/* 기본 상태: 살짝 확대 + 투명 */
+.section.hero .slider img.slide{
+  opacity: 0;
+  transform: scale(var(--hero-zoom));
+  transition:
+    opacity var(--hero-fade) var(--hero-ease),
+    transform var(--hero-fade) var(--hero-ease);
+  will-change: opacity, transform; /* GPU 힌트 */
+  backface-visibility: hidden;
+}
+
+/* 활성 상태: 완전 불투명 + 원래 비율 */
+.section.hero .slider img.slide.active{
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1;
+}
+
+/* 모션 줄이기 환경에선 효과 최소화 */
+@media (prefers-reduced-motion: reduce){
+  .section.hero .slider img.slide{
+    transition: opacity 200ms linear !important;
+    transform: none !important;
+  }
+}
+
+/* 슬라이드가 활성일 때만 아주 미세한 줌 인 */
+@keyframes heroKenBurns {
+  from { transform: scale(1) translate3d(0,0,0); }
+  to   { transform: scale(1.03) translate3d(0,0,0); }
+}
+.section.hero .slider img.slide.active{
+  animation: heroKenBurns 12s var(--hero-ease) forwards;
+}
+
+
