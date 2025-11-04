@@ -204,3 +204,59 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   background: var(--gold);
   color: #fff;
 }
+
+
+/* 🌙 다크모드: 녹색 배경 + 흰색 글자 (플로팅 토글용) */
+:root.dark {
+  --bg: #0d1c16;   /* 짙은 숲색 배경 */
+  --ink: #f7f8f7;  /* 거의 흰색 본문 */
+  --sub: #cfdad2;  /* 보조 텍스트 */
+  --gold: #4f9d80; /* 버튼/포인트 */
+  --soft: #183428; /* 패널/카드 배경 */
+}
+
+/* 변수만 바꿔도 대부분 적용되지만, 컴포넌트 몇 가지 톤 보정 */
+:root.dark body { background: var(--bg); color: var(--ink); }
+
+:root.dark .header {
+  background: rgba(13,28,22,0.9);
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+
+:root.dark .panel {
+  background: var(--soft);
+  border-color: rgba(255,255,255,0.08);
+}
+
+:root.dark .footer {
+  background: #12261d;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  color: var(--sub);
+}
+
+/* 메인 타이틀/버튼 등 */
+:root.dark h1 { color: var(--ink); }
+:root.dark h2 { color: var(--gold); }
+:root.dark .btn { background: var(--gold); color: #fff; }
+
+/* 카드/그리드 */
+:root.dark .cardRow.autoScroll .card {
+  background: #102820;
+  border-color: rgba(255,255,255,0.08);
+}
+:root.dark .quoteCard,
+:root.dark .statCard {
+  background: #112a1f;
+  border-color: rgba(255,255,255,0.1);
+  color: var(--ink);
+}
+
+/* 브랜드 그라디언트는 살짝 더 밝게 */
+:root.dark .brand {
+  background: linear-gradient(180deg, #96e0c0 0%, #4f9d80 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* (이미 있음) 플로팅 버튼은 동일 팔레트 사용 */
+:root.dark .themeFab { background: var(--gold); color:#fff; }
