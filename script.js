@@ -31,12 +31,12 @@
   io.observe(slider);
 
   let x0 = null;
-  slider.addEventListener('pointerdown', e => x0 = e.clientX);
+  slider.addEventListener('pointerdown', e => x0 = e.clientX, { passive: true });
   slider.addEventListener('pointerup', e => {
     if (x0 == null) return;
     const dx = e.clientX - x0; x0 = null;
     if (Math.abs(dx) > 40) { stop(); show(i + (dx < 0 ? 1 : -1)); start(); }
-  });
+  }, { passive: true });
 
   show(0); start();
 })();
@@ -52,11 +52,13 @@
   const cards = [...row.children];
   if (cards.length === 0) return;
 
+  // 1) 트랙 구성 (기존 카드들을 첫 트랙으로 이동)
   const track = document.createElement('div');
   track.className = 'marqueeTrack';
   cards.forEach(c => track.appendChild(c));
   row.appendChild(track);
 
+  // 2) 이미지 디코드 대기 (빠르게 시작)
   const imgs = [...track.querySelectorAll('img')];
   const decodes = imgs.map(img => (img.decode ? img.decode().catch(()=>{}) : Promise.resolve()));
 
@@ -71,7 +73,7 @@
     let last = performance.now();
     let paused = false;
 
-    // 트랙 복제 빌드 함수
+    // 트랙 복제 빌드 함수 (여유 폭 넉넉히: firstW * 3)
     function buildClones() {
       const all = [...row.querySelectorAll('.marqueeTrack')];
       all.forEach((t, idx) => { if (idx) t.remove(); });
@@ -94,12 +96,12 @@
         x -= SPEED * dt;
 
         const w = tracks[0].scrollWidth || 1;
-        if (x <= -w) x += w;
-        if (x > 0) x -= w;
+        if (x <= -w) x += w;      // 한 폭 넘어가면 랩
+        if (x > 0)   x -= w;
 
         let offset = x;
         tracks.forEach(t => {
-          t.style.transform = `translate3d(${Math.round(offset)}px,0,0)`;
+          t.style.transform = `translate3d(${Math.round(offset)}px,0,0)`; // 서브픽셀 틈 방지
           offset += t.scrollWidth;
         });
       }
@@ -107,11 +109,13 @@
       requestAnimationFrame(tick);
     }
 
+    // 가시성 제어
     const io = new IntersectionObserver(ents => {
       ents.forEach(e => { paused = !e.isIntersecting; last = performance.now(); });
     }, { threshold: 0.15 });
     io.observe(row);
 
+    // 모바일 상호작용시 일시정지/재개
     ['touchstart','pointerdown'].forEach(ev => {
       row.addEventListener(ev, () => { paused = true; }, { passive: true });
     });
@@ -125,15 +129,15 @@
     });
     window.addEventListener('pageshow', () => { paused = false; last = performance.now(); });
 
-    // === 스크롤 시 리셋 방지 + 진행도 보존 리사이즈 ===
+    // === 가로 폭 변할 때만 재빌드 (진행도 보존) ===
     let containerW = row.clientWidth;
     const ro = new ResizeObserver(entries => {
       const w = Math.round(entries[0].contentRect.width || row.clientWidth);
-      if (Math.abs(w - containerW) < 2) return; // 세로 변화 무시
+      if (Math.abs(w - containerW) < 2) return; // 세로/주소창 변화 무시
       containerW = w;
 
       const wOld = tracks[0].scrollWidth || 1;
-      const progress = (-x) / wOld;
+      const progress = (-x) / wOld;   // 0~1
 
       paused = true;
       const all = [...row.querySelectorAll('.marqueeTrack')];
@@ -141,7 +145,7 @@
       const base = all[0] || track;
       const firstW = base.scrollWidth;
       let total = firstW;
-      while (total < row.clientWidth + firstW * 2) {
+      while (total < row.clientWidth + firstW * 3) {  // ★ 초기와 동일: *3
         const clone = base.cloneNode(true);
         row.appendChild(clone);
         total += clone.scrollWidth;
@@ -149,7 +153,7 @@
       tracks = [...row.querySelectorAll('.marqueeTrack')];
 
       const wNew = tracks[0].scrollWidth || 1;
-      x = -progress * wNew;
+      x = -progress * wNew;          // 진행도 보존
       last = performance.now();
       paused = false;
     });
