@@ -524,26 +524,46 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   white-space: normal;       /* <br> 줄바꿈 자연스럽게 */
 }
 
-.section.article.folktale .poem {
-  font-style: normal;
-  color: var(--ink);
-}
 
+
+
+/* =========================
+   folktale 전용 구분선(hr) 보정
+========================= */
 .section.article.folktale .hr {
-  width: 40px;
-  height: 1px;
-  background: #ddd;
-  margin: 1.4em auto;
-  opacity: 0.6;
+  width: 120px;              /* ✅ 선 길이 늘림 (기존 40px → 120px) */
+  height: 1.5px;
+  background: #cfcfcf;       /* 살짝 부드러운 회색 */
+  margin: 2em auto;          /* 위아래 여백도 조금 더 줌 */
+  opacity: 0.7;
+  border-radius: 2px;
+  transition: width 0.6s ease; /* 살짝 부드럽게 나타나도록 */
 }
 
 /* 다크모드에서도 자연스럽게 */
-:root.dark .section.article.folktale {
-  background: transparent;
-  color: var(--ink);
-}
 :root.dark .section.article.folktale .hr {
-  background: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.20);
+}
+
+/* =========================
+   folktale 전용 글자 크기 보정
+========================= */
+.section.article.folktale h2 {
+  font-size: 1.6rem;         /* ✅ 제목 줄임 (2.2 → 1.6) */
+  line-height: 1.4;
+  text-align: center;
+  color: var(--gold);
+  margin-bottom: 0.8em;
+}
+
+/* folktale 본문(시문체) 글자 크기/간격 */
+.section.article.folktale p.poem,
+.section.article.folktale p.lead {
+  font-size: 1.05rem;        /* ✅ 본문 기본 크기 복원 */
+  line-height: 1.9;
+  color: var(--ink);
+  margin: 0.8em 0;
+  white-space: normal;
 }
 
 
