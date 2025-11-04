@@ -74,18 +74,30 @@
     let paused = false;
 
     function buildClones() {
-      const all = [...row.querySelectorAll('.marqueeTrack')];
-      all.forEach((t, idx) => { if (idx) t.remove(); });
-      const base = all[0] || track;
-      const firstW = base.scrollWidth;
-      let total = firstW;
-      while (total < row.clientWidth + firstW * 3) { // 여유 넉넉히
-        const clone = base.cloneNode(true);
-        row.appendChild(clone);
-        total += clone.scrollWidth;
-      }
-      return [...row.querySelectorAll('.marqueeTrack')];
-    }
+  // 1) 기존 추가분 제거 (항상 1개만 남김)
+  const all = [...row.querySelectorAll('.marqueeTrack')];
+  all.forEach((t, idx) => { if (idx) t.remove(); });
+  const base = all[0] || track;
+
+  // 2) 레이아웃 강제 계산(사파리 방지)
+  //    base 폭을 확실히 얻기 위해 reflow 한 번
+  void base.offsetWidth;
+
+  // 3) 기준 폭 측정
+  const firstW = Math.max(1, Math.round(base.scrollWidth || base.getBoundingClientRect().width));
+
+  // 4) "컨테이너폭 + 기준폭*2" 이상이 될 때까지 복제
+  //    (기준폭을 매번 그대로 더해서 타이밍/레이아웃 이슈 회피)
+  let total = firstW;
+  const need = row.clientWidth + firstW * 2;
+  while (total < need) {
+    row.appendChild(base.cloneNode(true));
+    total += firstW;
+  }
+
+  return [...row.querySelectorAll('.marqueeTrack')];
+}
+
 
     let tracks = buildClones();
 
