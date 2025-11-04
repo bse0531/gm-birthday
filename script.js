@@ -310,3 +310,63 @@ document.querySelectorAll('.no-download img').forEach(img => {
   img.setAttribute('draggable','false');
   img.addEventListener('dragstart', e => e.preventDefault());
 });
+
+
+/* ============================================================
+   08) 다크모드 플로팅 토글 버튼 🌙/🌞 (자동 생성)
+============================================================ */
+(() => {
+  const THEME_KEY = 'theme-mode';
+  const root = document.documentElement;
+
+  // 현재 테마 적용 (localStorage > 시스템 기본)
+  const saved = localStorage.getItem(THEME_KEY);
+  if (saved === 'dark') {
+    root.classList.add('dark');
+  } else if (saved === 'light') {
+    root.classList.remove('dark');
+  } else {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      root.classList.add('dark');
+    }
+  }
+
+  // 버튼 생성/삽입
+  const fab = document.createElement('button');
+  fab.id = 'themeFab';
+  fab.className = 'themeFab';
+  fab.type = 'button';
+  fab.setAttribute('aria-label', 'Toggle color theme');
+
+  const setIcon = () => {
+    const dark = root.classList.contains('dark');
+    fab.textContent = dark ? '🌞' : '🌙';
+  };
+  setIcon();
+
+  // 안전하게 body 끝에 추가
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => document.body.appendChild(fab), { once: true });
+  } else {
+    document.body.appendChild(fab);
+  }
+
+  // 토글 동작
+  fab.addEventListener('click', () => {
+    const dark = root.classList.toggle('dark');
+    localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light');
+    setIcon();
+  }, { passive: true });
+
+  // 시스템 테마가 바뀌었을 때(사용자가 수동 선택 안 했으면만) 반영
+  if (window.matchMedia) {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    mq.addEventListener?.('change', (e) => {
+      const userSet = localStorage.getItem(THEME_KEY); // 있으면 사용자 우선
+      if (userSet) return;
+      if (e.matches) root.classList.add('dark'); else root.classList.remove('dark');
+      setIcon();
+    });
+  }
+})();
+
