@@ -9,36 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 
-  <style>
-    /* 📸 Memories of Us 타이틀 */
-    .pageTitle{
-      text-align:center; font-size:28px; font-weight:700;
-      margin:26px 0 14px;
-      background:linear-gradient(180deg,#4f6f52 0%, #6bb7b5 100%);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    }
-    .pageSubtitle{ text-align:center; font-size:14px; color:var(--sub); margin:-4px 0 26px; }
-    .pageTitle .emoji{ background:none !important; -webkit-text-fill-color:initial !important; color:initial !important; }
-
-    /* ✅ 썸네일을 항상 같은 크기/비율로 (정사각형) */
-    .grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
-    @media (min-width:768px){ .grid{ gap:12px; } }
-    .thumb{ position:relative; border:1px solid #eee; border-radius:12px; overflow:hidden; aspect-ratio:1/1; }
-    .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
-    /* 오버레이가 클릭을 막지 않도록 */
-    .thumb .nd-overlay{ position:absolute; inset:0; background:transparent; pointer-events:none; }
-
-    /* 모달 좌우 버튼 투명/블러 */
-    .navBtn{
-      position:absolute; top:50%; transform:translateY(-50%);
-      background:rgba(255,255,255,.35); backdrop-filter:blur(4px);
-      border:none; font-size:28px; font-weight:700; color:var(--sub);
-      padding:8px 12px; border-radius:999px; cursor:pointer;
-      transition:background .25s ease, color .25s ease, transform .15s ease;
-    }
-    .navBtn:hover{ background:rgba(255,255,255,.55); color:var(--ink); transform:scale(1.08); }
-    .navBtn.prev{ left:8px; } .navBtn.next{ right:8px; }
-  </style>
 </head>
 
 <body>
