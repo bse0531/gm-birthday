@@ -79,15 +79,31 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 }
 
 /* 슬라이더: 화면 가로 꽉 차게, 모서리 각지게 */
-.section.hero .slider{
+.section.hero .slider {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  max-height: 420px;                /* 필요 시 420~560px 사이로 조절 */
+  max-height: 420px;
+  min-height: 320px;
   background: #000;
   border-radius: 0;
   overflow: hidden;
 }
+
+/* ✅ PC에서는 더 높게 보여주기 */
+@media (min-width: 1024px) {
+  .section.hero .slider {
+    max-height: 560px;   /* 데스크톱일 때 높이 늘림 */
+  }
+}
+
+/* ✅ 초대형 모니터에서는 조금 더 */
+@media (min-width: 1440px) {
+  .section.hero .slider {
+    max-height: 640px;
+  }
+}
+
 
 /* 크로스페이드 + 확대 전환 */
 .section.hero .slider img.slide{
