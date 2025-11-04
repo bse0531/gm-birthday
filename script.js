@@ -42,7 +42,7 @@
 })();
 
 /* ============================================================
-   02) 추억 사진 프리뷰: 무한 마키 (빈칸 없이 반복)
+   02) 추억 사진 프리뷰: 무한 마키 (데스크탑 리사이즈 안정화)
 ============================================================ */
 (() => {
   const row = document.querySelector('.cardRow.autoScroll');
@@ -58,10 +58,9 @@
   cards.forEach(c => track.appendChild(c));
   row.appendChild(track);
 
-  // 2) 이미지 디코드 대기 (빠르게 시작)
+  // 2) 이미지 디코드 대기
   const imgs = [...track.querySelectorAll('img')];
   const decodes = imgs.map(img => (img.decode ? img.decode().catch(()=>{}) : Promise.resolve()));
-
   Promise.all(decodes).then(() => {
     row.offsetWidth; // Safari 깜빡임 방지
     startMarquee();
@@ -69,18 +68,18 @@
 
   function startMarquee() {
     const SPEED = 40;
+    const EPS   = 0.001;           // 정규화 경계치 여유
     let x = 0;
     let last = performance.now();
     let paused = false;
 
-    // 트랙 복제 빌드 함수 (여유 폭 넉넉히: firstW * 3)
     function buildClones() {
       const all = [...row.querySelectorAll('.marqueeTrack')];
       all.forEach((t, idx) => { if (idx) t.remove(); });
       const base = all[0] || track;
       const firstW = base.scrollWidth;
       let total = firstW;
-      while (total < row.clientWidth + firstW * 3) {
+      while (total < row.clientWidth + firstW * 3) { // 여유 넉넉히
         const clone = base.cloneNode(true);
         row.appendChild(clone);
         total += clone.scrollWidth;
@@ -90,18 +89,26 @@
 
     let tracks = buildClones();
 
+    function normalizeX(w) {
+      // x를 (-w, 0] 범위로 강제 정규화
+      while (x <= -w - EPS) x += w;
+      while (x > 0 + EPS)   x -= w;
+      // 경계값에 걸리면 살짝 안쪽으로
+      if (Math.abs(x + w) <= EPS) x = -w + EPS;
+      if (Math.abs(x) <= EPS)     x = -EPS;
+    }
+
     function tick(now) {
       if (!paused) {
         const dt = (now - last) / 1000;
         x -= SPEED * dt;
 
         const w = tracks[0].scrollWidth || 1;
-        if (x <= -w) x += w;      // 한 폭 넘어가면 랩
-        if (x > 0)   x -= w;
+        normalizeX(w);
 
         let offset = x;
         tracks.forEach(t => {
-          t.style.transform = `translate3d(${Math.round(offset)}px,0,0)`; // 서브픽셀 틈 방지
+          t.style.transform = `translate3d(${Math.floor(offset)}px,0,0)`; // 앞당김으로 겹침/깜빡임 제거
           offset += t.scrollWidth;
         });
       }
@@ -115,7 +122,7 @@
     }, { threshold: 0.15 });
     io.observe(row);
 
-    // 모바일 상호작용시 일시정지/재개
+    // 모바일/데스크탑 상호작용 시 일시정지/재개
     ['touchstart','pointerdown'].forEach(ev => {
       row.addEventListener(ev, () => { paused = true; }, { passive: true });
     });
@@ -129,39 +136,50 @@
     });
     window.addEventListener('pageshow', () => { paused = false; last = performance.now(); });
 
-    // === 가로 폭 변할 때만 재빌드 (진행도 보존) ===
+    // === 가로 폭 변할 때만 재빌드 (진행도 보존 + rAF 코얼레스) ===
     let containerW = row.clientWidth;
+    let roRAF = null;
     const ro = new ResizeObserver(entries => {
-      const w = Math.round(entries[0].contentRect.width || row.clientWidth);
-      if (Math.abs(w - containerW) < 2) return; // 세로/주소창 변화 무시
-      containerW = w;
+      const wNow = Math.round(entries[0].contentRect.width || row.clientWidth);
+      if (Math.abs(wNow - containerW) < 2) return; // 세로/주소창 변화 무시
+      containerW = wNow;
 
-      const wOld = tracks[0].scrollWidth || 1;
-      const progress = (-x) / wOld;   // 0~1
+      if (roRAF) cancelAnimationFrame(roRAF);
+      roRAF = requestAnimationFrame(() => {
+        const wOld = tracks[0].scrollWidth || 1;
+        let progress = (-x) / wOld;              // 0~1
+        // 경계값에서 점프 방지
+        if (!isFinite(progress)) progress = 0;
+        progress = Math.min(Math.max(progress, 0), 0.9999);
 
-      paused = true;
-      const all = [...row.querySelectorAll('.marqueeTrack')];
-      all.forEach((t, idx) => { if (idx) t.remove(); });
-      const base = all[0] || track;
-      const firstW = base.scrollWidth;
-      let total = firstW;
-      while (total < row.clientWidth + firstW * 3) {  // ★ 초기와 동일: *3
-        const clone = base.cloneNode(true);
-        row.appendChild(clone);
-        total += clone.scrollWidth;
-      }
-      tracks = [...row.querySelectorAll('.marqueeTrack')];
+        paused = true;
 
-      const wNew = tracks[0].scrollWidth || 1;
-      x = -progress * wNew;          // 진행도 보존
-      last = performance.now();
-      paused = false;
+        const all = [...row.querySelectorAll('.marqueeTrack')];
+        all.forEach((t, idx) => { if (idx) t.remove(); });
+        const base = all[0] || track;
+        const firstW = base.scrollWidth;
+        let total = firstW;
+        while (total < row.clientWidth + firstW * 3) {
+          const clone = base.cloneNode(true);
+          row.appendChild(clone);
+          total += clone.scrollWidth;
+        }
+        tracks = [...row.querySelectorAll('.marqueeTrack')];
+
+        const wNew = tracks[0].scrollWidth || 1;
+        x = -progress * wNew;
+        normalizeX(wNew);
+
+        last = performance.now();
+        paused = false;
+      });
     });
     ro.observe(row);
 
     requestAnimationFrame(tick);
   }
 })();
+
 
 /* ============================================================
    03) Memories 모달
