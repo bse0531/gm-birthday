@@ -326,3 +326,18 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   color:var(--ink);
   line-height:1.9;
 }
+
+/* --- 마키(가로 자동 스크롤) 트랙 성능 & 연결부 안정화 --- */
+.marqueeTrack {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;           /* 트랙 자체가 줄바꿈되지 않게 */
+  will-change: transform;   /* GPU 합성으로 부드럽게 */
+  contain: content;         /* 페인팅/레이아웃 범위 축소 */
+}
+
+/* --- 모션 민감 사용자 배려(히어로/티커) --- */
+@media (prefers-reduced-motion: reduce) {
+  .slider img.slide { transition: none; }
+  .ticker.fade { transition: none; }
+}
