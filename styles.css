@@ -94,27 +94,32 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 }
 
 /* ========== 추억 사진 (가로 스크롤 프리뷰) ========== */
-/* 트랙은 rAF로 움직이므로 스냅 불필요 — 깔끔히 제거 */
-/* 가로 프리뷰: 자동 마키 (모바일 전용) */
-.cardRow.autoScroll{
-  display:flex;
-  flex-wrap:nowrap;
-  align-items:stretch;
-  gap:8px;
-  overflow:hidden;                /* 사용자가 밀어도 밖으로 안 보이게 */
+
+.cardRow.autoScroll {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  overflow: hidden; /* 중요: 여백 잘림 */
+  gap: 0;           /* gap 대신 margin으로 제어 */
+  -webkit-overflow-scrolling: touch;
 }
 
-/* % 대신 고정폭 전략: 복제해도 총폭 안정 */
-.cardRow.autoScroll .card{
-  flex:0 0 auto;
-  width:68vw;                     /* 모바일: 한 장이 화면의 2/3 정도 */
-  max-width:240px;
-  border:1px solid #eee;
-  border-radius:12px;
-  overflow:hidden;
-  background:#fff;
-  aspect-ratio:1/1;
+.cardRow.autoScroll .card {
+  flex: 0 0 auto;
+  width: 68vw;            /* 카드 한 장당 폭 (모바일 기준 약 2/3 화면) */
+  max-width: 240px;
+  margin-right: 8px;      /* gap 대신 margin-right 사용 */
+  border: 1px solid #eee;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  aspect-ratio: 1/1;
 }
+
+.cardRow.autoScroll .card:last-child {
+  margin-right: 0; /* 마지막 카드 뒤 margin 제거 */
+}
+
 
 /* 이미지 꽉 채우기 (유지 필수) */
 .cardRow.autoScroll .card img{
