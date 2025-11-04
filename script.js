@@ -57,58 +57,94 @@
 /* ============================================================
    02) 추억 사진 프리뷰: rAF 무한 가로 스크롤(부드럽게)
 ============================================================ */
-(function () {
-  var row = document.querySelector('.cardRow.autoScroll');
+/* ============================================================
+   🖼️ 추억 사진 프리뷰: rAF 마키(트랙 복제, 이미지 로드 대기)
+============================================================ */
+(() => {
+  const row = document.querySelector('.cardRow.autoScroll');
   if (!row) return;
 
+  // 중복 바인딩 방지
   if (row.dataset.bound === '1') return;
   row.dataset.bound = '1';
 
-  // 이음새 없이 반복되도록 앞 아이템 복제
-  var cards = Array.prototype.slice.call(row.children);
-  var needWidth = row.clientWidth * 2;
-  var accWidth = 0, i;
-  for (i = 0; accWidth < needWidth && i < cards.length; i++) {
-    var clone = cards[i].cloneNode(true);
-    row.appendChild(clone);
-    accWidth += (cards[i].getBoundingClientRect().width + 8); // gap 8px 가정
-  }
+  // 1) 기존 카드 수집
+  const cards = Array.from(row.children);
+  if (cards.length === 0) return;
 
-  var SPEED = 40; // px/s
-  var last = performance.now();
-  var paused = false;
+  // 2) 트랙 생성하고, 기존 카드를 트랙으로 이동
+  const track = document.createElement('div');
+  track.className = 'marqueeTrack';
+  cards.forEach(c => track.appendChild(c));
+  row.appendChild(track);
 
-  function tick(now) {
-    if (!paused) {
-      var dt = (now - last) / 1000;
-      row.scrollLeft += SPEED * dt;
-      if (row.scrollLeft >= row.scrollWidth - row.clientWidth - 2) {
-        row.scrollLeft = 0;
-      }
+  // 3) 이미지 로드 대기(폭 계산 정확히)
+  const imgs = Array.from(track.querySelectorAll('img'));
+  const decodes = imgs.map(img => (img.decode ? img.decode().catch(()=>{}) : Promise.resolve()));
+  Promise.all(decodes).then(startMarquee);
+
+  function startMarquee() {
+    // 4) 트랙을 복제하여 이음새 없는 무한 루프 구성
+    //    (트랙의 총폭 >= 컨테이너폭 * 2가 되도록 복제)
+    const need = row.clientWidth * 2;
+    let trackWidth = track.scrollWidth;
+    while (trackWidth < need) {
+      const clone = track.cloneNode(true);
+      row.appendChild(clone);
+      trackWidth += clone.scrollWidth;
     }
-    last = now;
+
+    // 5) 애니메이션 상태
+    const tracks = Array.from(row.querySelectorAll('.marqueeTrack'));
+    let x = 0;
+    const SPEED = 40; // px/s
+    let last = performance.now();
+    let paused = false;
+
+    // 6) rAF 루프
+    function tick(now) {
+      if (!paused) {
+        const dt = (now - last) / 1000;
+        x -= SPEED * dt; // 왼쪽으로 흐르도록 -
+        // 한 트랙 폭 기준으로 모듈러 (첫번째 트랙의 폭 사용)
+        const w = tracks[0].scrollWidth;
+        if (Math.abs(x) >= w) x += w; // 한 폭 만큼 넘어가면 되돌림
+
+        // 각 트랙의 위치 배치
+        let offset = x;
+        tracks.forEach((t, idx) => {
+          t.style.transform = `translate3d(${offset}px,0,0)`;
+          offset += t.scrollWidth;
+        });
+      }
+      last = now;
+      requestAnimationFrame(tick);
+    }
+
+    // 7) 가시성/상호작용/탭 비가시 처리
+    const io = new IntersectionObserver(ents => {
+      ents.forEach(e => {
+        paused = !e.isIntersecting;
+        last = performance.now();
+      });
+    }, { threshold: 0.15 });
+    io.observe(row);
+
+    ['pointerdown','mouseenter','focusin','touchstart'].forEach(ev => {
+      row.addEventListener(ev, () => { paused = true; }, { passive: true });
+    });
+    ['pointerup','mouseleave','focusout','touchend','touchcancel'].forEach(ev => {
+      row.addEventListener(ev, () => { paused = false; last = performance.now(); }, { passive: true });
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      paused = document.hidden;
+      last = performance.now();
+    });
+
+    // 8) 시작!
     requestAnimationFrame(tick);
   }
-
-  // 가시성/상호작용에 따라 일시정지
-  var io = new IntersectionObserver(function (ents) {
-    ents.forEach(function (e) { paused = !e.isIntersecting; last = performance.now(); });
-  }, { threshold: 0.2 });
-  io.observe(row);
-
-  ['pointerdown','mouseenter','focusin','touchstart'].forEach(function (ev) {
-    row.addEventListener(ev, function(){ paused = true; }, { passive: true });
-  });
-  ['pointerup','mouseleave','focusout','touchend','touchcancel'].forEach(function (ev) {
-    row.addEventListener(ev, function(){ paused = false; last = performance.now(); }, { passive: true });
-  });
-
-  document.addEventListener('visibilitychange', function () {
-    paused = document.hidden;
-    last = performance.now();
-  });
-
-  requestAnimationFrame(tick);
 })();
 
 
