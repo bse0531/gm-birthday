@@ -49,7 +49,7 @@
 })();
 
 /* ============================================================
-   02) 추억 사진 프리뷰: 무한 마키 (부드러운 가로 스크롤, 모바일 전용 일시정지)
+   02) 추억 사진 프리뷰: 무한 마키 (모바일 전용, 빈칸 없이)
 ============================================================ */
 (() => {
   const row = document.querySelector('.cardRow.autoScroll');
@@ -59,50 +59,59 @@
   const cards = [...row.children];
   if (cards.length === 0) return;
 
-  // 트랙 구성
+  // 1) 트랙 구성 (기존 카드들을 첫 트랙으로 이동)
   const track = document.createElement('div');
   track.className = 'marqueeTrack';
   cards.forEach(c => track.appendChild(c));
   row.appendChild(track);
 
-  // 이미지 로드 대기
+  // 2) 이미지 로드 대기 후 시작 (Safari 초기 프레임 깜빡임 방지)
   const imgs = [...track.querySelectorAll('img')];
   const decodes = imgs.map(img => (img.decode ? img.decode().catch(()=>{}) : Promise.resolve()));
 
   Promise.all(decodes).then(() => {
-    // Safari 초기 프레임 깜빡임 방지
-    row.offsetWidth;
+    row.offsetWidth; // 강제 리플로우
     startMarquee();
   });
 
   function startMarquee() {
-
-// 첫 트랙의 실제 픽셀 폭을 기준으로, 화면폭 + 여유 2배 확보
-const firstW = track.scrollWidth;
-let total = firstW;
-while (total < row.clientWidth + firstW * 2) {
-  const clone = track.cloneNode(true);
-  row.appendChild(clone);
-  total += clone.scrollWidth;
-}
-
-
-    const tracks = [...row.querySelectorAll('.marqueeTrack')];
+    const SPEED = 40;                // px/s
     let x = 0;
-    const SPEED = 40; // px/s
     let last = performance.now();
     let paused = false;
+
+    // --- 클론 빌드: 첫 트랙 폭 + 화면폭 + 여유 2배 확보 ---
+    function buildClones() {
+      // 기존 복제본 제거 → 첫 트랙만 남김
+      const all = [...row.querySelectorAll('.marqueeTrack')];
+      all.forEach((t, idx) => { if (idx) t.remove(); });
+
+      const firstW = all[0] ? all[0].scrollWidth : track.scrollWidth;
+      let total = firstW;
+      while (total < row.clientWidth + firstW * 2) {
+        const clone = (all[0] || track).cloneNode(true);
+        row.appendChild(clone);
+        total += clone.scrollWidth;
+      }
+      return [...row.querySelectorAll('.marqueeTrack')];
+    }
+
+    let tracks = buildClones();
 
     function tick(now) {
       if (!paused) {
         const dt = (now - last) / 1000;
         x -= SPEED * dt;
-        const w = tracks[0].scrollWidth;
-        if (Math.abs(x) >= w) x += w;
+
+        const w = tracks[0].scrollWidth || 1;
+        // x를 항상 [-w, 0) 범위로 정규화
+        if (x <= -w) x += w;
+        if (x > 0)   x -= w;
 
         let offset = x;
         tracks.forEach(t => {
-          t.style.transform = `translate3d(${offset}px,0,0)`;
+          // 서브픽셀로 생기는 1px 틈 방지 → 반올림
+          t.style.transform = `translate3d(${Math.round(offset)}px,0,0)`;
           offset += t.scrollWidth;
         });
       }
@@ -110,7 +119,7 @@ while (total < row.clientWidth + firstW * 2) {
       requestAnimationFrame(tick);
     }
 
-    // 화면에서 벗어나면 정지, 보이면 재시작
+    // 보이질 않으면 정지, 보이면 재개
     const io = new IntersectionObserver(ents => {
       ents.forEach(e => { paused = !e.isIntersecting; last = performance.now(); });
     }, { threshold: 0.15 });
@@ -124,18 +133,32 @@ while (total < row.clientWidth + firstW * 2) {
       row.addEventListener(ev, () => { paused = false; last = performance.now(); }, { passive: true });
     });
 
+    // 탭 숨김/복귀, bfcache 복귀
     document.addEventListener('visibilitychange', () => {
       paused = document.hidden;
       last = performance.now();
     });
     window.addEventListener('pageshow', () => { paused = false; last = performance.now(); });
 
+    // 화면 회전/리사이즈 시 트랙 재빌드 (디바운스)
+    let rebuildTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(rebuildTimer);
+      rebuildTimer = setTimeout(() => {
+        paused = true;
+        tracks = buildClones();
+        x = 0;
+        last = performance.now();
+        paused = false;
+      }, 120);
+    });
+
     requestAnimationFrame(tick);
   }
 })();
 
 /* ============================================================
-   03) Memories 모달 (터치 네비게이션은 버튼으로)
+   03) Memories 모달 (버튼/탭 닫기)
 ============================================================ */
 (() => {
   const grid = document.querySelector('.grid');
@@ -171,7 +194,7 @@ while (total < row.clientWidth + firstW * 2) {
   prevBtn?.addEventListener('click', showPrev);
   nextBtn?.addEventListener('click', showNext);
 
-  // (모바일은 물리 키보드 거의 없지만 안전망)
+  // (모바일은 키보드 드뭄이지만 안전망)
   document.addEventListener('keydown', e => {
     if (!modal.classList.contains('open')) return;
     if (e.key === 'ArrowRight') showNext();
@@ -188,7 +211,7 @@ while (total < row.clientWidth + firstW * 2) {
   const sinceEl = document.getElementById('sinceLine');
   if (!main || !sinceEl) return;
 
-  const firstDate = new Date('2019-09-19'); // 필요한 날짜로 유지
+  const firstDate = new Date('2019-09-19'); // 필요한 날짜로 유지/수정
   const today = new Date();
   const days = Math.floor((today - firstDate) / 86400000) + 1;
 
