@@ -1,3 +1,4 @@
+<script>
 /* ============================================================
    01) 메인 Hero 슬라이더 (자동 전환 + 중복 방지)
 ============================================================ */
@@ -11,28 +12,22 @@
 
   slides.forEach((s, idx) => {
     s.decoding = 'async';
-    s.loading = idx === 0 ? 'eager' : 'lazy';
+    s.loading  = idx === 0 ? 'eager' : 'lazy';
   });
 
-  function show(n) {
-    slides[i]?.classList.remove('active');
-    i = (n + slides.length) % slides.length;
-    slides[i]?.classList.add('active');
-  }
-  function next() { show(i + 1); }
-  function start() { if (!timer) timer = setInterval(next, DELAY); }
-  function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+  function show(n){ slides[i]?.classList.remove('active'); i = (n + slides.length) % slides.length; slides[i]?.classList.add('active'); }
+  function next(){ show(i + 1); }
+  function start(){ if (!timer) timer = setInterval(next, DELAY); }
+  function stop(){ if (timer) { clearInterval(timer); timer = null; } }
 
   document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
 
-  const io = new IntersectionObserver(ents => {
-    ents.forEach(e => e.isIntersecting ? start() : stop());
-  }, { threshold: 0.2 });
+  const io = new IntersectionObserver(ents => ents.forEach(e => e.isIntersecting ? start() : stop()), { threshold: 0.2 });
   io.observe(slider);
 
   let x0 = null;
-  slider.addEventListener('pointerdown', e => x0 = e.clientX, { passive: true });
-  slider.addEventListener('pointerup', e => {
+  slider.addEventListener('pointerdown', e => (x0 = e.clientX), { passive: true });
+  slider.addEventListener('pointerup',   e => {
     if (x0 == null) return;
     const dx = e.clientX - x0; x0 = null;
     if (Math.abs(dx) > 40) { stop(); show(i + (dx < 0 ? 1 : -1)); start(); }
@@ -62,51 +57,60 @@
   const imgs = [...base.querySelectorAll('img')];
   const decodes = imgs.map(i => (i.decode ? i.decode().catch(()=>{}) : Promise.resolve()));
   Promise.all(decodes).then(() => {
-    row.offsetWidth; // Safari flicker guard
+    void row.offsetWidth; // Safari flicker guard
     start();
   });
 
   function start() {
     const SPEED = 40;      // px/s
-    const EPS   = 0.5;     // 한 픽셀 미만 오차 흡수
+    const EPS   = 0.5;     // 1px 미만 오차 흡수
     let paused  = false;
     let last    = performance.now();
+    let x       = 0;       // 전체 벨트 오프셋
 
-    // 최초로 뷰포트를 충분히 덮을 만큼 복제
+    // ▷ 뷰포트를 충분히 덮도록 복제 (기준폭 firstW 한 번만 측정)
     function ensureFill() {
-      let tracks = [...row.querySelectorAll('.marqueeTrack')];
-      let total  = tracks.reduce((a,t)=>a + t.scrollWidth, 0);
-      const need = row.clientWidth * 2; // 최소 2배는 덮게
+      // 기존 추가분 제거, base만 남김
+      const all = [...row.querySelectorAll('.marqueeTrack')];
+      all.forEach((t, idx) => { if (idx) t.remove(); });
+      const baseTrack = all[0] || base;
+
+      // 레이아웃 강제 – 폭이 0으로 읽히는 타이밍 이슈 방지
+      void baseTrack.offsetWidth;
+
+      const firstW = Math.max(
+        1,
+        Math.round(baseTrack.scrollWidth || baseTrack.getBoundingClientRect().width)
+      );
+      let total = firstW;
+      const need = row.clientWidth + firstW * 2; // 최소 2배 커버
+
       while (total < need) {
-        const clone = tracks[tracks.length - 1].cloneNode(true);
-        row.appendChild(clone);
-        tracks = [...row.querySelectorAll('.marqueeTrack')];
-        total  = tracks.reduce((a,t)=>a + t.scrollWidth, 0);
+        row.appendChild(baseTrack.cloneNode(true));
+        total += firstW; // 복제 폭을 다시 측정하지 않고 기준폭만 더함
       }
-      return tracks;
+      return [...row.querySelectorAll('.marqueeTrack')];
     }
+
     let tracks = ensureFill();
-    let x = 0; // 전체 트랙 벨트를 왼쪽으로 이동
 
     function tick(now) {
       if (!paused) {
         const dt = (now - last) / 1000;
         x -= SPEED * dt;
 
-        // 각 트랙의 좌표를 계산하면서, 완전히 왼쪽으로 빠진 트랙은 뒤로 회전
+        // 트랙 회전: 왼쪽으로 완전히 빠진 트랙은 맨 뒤로 이동
         let offset = x;
         for (let idx = 0; idx < tracks.length; idx++) {
           const t = tracks[idx];
-          const w = t.scrollWidth;
+          const w = t.scrollWidth || 1;
 
-          // 현재 트랙이 화면 왼쪽을 완전히 벗어났으면(여유 포함) 뒤로 보냄
           if (offset + w < -EPS) {
-            // 회전: DOM에서 맨 뒤로 이동
             const moved = tracks.shift();
             row.appendChild(moved);
-            // offset 재계산: 뒤로 간 만큼 오른쪽 끝 뒤에 이어붙이기
-            const tailWidth = tracks.reduce((a,n)=>a + n.scrollWidth, 0);
-            offset = x + tailWidth; // moved는 마지막이므로 offset은 꼬리 뒤
+            // moved를 꼬리 뒤에 붙였으니 offset 재계산
+            const tailWidth = tracks.reduce((a,n)=>a + (n.scrollWidth || 0), 0);
+            offset = x + tailWidth;
             tracks.push(moved);
           }
 
@@ -124,16 +128,10 @@
     }, { threshold: 0.15 });
     io.observe(row);
 
-    ['touchstart','pointerdown'].forEach(ev =>
-      row.addEventListener(ev, ()=>{ paused = true; }, { passive: true })
-    );
-    ['touchend','touchcancel','pointerup'].forEach(ev =>
-      row.addEventListener(ev, ()=>{ paused = false; last = performance.now(); }, { passive: true })
-    );
+    ['touchstart','pointerdown'].forEach(ev => row.addEventListener(ev, ()=>{ paused = true; }, { passive: true }));
+    ['touchend','touchcancel','pointerup'].forEach(ev => row.addEventListener(ev, ()=>{ paused = false; last = performance.now(); }, { passive: true }));
 
-    document.addEventListener('visibilitychange', () => {
-      paused = document.hidden; last = performance.now();
-    });
+    document.addEventListener('visibilitychange', () => { paused = document.hidden; last = performance.now(); });
 
     // 리사이즈 시에도 항상 충분히 덮도록 보정
     let rAF = null;
@@ -150,50 +148,42 @@
   }
 })();
 
-
-
 /* ============================================================
    03) Memories 모달
 ============================================================ */
 (() => {
-  const grid = document.querySelector('.grid');
+  const grid  = document.querySelector('.grid');
   const modal = document.querySelector('.modal');
   if (!grid || !modal) return;
 
   const modalImg = modal.querySelector('img');
-  const caption = modal.querySelector('.modalCaption');
-  const prevBtn = modal.querySelector('.navBtn.prev');
-  const nextBtn = modal.querySelector('.navBtn.next');
-  const thumbs = [...grid.querySelectorAll('.thumb')];
+  const caption  = modal.querySelector('.modalCaption');
+  const prevBtn  = modal.querySelector('.navBtn.prev');
+  const nextBtn  = modal.querySelector('.navBtn.next');
+  const thumbs   = [...grid.querySelectorAll('.thumb')];
   let current = 0;
 
-  function openModal(i) {
-    const t = thumbs[i];
-    if (!t) return;
+  function openModal(i){
+    const t = thumbs[i]; if (!t) return;
     modalImg.src = t.dataset.full;
     caption.textContent = t.dataset.caption || '';
     modal.classList.add('open');
     current = i;
   }
-  function closeModal() { modal.classList.remove('open'); }
-  function showNext() { openModal((current + 1) % thumbs.length); }
-  function showPrev() { openModal((current - 1 + thumbs.length) % thumbs.length); }
+  function closeModal(){ modal.classList.remove('open'); }
+  function showNext(){ openModal((current + 1) % thumbs.length); }
+  function showPrev(){ openModal((current - 1 + thumbs.length) % thumbs.length); }
 
-  grid.addEventListener('click', e => {
-    const t = e.target.closest('.thumb');
-    if (t) openModal(thumbs.indexOf(t));
-  });
-  modal.addEventListener('click', e => {
-    if (e.target === modal || e.target.closest('[data-close]')) closeModal();
-  });
+  grid.addEventListener('click', e => { const t = e.target.closest('.thumb'); if (t) openModal(thumbs.indexOf(t)); });
+  modal.addEventListener('click', e => { if (e.target === modal || e.target.closest('[data-close]')) closeModal(); });
   prevBtn?.addEventListener('click', showPrev);
   nextBtn?.addEventListener('click', showNext);
 
   document.addEventListener('keydown', e => {
     if (!modal.classList.contains('open')) return;
     if (e.key === 'ArrowRight') showNext();
-    if (e.key === 'ArrowLeft') showPrev();
-    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft')  showPrev();
+    if (e.key === 'Escape')     closeModal();
   });
 })();
 
@@ -214,7 +204,7 @@
   const m = pad(firstDate.getMonth() + 1);
   const d = pad(firstDate.getDate());
 
-  main.textContent = `우리가 함께한 지 ${days}일째`;
+  main.textContent  = `우리가 함께한 지 ${days}일째`;
   sinceEl.textContent = `${y}.${m}.${d} ~ 오늘`;
 })();
 
@@ -228,9 +218,8 @@
   const lines = [
     '오늘의 주인공은 국민 ✨',
     '늘 한결같이 따뜻한 사랑 🧡',
-     '오빤 나의 자랑이야 🌼',
+    '오빤 나의 자랑이야 🌼',
     '성실의 아이콘, 든든한 파워 J 🍀'
-
   ];
   let i = 0;
   el.textContent = lines[i];
@@ -275,14 +264,11 @@
 /* ============================================================
    07) 이미지 저장 방지
 ============================================================ */
-document.addEventListener('contextmenu', e => {
-  if (e.target.closest('.no-download')) e.preventDefault();
-});
+document.addEventListener('contextmenu', e => { if (e.target.closest('.no-download')) e.preventDefault(); });
 document.querySelectorAll('.no-download img').forEach(img => {
   img.setAttribute('draggable','false');
   img.addEventListener('dragstart', e => e.preventDefault());
 });
-
 
 /* ============================================================
    08) 다크모드 플로팅 토글 버튼 🌙/🌞 (자동 생성)
@@ -293,15 +279,9 @@ document.querySelectorAll('.no-download img').forEach(img => {
 
   // 현재 테마 적용 (localStorage > 시스템 기본)
   const saved = localStorage.getItem(THEME_KEY);
-  if (saved === 'dark') {
-    root.classList.add('dark');
-  } else if (saved === 'light') {
-    root.classList.remove('dark');
-  } else {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      root.classList.add('dark');
-    }
-  }
+  if (saved === 'dark') root.classList.add('dark');
+  else if (saved === 'light') root.classList.remove('dark');
+  else if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) root.classList.add('dark');
 
   // 버튼 생성/삽입
   const fab = document.createElement('button');
@@ -310,35 +290,28 @@ document.querySelectorAll('.no-download img').forEach(img => {
   fab.type = 'button';
   fab.setAttribute('aria-label', 'Toggle color theme');
 
-  const setIcon = () => {
-    const dark = root.classList.contains('dark');
-    fab.textContent = dark ? '🌞' : '🌙';
-  };
+  const setIcon = () => { fab.textContent = root.classList.contains('dark') ? '🌞' : '🌙'; };
   setIcon();
 
-  // 안전하게 body 끝에 추가
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => document.body.appendChild(fab), { once: true });
   } else {
     document.body.appendChild(fab);
   }
 
-  // 토글 동작
   fab.addEventListener('click', () => {
     const dark = root.classList.toggle('dark');
     localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light');
     setIcon();
   }, { passive: true });
 
-  // 시스템 테마가 바뀌었을 때(사용자가 수동 선택 안 했으면만) 반영
   if (window.matchMedia) {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
     mq.addEventListener?.('change', (e) => {
-      const userSet = localStorage.getItem(THEME_KEY); // 있으면 사용자 우선
-      if (userSet) return;
+      if (localStorage.getItem(THEME_KEY)) return; // 사용자가 선택했으면 시스템 변화 무시
       if (e.matches) root.classList.add('dark'); else root.classList.remove('dark');
       setIcon();
     });
   }
 })();
-
+</script>
