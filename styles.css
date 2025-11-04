@@ -2,10 +2,11 @@
   --bg:#f8faf9;       /* 밝은 하늘빛 흰색 */
   --ink:#102820;      /* 짙은 초록-남색 텍스트 */
   --sub:#4f6f52;      /* 보조 글자 - 숲 느낌 */
-  --gold:#6bb7b5;     /* 메인 포인트 (민트+하늘) */
+  --gold:#2f5d4b;     /* 숲 버전의 진녹색 포인트 */
   --soft:#eaf4f1;     /* 연녹빛 하늘색 배경 */
   --radius:16px;
 }
+
 
 /* ========== 공통 기본 설정 ========== */
 * { box-sizing:border-box }
@@ -38,7 +39,7 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   font-weight: 700;
   font-size: 18px;
   letter-spacing: 0.2px;
-  background: linear-gradient(180deg, #4f6f52 0%, #6bb7b5 100%);
+  background: linear-gradient(180deg, #4f6f52 0%, #2f5d4b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-fill-color: transparent;
