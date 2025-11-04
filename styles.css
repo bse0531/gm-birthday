@@ -236,3 +236,81 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   .slider img.slide { transition:none; }
   .ticker.fade { transition:none; }
 }
+
+/* ————— memories.html 썸네일 캡션/테두리 보정 ————— */
+
+/* 기본(라이트모드): 썸네일 위 캡션 비표시 강제 */
+.grid .thumb[data-caption]::after {
+  content: none !important;
+}
+
+/* 다크모드에서만 썸네일 캡션 표시 */
+:root.dark .grid .thumb[data-caption]::after {
+  content: attr(data-caption);
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  font-size: 12.5px;
+  color: #e8f3ec;
+  text-shadow: 0 0 6px rgba(0,0,0,.6);
+  background: rgba(16,40,32,.35);
+  padding: 2px 4px;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* 다크모드: 썸네일 흰 테두리 제거 & 베이스 톤만 */
+:root.dark .grid .thumb {
+  border: none !important;
+  background: #102820;
+}
+/* 사진이 너무 튀면 살짝 눌러줌(선택) */
+:root.dark .grid .thumb img {
+  filter: brightness(0.94);
+}
+
+
+/* ————— memories.html 모달 좌/우 버튼 스타일/위치 강제 ————— */
+/* 우선순위를 올리기 위해 .modal .navBtn로 지정 */
+.modal .navBtn {
+  position: fixed !important;       /* 부모 영향 제거 */
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 1100 !important;         /* 모달보다 위로 */
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(4px);
+  color: var(--sub);
+  font-size: 24px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 좌/우 위치 고정 */
+.modal .navBtn.prev { left: 10px !important; }
+.modal .navBtn.next { right: 10px !important; }
+
+/* 모바일만 보실 거라 hover는 생략, active만 살짝 */
+.modal .navBtn:active {
+  transform: translateY(-50%) scale(0.96);
+  opacity: 0.9;
+}
+
+/* 모달 박스는 그대로 중앙, 이미지 박스는 오버플로우 허용 */
+.modal.open { display: flex; }
+.modalBox { position: relative; overflow: hidden; }
+
+/* 모달 배경/자막 다크모드 가독성 유지 */
+:root.dark .modalBox {
+  background: #0f2019;
+  border-color: rgba(255,255,255,0.1);
+}
+:root.dark .modalCaption {
+  color: #e8f3ec;
+}
