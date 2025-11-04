@@ -506,3 +506,47 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 :root.dark .section.article .hr{
   background: rgba(255,255,255,0.18) !important;
 }
+
+
+/* =========================
+   folktale 전용 스타일 보정
+========================= */
+.section.article.folktale {
+  font-family: 'Inter', 'Pretendard', 'Noto Sans KR', sans-serif;
+  font-size: 1rem;           /* ✅ letter 영향 제거 (기본 크기 복원) */
+  line-height: 1.8;
+  color: var(--sub);
+  background: none;          /* 배경색 제거 */
+  padding: 0;                /* 내부 여백 제거 */
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.section.article.folktale p {
+  margin: 0.8em 0;
+  line-height: 1.9;
+  white-space: normal;       /* <br> 줄바꿈 자연스럽게 */
+}
+
+.section.article.folktale .poem {
+  font-style: normal;
+  color: var(--ink);
+}
+
+.section.article.folktale .hr {
+  width: 40px;
+  height: 1px;
+  background: #ddd;
+  margin: 1.4em auto;
+  opacity: 0.6;
+}
+
+/* 다크모드에서도 자연스럽게 */
+:root.dark .section.article.folktale {
+  background: transparent;
+  color: var(--ink);
+}
+:root.dark .section.article.folktale .hr {
+  background: rgba(255,255,255,0.18);
+}
+
