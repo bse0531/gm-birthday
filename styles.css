@@ -363,7 +363,6 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 /* 본문 */
 .section.article p {
   margin-bottom: 1.8em;        /* 문단 간 간격 */
-  text-indent: 1.6em;          /* 문단 들여쓰기 */
   white-space: pre-line;
 }
 
