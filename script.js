@@ -285,8 +285,9 @@
   }, 3000);
 })();
 
+
 /* ============================================================
-   06) 하트 컨페티
+   06) 하트 컨페티 (라이트/다크 테마 대응)
 ============================================================ */
 (() => {
   const box = document.getElementById('confetti');
@@ -294,7 +295,14 @@
   if (!box || !btn) return;
 
   function launchConfetti() {
-    const colors = ['#6bb7b5','#ffb3c1','#ffd6e0','#cde7ff','#bfeeea'];
+    // 🌙 현재 다크모드 여부 확인
+    const isDark = document.documentElement.classList.contains('dark');
+
+    // 🎨 테마별 컬러 팔레트 분기
+    const colors = isDark
+      ? ['#96e0c0', '#4f9d80', '#6bb7b5', '#bfeeea', '#e8f3ec'] // 다크모드용 (녹빛 계열)
+      : ['#6bb7b5', '#ffb3c1', '#ffd6e0', '#cde7ff', '#bfeeea']; // 라이트모드용 (파스텔 계열)
+
     for (let i = 0; i < 30; i++) {
       const h = document.createElement('div');
       h.className = 'heart';
@@ -309,8 +317,10 @@
       setTimeout(() => h.remove(), 3200);
     }
   }
+
   btn.addEventListener('click', launchConfetti);
 })();
+
 
 /* ============================================================
    07) 이미지 저장 방지
