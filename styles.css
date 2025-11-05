@@ -355,7 +355,7 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 ============================================================ */
 .section.article {
   font-family: 'Gaegu', 'Noto Sans KR', sans-serif;
-  font-size: 1.4rem;          /* 본문 크게 */
+  font-size: 1.2rem;          /* 본문 크게 */
   line-height: 2.2;           /* 여유로운 줄 간격 */
   color: #3a3a3a;
   max-width: 720px;
@@ -372,7 +372,7 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 }
 .section.article p.small {
   text-align: center;
-  font-size: 1.2rem;          /* 서명은 더 작게 */
+  font-size: 1.0rem;          /* 서명은 더 작게 */
   color: #666;
   margin-top: 2.4em;
   opacity: 0.8;
