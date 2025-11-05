@@ -363,7 +363,7 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   padding: 2.2em 1em;         /* 좌우 여백 축소 */
   background: #fffdf9;
   border-radius: 12px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
 }
 .section.article p {
   font-size: 1em;             /* ✅ 부모(rem) 상속 (전역 p:16px 무력화) */
