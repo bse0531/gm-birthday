@@ -363,9 +363,10 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   padding: 2.2em 1em;         /* 좌우 여백 축소 */
   background: #fffdf9;
   border-radius: 12px;
+  letter-spacing: -0.02em;
 }
 .section.article p {
-  font-size: 1em;             /* ✅ 부모(2.1rem) 상속 (전역 p:16px 무력화) */
+  font-size: 1em;             /* ✅ 부모(rem) 상속 (전역 p:16px 무력화) */
   margin: 0.7em 0;
   line-height: 2.1;
   white-space: normal;        /* <br>은 엔터 느낌 */
