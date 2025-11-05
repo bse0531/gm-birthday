@@ -472,10 +472,15 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 :root.dark .hr { background: rgba(255,255,255,0.14); }
 
 /* 축하 메시지 버튼 섹션 중앙 정렬 */
+/* 1) 공통: 중앙정렬만, 여백 강제 금지 */
 .section.center{
   display:flex; justify-content:center; align-items:center;
   text-align:center; gap:0.5rem;
-  margin-top: 10px !important;
+  margin-top: 10px; /* ← !important 제거 */
 }
-.section.center .btn{ /* 필요 시 block 방식으로 바꿔 사용 가능 */ }
+
+/* 2) letter.html 전용: 편지 바로 아래 버튼만 넉넉히 띄우기 */
+.section.article + .section.center{
+  margin-top: 2.8em !important;  /* 필요시 2.0~3.2em 조정 */
+}
 
