@@ -478,9 +478,3 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 }
 .section.center .btn{ /* 필요 시 block 방식으로 바꿔 사용 가능 */ }
 
-
-/* letter.html 전용 - 편지와 버튼 사이 여백 */
-.section.article + .section.center {
-  margin-top: 2.8em;
-}
-
