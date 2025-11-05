@@ -355,7 +355,7 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 ============================================================ */
 .section.article {
   font-family: 'Nanum Pen Script', cursive;
-  font-size: 1.8rem;          /* 본문 크게 */
+  font-size: 1.6rem;          /* 본문 크게 */
   line-height: 2.2;           /* 여유로운 줄 간격 */
   color: #3a3a3a;
   max-width: 720px;
@@ -403,7 +403,8 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
 :root.dark .section.article .hr{ background: rgba(255,255,255,0.18); }
 
 /* 전역 .hr 규칙이 덮어쓰지 않도록 보강 */
-.section.article .hr{
+/* 1) letter의 hr만 유지하고 folktale엔 영향 없게 */
+.section.article:not(.folktale) .hr{
   width: 60px !important;
   height: 2px !important;
   margin: 1.5em auto !important;
@@ -411,7 +412,18 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   background: #d8cfc4;
   opacity: 0.8;
 }
-:root.dark .section.article .hr{ background: rgba(255,255,255,0.18) !important; }
+:root.dark .section.article:not(.folktale) .hr{
+  background: rgba(255,255,255,0.18) !important;
+}
+
+/* 2) folktale hr 길게(원하는 값으로 조정 가능) */
+.section.article.folktale .hr{
+  width: 180px !important;   /* 180~200px 추천 */
+  height: 1.5px !important;
+  background: #cfcfcf;
+  margin: 2em auto;
+  opacity: .7; border-radius: 2px;
+}
 
 /* ============================================================
    📖 folktale.html 전용 스코프
@@ -449,14 +461,7 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   color: var(--gold);
   margin-bottom: 0.8em;
 }
-.section.article.folktale .hr {
-  width: 120px; height: 1.5px; background: #cfcfcf;
-  margin: 2em auto; opacity: 0.7; border-radius: 2px;
-  transition: width 0.6s ease;
-}
-:root.dark .section.article.folktale .hr {
-  background: rgba(255,255,255,0.20);
-}
+
 
 /* ============================================================
    📎 기타 유틸
@@ -471,3 +476,4 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   text-align:center; gap:0.5rem;
 }
 .section.center .btn{ /* 필요 시 block 방식으로 바꿔 사용 가능 */ }
+
