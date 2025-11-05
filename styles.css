@@ -484,3 +484,16 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
   margin-top: 2.8em !important;  /* 필요시 2.0~3.2em 조정 */
 }
 
+/* 1) folktale는 배경/그림자 제거 (라이트/다크 공통) */
+.section.article.folktale{
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0;                 /* 컨테이너의 좌우 padding(20px)만 사용 */
+}
+
+/* 2) 다크모드에서 letter 전용 다크 배경이 덮어쓰는 것 무력화 */
+:root.dark .section.article.folktale{
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--ink);
+}
