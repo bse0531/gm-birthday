@@ -354,7 +354,7 @@ p { font-size:16px; line-height:1.6; color:var(--sub); margin:6px 0 0 }
    - p가 부모 폰트크기 상속(전역 p:16px 덮어쓰기 방지)
 ============================================================ */
 .section.article {
-  font-family: 'Nanum Pen Script', cursive;
+  font-family: 'Gaegu', 'Noto Sans KR', sans-serif;
   font-size: 1.4rem;          /* 본문 크게 */
   line-height: 2.2;           /* 여유로운 줄 간격 */
   color: #3a3a3a;
